@@ -1,6 +1,6 @@
 # Results in full
 
-All figures are taken from the official COLIEE 2026 evaluation. Where we report a post-competition figure, it was obtained after the deadline with no change to the system architecture, and it is marked as such. Official results are the ones that count.
+All figures are taken from the official COLIEE 2026 evaluation. The official results are the only ranked figures; every post-competition figure was obtained after the deadline with no change to the system architecture, is marked as such, and is reported for interest only.
 
 ## Task 1, legal case retrieval
 
@@ -15,7 +15,7 @@ The query documents have a median length of 4,573 tokens, which is well beyond t
 
 | Run | F1 | Note |
 | --- | --- | --- |
-| DU1 | 0.343 | official, rank 22 of 35 runs |
+| DU3 | 0.343 | official, rank 22 of 35 runs |
 | post-competition | 0.555 | one change to the prompt, same models and pipeline |
 
 The task asks which paragraphs of a candidate case entail a held-out fragment of the decision. Our official prompt asked the model to select at most one paragraph. Cases in the test set contain on average 2.94 entailing paragraphs, so a single-selection rule caps F1 at 0.508 by construction. Changing the instruction to select every entailing paragraph raised F1 to 0.555, above the best official entry of 0.490. The lesson is recorded honestly here because the improvement is a prompt correction made after the fact, not part of the ranked result.

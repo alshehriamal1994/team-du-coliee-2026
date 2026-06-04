@@ -4,7 +4,7 @@ Given a legal statement and the relevant articles of the Japanese Civil Code, th
 
 ## Result
 
-Both of our submitted runs answered 79 of 82 questions correctly, an accuracy of 96.3%, and took the top two places among 33 runs from 11 teams. The best other team reached 95.1%.
+Our two strongest runs each answered 79 of 82 questions correctly, an accuracy of 96.3%, and took the top two places among 33 runs from 11 teams. A third run was also submitted. The best other team reached 95.1%.
 
 ## Method
 
@@ -16,7 +16,7 @@ The nine experts are built from these models.
 - Llama 4 Maverick (400B), Llama 4 Scout (109B), Llama 3.3 (70B)
 - Qwen 2.5 (72B), Qwen3 (235B)
 
-Each expert is a pairing of one of these models with a prompt strategy, and the prompts vary as deliberately as the models do. They range from a plain instruction to chain-of-thought, the IRAC legal framework, a word-by-word check, and a self-consistency vote. The same model gives different answers depending on how it is asked, and that variation is part of what the ensemble exploits. The strategies are written out in [`prompts.md`](prompts.md).
+Each expert is a pairing of one of these models with a prompt strategy, and the prompts vary as deliberately as the models do. They range from a plain instruction to chain-of-thought, the IRAC legal framework (Issue, Rule, Application, Conclusion), a word-by-word check, and a self-consistency vote. The same model gives different answers depending on how it is asked, and that variation is part of what the ensemble exploits. The strategies are written out in [`prompts.md`](prompts.md).
 
 We submitted three runs that aggregate the experts in increasing order of sophistication.
 
@@ -67,6 +67,8 @@ python src/ensemble_predictions.py \
   --output runs/DU3.txt --run-tag DU3 --tie-break Y
 ```
 
-The two stronger runs build on this. DU2 adds the deliberation step, in which three judge models re-read the questions where the vote is close, and DU1 aggregates the experts hierarchically across three sub-panels. The deliberation prompt and the composition of the sub-panels are described in [`prompts.md`](prompts.md) and in the system description in our submission. To be clear, DU3 (the nine-expert majority vote) is fully reproducible from this directory, whereas DU1 and DU2 are not: the deliberation and judge step and the hierarchical sub-panel aggregation are described here but their orchestration code is not shipped in this directory. Reproducing the exact DU1 and DU2 figures requires the same nine experts and that aggregation, and the largest models call for substantial GPU memory.
+The two stronger runs build on this. DU2 adds the deliberation step, in which three judge models re-read the questions where the vote is close, and DU1 aggregates the experts hierarchically across three sub-panels. The deliberation prompt and the composition of the sub-panels are described in [`prompts.md`](prompts.md) and in the system description in our submission.
+
+DU3, the nine-expert majority vote, is fully reproducible from this directory. DU1 and DU2 are not. Their deliberation and judge step and their hierarchical sub-panel aggregation are described here, but the orchestration code is not shipped. Reproducing the exact figures requires the same nine experts, that aggregation, and substantial GPU memory for the largest models.
 
 Dependencies are in [`requirements.txt`](requirements.txt).
