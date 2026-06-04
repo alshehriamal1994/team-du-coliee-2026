@@ -1,0 +1,37 @@
+# Task 4, Statute Entailment
+
+Given a legal statement and the relevant articles of the Japanese Civil Code, the task is to decide whether the articles entail the statement. The answer is yes or no, and performance is measured by accuracy. This is the task we won.
+
+## Result
+
+Both of our submitted runs answered 79 of 82 questions correctly, an accuracy of 96.3%, and took the top two places among 33 runs from 11 teams. The best other team reached 95.1%.
+
+## Method
+
+The system is an ensemble of nine open-weight experts drawn from three model families. Each expert reads the statement and the articles and returns an independent yes or no. The families are diverse on purpose, because the gain comes from disagreement between them rather than from any single strong model.
+
+The nine experts are built from these models.
+
+- DeepSeek R1 (671B)
+- Llama 4 Maverick (400B), Llama 4 Scout (109B), Llama 3.3 (70B)
+- Qwen 2.5 (72B), Qwen3 (235B)
+
+We submitted three runs that aggregate the experts in increasing order of sophistication.
+
+- **DU3.** A plain majority vote over the nine experts.
+- **DU2.** A majority vote with a deliberation step. When the vote is close, three judge models re-read the question and revise the decision only if they agree.
+- **DU1.** A hierarchical meta-ensemble that combines three sub-panels of experts.
+
+## Why diversity wins
+
+The case for a cross-architecture ensemble is made on the validation set. The best ensemble of a single model with several prompts of itself reaches 87.2%. A nine-expert vote across the three families reaches 91.9%, and the hierarchical aggregation reaches 93.0%. The reason is independence of error. Expert pairs from different families disagree on 17.5% of questions, against 11.4% for pairs from the same family, and a vote only helps when its members fail in different places. A single model, however large, tends to fail in the same places each time.
+
+The analysis behind these numbers, including the single-model study and the decomposition of the ensemble's uncertainty, is in [`../docs/architecture-gap.md`](../docs/architecture-gap.md).
+
+## Compliance
+
+Every model is open-weight, as the rules require, and each was released before 15 July 2025, the cut-off the rules set for Tasks 3 and 4.
+
+## Reproducing the result
+
+Place the Task 4 data under `../data/task4/`. The expert prompts, the voting code, and the three aggregation runs are in `src/`, each with the command that produces its reported accuracy.

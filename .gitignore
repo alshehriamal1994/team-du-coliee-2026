@@ -1,0 +1,33 @@
+# The COLIEE data is licensed and is not redistributed here. See data/README.md.
+data/**
+!data/README.md
+
+# Model weights, caches, and run artefacts
+models/
+checkpoints/
+*.bin
+*.pt
+*.safetensors
+.cache/
+runs/
+outputs/
+logs/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+*.egg-info/
+
+# Credentials and local configuration
+.env
+*.key
+
+# Operating system and editor noise
+.DS_Store
+.idea/
+.vscode/
