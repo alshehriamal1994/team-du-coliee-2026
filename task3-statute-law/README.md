@@ -18,6 +18,25 @@ Retrieval and entailment are kept separate, and most of the design effort went i
 
 Because retrieval recall is already high, the entailment model is the limiting factor, and a stronger model gave a large gain. The more interesting finding is the other direction. Adding complexity hurt. Our more elaborate official run lost 3.7 points against the simpler DU2, and the nine-expert ensemble that won Task 4 reaches only 86.6% here, because the extra retrieved articles act as distractors that mislead the weaker members. On this task, restraint paid.
 
-## Reproducing the result
+## Running it
 
-Place the Task 3 data under `../data/task3/`. The statute data is in Japanese, and the translation step is documented with the scripts in `src/`. Run retrieval first, then either entailment model.
+The open-weight pipeline is in [`src/`](src):
+
+- `run_du1_v3_pipeline.py` is the end-to-end run: BM25 retrieval over the Civil Code, a Qwen2.5-7B listwise reranking pass, and a Qwen2.5-72B yes-or-no entailment decision.
+- `qwen_structured.py` is the official entailment step on its own, Qwen2.5-72B returning a structured judgement at temperature zero.
+- `eval_task3_official.py` scores a run against the gold labels in the official format.
+
+The models are open-weight and are served through OpenRouter, so set your own key first:
+
+```
+export OPENROUTER_API_KEY=...
+python src/run_du1_v3_pipeline.py
+```
+
+The scripts read the Civil Code, the questions, and the gold labels as local inputs, placed relative to the task folder. These come from the licensed COLIEE data and are not included here.
+
+The post-competition figure of 91.5% comes from the same pipeline with the entailment model changed to Qwen3-235B and the prompt set to the IRAC framework. Retrieval is untouched. It is a change of two settings, the model and the prompt, and nothing else.
+
+We used no closed model. Scripts from our own exploration that called closed services have been left out of this repository, since the competition allows only open-weight models.
+
+Dependencies are in [`requirements.txt`](requirements.txt).

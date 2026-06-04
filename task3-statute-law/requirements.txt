@@ -1,0 +1,5 @@
+# Task 3, statute retrieval and entailment. Open-weight models via OpenRouter.
+requests
+openai
+rank-bm25
+scikit-learn
