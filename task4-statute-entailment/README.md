@@ -16,6 +16,8 @@ The nine experts are built from these models.
 - Llama 4 Maverick (400B), Llama 4 Scout (109B), Llama 3.3 (70B)
 - Qwen 2.5 (72B), Qwen3 (235B)
 
+Each expert is a pairing of one of these models with a prompt strategy, and the prompts vary as deliberately as the models do. They range from a plain instruction to chain-of-thought, the IRAC legal framework, a word-by-word check, and a self-consistency vote. The same model gives different answers depending on how it is asked, and that variation is part of what the ensemble exploits. The strategies are written out in [`prompts.md`](prompts.md).
+
 We submitted three runs that aggregate the experts in increasing order of sophistication.
 
 - **DU3.** A plain majority vote over the nine experts.
