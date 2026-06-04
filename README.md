@@ -5,13 +5,13 @@
 ![Task 4: 1st of 33](https://img.shields.io/badge/Task_4-1st_of_33-C8A415?style=flat-square)
 ![Python 3.11](https://img.shields.io/badge/Python-3.11-68246D?style=flat-square)
 
-**First place in Task 4, statute entailment, with 96.3% accuracy.** This repository holds Durham University's code for all five tasks of the 2026 Competition on Legal Information Extraction and Entailment (COLIEE), held alongside ICAIL 2026 in Singapore. The work is described in our paper, *Cross-Architecture LLM Ensembles, Feature-Based Reranking and Retrieval-Augmented Prompting for Legal Information Processing*.
+**First place in Task 4, statute entailment, with 96.3% accuracy.** This repository holds Durham University's code for all five tasks of the 2026 Competition on Legal Information Extraction and Entailment (COLIEE), held alongside the [21st International Conference on Artificial Intelligence and Law (ICAIL 2026)](https://site.smu.edu.sg/icail-2026) in Singapore. The work is described in our paper, *Cross-Architecture LLM Ensembles, Feature-Based Reranking and Retrieval-Augmented Prompting for Legal Information Processing*.
 
 The single idea running through the five tasks is that no one method wins everywhere. Different legal tasks reward different inductive biases. A cross-architecture ensemble of open-weight language models won statute entailment outright. Long-document retrieval was carried by hand-built features rather than neural rerankers. On statute law a stronger model with clean retrieval beat a more elaborate pipeline. The competition rules permit only models whose weights are publicly available and forbid closed models such as GPT-4o and Gemini, so every system here uses open-weight models. We used no closed or frontier model at any point.
 
 ## The competition
 
-COLIEE is the [Competition on Legal Information Extraction and Entailment](https://coliee.org/COLIEE2026/overview), an annual benchmark of legal case retrieval, statute retrieval, and legal entailment. The 2026 edition is held alongside [ICAIL 2026](https://site.smu.edu.sg/icail-2026), the 21st International Conference on Artificial Intelligence and Law, at the Yong Pung How School of Law, Singapore Management University, from 8 to 12 June 2026. This is the first time ICAIL has been held in Asia. COLIEE 2026 ran four shared tasks on case law and statute law, with a pilot task on tort prediction. We entered all of them.
+COLIEE is the [Competition on Legal Information Extraction and Entailment](https://coliee.org/COLIEE2026/overview), an annual benchmark of legal case retrieval, statute retrieval, and legal entailment. The 2026 edition is held alongside the [21st International Conference on Artificial Intelligence and Law (ICAIL 2026)](https://site.smu.edu.sg/icail-2026), at the Yong Pung How School of Law, Singapore Management University, from 8 to 12 June 2026. ICAIL is organised under the International Association for Artificial Intelligence and Law, and this is the first time it has been held in Asia. COLIEE 2026 ran four shared tasks on case law and statute law, with a pilot task on tort prediction. We entered all of them.
 
 ## Results
 
