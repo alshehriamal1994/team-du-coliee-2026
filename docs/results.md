@@ -7,7 +7,7 @@ All figures are taken from the official COLIEE 2026 evaluation. Where we report 
 | Run | F1 | Precision | Recall | Note |
 | --- | --- | --- | --- | --- |
 | DU3 | 0.314 | 0.295 | 0.337 | official, rank 11 of 54 runs |
-| DU9 | 0.346 | | | post-competition, deeper reranker |
+| DU9 | 0.346 | 0.324 | 0.370 | post-competition, deeper reranker |
 
 The query documents have a median length of 4,573 tokens, which is well beyond the 512-token window of the encoders we tried. Cross-encoders and zero-shot language models truncated the documents and did poorly. A learning-to-rank model over hand-built features did better, and that is the system we submitted.
 
