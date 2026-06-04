@@ -55,7 +55,7 @@ from src.tp_retrieval_utils import build_retrieval_case_text, predict_retrieval_
 from src.utils import main
 
 
-# ─── Config ───────────────────────────────────────────────────────────────────
+# config
 PATH_TO_ROOT: Final[Path] = Path(__file__).parent
 PATH_TO_CONF: Final[Path] = PATH_TO_ROOT / "app.ini"
 PATH_TO_MODEL: Final[Path] = PATH_TO_ROOT / "models" / "joint_bert_v2_final"

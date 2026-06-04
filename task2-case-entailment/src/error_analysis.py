@@ -62,9 +62,8 @@ def evaluate(preds, name):
     micro_r = correct / relevant if relevant else 0
     micro_f1 = 2*micro_p*micro_r/(micro_p+micro_r) if (micro_p+micro_r) else 0
 
-    print(f"\n{'='*70}")
+    print()
     print(f"  {name}")
-    print(f"{'='*70}")
     print(f"  Correct: {correct}  Retrieved: {retrieved}  Relevant: {relevant}")
     print(f"  Micro-P: {micro_p:.4f}  Micro-R: {micro_r:.4f}  Micro-F1: {micro_f1:.4f}")
     print(f"  Cases predicted: {len(preds)}/100  Cases skipped: {100-len(preds)}")
@@ -75,10 +74,9 @@ pc1 = evaluate(du1, "DU1 (Legal-RAG, V3+R1 intersection, MonoT5-v1)")
 pc2 = evaluate(du2, "DU2 (Legal-RAG, V3 only, MonoT5-v2)")
 pc3 = evaluate(du3, "DU3 (Zero-shot, V3+R1+LLaMA tiebreak, MonoT5-v1)")
 
-# --- Gold label distribution ---
-print(f"\n{'='*70}")
+# Gold label distribution
+print()
 print(f"  GOLD LABEL DISTRIBUTION (Test Set)")
-print(f"{'='*70}")
 gold_counts = [len(g) for g in gold.values()]
 total_relevant = sum(gold_counts)
 dist = Counter(gold_counts)
@@ -90,13 +88,12 @@ for k in sorted(dist.keys()):
     pct = dist[k]/len(gold)*100
     print(f"    {k} gold paragraphs: {dist[k]} cases ({pct:.1f}%)")
 
-# --- The forced-top-1 ceiling ---
-print(f"\n{'='*70}")
+# Forced-top-1 theoretical ceiling
+print()
 print(f"  FORCED-TOP-1 THEORETICAL CEILING")
-print(f"{'='*70}")
-# If you predict exactly 1 correct para per case (perfect selection), what's your max?
-# For case with N gold: you get 1 correct, precision=1.0, recall=1/N
-# Total: correct=100, retrieved=100, relevant=sum(gold_counts)
+# One correct prediction per case (perfect selection).
+# For a case with N gold: 1 correct, precision=1.0, recall=1/N.
+# Total: correct=100, retrieved=100, relevant=sum(gold_counts).
 perfect_top1_correct = len(gold)  # 100
 perfect_top1_retrieved = len(gold)  # 100
 perfect_top1_relevant = total_relevant
@@ -113,10 +110,9 @@ multi_gold = [cid for cid in all_cases if len(gold[cid]) > 1]
 print(f"\n  Single-gold cases: {len(single_gold)}")
 print(f"  Multi-gold cases: {len(multi_gold)}")
 
-# --- Performance on single vs multi gold ---
-print(f"\n{'='*70}")
+# Performance on single vs multi gold
+print()
 print(f"  SINGLE vs MULTI-GOLD PERFORMANCE")
-print(f"{'='*70}")
 
 for name, pc in [("DU1", pc1), ("DU2", pc2), ("DU3", pc3)]:
     s_correct = sum(1 for cid in single_gold if pc[cid]['hits'])
@@ -129,12 +125,11 @@ for name, pc in [("DU1", pc1), ("DU2", pc2), ("DU3", pc3)]:
     print(f"\n  {name}:")
     print(f"    Single-gold: {s_correct}/{s_total} correct ({s_correct/s_total*100:.1f}% accuracy)")
     print(f"    Multi-gold:  {m_correct} hits from {m_retrieved} preds (of {m_relevant} relevant)")
-    print(f"    Multi-gold:  {m_cases_hit}/{len(multi_gold)} cases with ≥1 hit ({m_cases_hit/len(multi_gold)*100:.1f}%)")
+    print(f"    Multi-gold:  {m_cases_hit}/{len(multi_gold)} cases with at least 1 hit ({m_cases_hit/len(multi_gold)*100:.1f}%)")
 
-# --- Error analysis: where all 3 runs fail ---
-print(f"\n{'='*70}")
+# Error analysis: where all 3 runs fail
+print()
 print(f"  ERROR ANALYSIS")
-print(f"{'='*70}")
 
 all_fail = []
 all_correct = []
@@ -151,7 +146,7 @@ print(f"  All 3 runs correct: {len(all_correct)} cases")
 print(f"  All 3 runs wrong:   {len(all_fail)} cases")
 
 # Show the failing cases
-print(f"\n  Cases where ALL runs failed (case_id: #gold, DU1_pred, DU2_pred, DU3_pred → gold):")
+print(f"\n  Cases where all runs failed (case_id: gold, DU1_pred, DU2_pred, DU3_pred):")
 for cid in all_fail:
     g = sorted(gold[cid])
     p1 = sorted(du1.get(cid, set()))
@@ -159,15 +154,9 @@ for cid in all_fail:
     p3 = sorted(du3.get(cid, set()))
     print(f"    {cid}: gold={g}, DU1={p1}, DU2={p2}, DU3={p3}")
 
-# --- Overlap analysis between runs ---
-print(f"\n{'='*70}")
+# Overlap analysis between runs
+print()
 print(f"  RUN OVERLAP ANALYSIS")
-print(f"{'='*70}")
-
-for cid in all_cases:
-    p1 = du1.get(cid, set())
-    p2 = du2.get(cid, set())
-    p3 = du3.get(cid, set())
 
 agree_12 = sum(1 for c in all_cases if du1.get(c, set()) == du2.get(c, set()))
 agree_13 = sum(1 for c in all_cases if du1.get(c, set()) == du3.get(c, set()))
@@ -186,7 +175,7 @@ for cid in all_cases:
     h2 = bool(pc2[cid]['hits'])
     h3 = bool(pc3[cid]['hits'])
     if h1 != h2 or h2 != h3:
-        status = f"DU1={'✓' if h1 else '✗'} DU2={'✓' if h2 else '✗'} DU3={'✓' if h3 else '✗'}"
+        status = f"DU1={'yes' if h1 else 'no'} DU2={'yes' if h2 else 'no'} DU3={'yes' if h3 else 'no'}"
         disagree_interesting.append((cid, status))
 
 print(f"  {len(disagree_interesting)} cases with different correctness:")
@@ -197,10 +186,9 @@ for cid, status in disagree_interesting:
     p3 = sorted(du3.get(cid, set()))
     print(f"    {cid}: {status}  gold={g}, DU1={p1}, DU2={p2}, DU3={p3}")
 
-# --- Oracle analysis: union of all runs ---
-print(f"\n{'='*70}")
+# Oracle analysis: union of all runs
+print()
 print(f"  ORACLE / UPPER-BOUND ANALYSIS")
-print(f"{'='*70}")
 
 # Union oracle
 union_correct = 0
@@ -214,7 +202,7 @@ for cid in all_cases:
 union_p = union_correct / union_retrieved if union_retrieved else 0
 union_r = union_correct / total_relevant
 union_f1 = 2*union_p*union_r/(union_p+union_r) if (union_p+union_r) else 0
-print(f"  Union of DU1∪DU2∪DU3:")
+print(f"  Union of DU1, DU2, DU3:")
 print(f"    Correct: {union_correct}  Retrieved: {union_retrieved}  Relevant: {total_relevant}")
 print(f"    P: {union_p:.4f}  R: {union_r:.4f}  F1: {union_f1:.4f}")
 
@@ -255,10 +243,9 @@ for name, no_pred in [("DU1", no_pred_du1), ("DU2", no_pred_du2), ("DU3", no_pre
     missed_rel = sum(len(gold[c]) for c in no_pred)
     print(f"    {name} skipped {len(no_pred)} cases with {missed_rel} relevant paragraphs")
 
-# --- DU1 has 2 predictions for case 1016 ---
-print(f"\n{'='*70}")
+# Multi-prediction cases
+print()
 print(f"  MULTI-PREDICTION CASES")
-print(f"{'='*70}")
 for name, preds in [("DU1", du1), ("DU2", du2), ("DU3", du3)]:
     multi = {c: p for c, p in preds.items() if len(p) > 1}
     if multi:
@@ -268,10 +255,9 @@ for name, preds in [("DU1", du1), ("DU2", du2), ("DU3", du3)]:
     else:
         print(f"  {name}: all single-prediction")
 
-# --- Paragraph ID analysis: are we even in the right ballpark? ---
-print(f"\n{'='*70}")
+# Near-miss analysis: predicted paragraph adjacent to a gold paragraph
+print()
 print(f"  NEAR-MISS ANALYSIS (predicted adjacent paragraph)")
-print(f"{'='*70}")
 for name, preds in [("DU1", du1), ("DU2", du2), ("DU3", du3)]:
     near_misses = 0
     for cid in all_cases:
@@ -286,12 +272,11 @@ for name, preds in [("DU1", du1), ("DU2", du2), ("DU3", du3)]:
                 if neighbors & g:
                     near_misses += 1
                     print(f"    {name} case {cid}: predicted {pid}, near gold {sorted(g & neighbors)}")
-    print(f"  {name} total near-misses (within ±2): {near_misses}")
+    print(f"  {name} total near-misses (within +/-2): {near_misses}")
     print()
 
-print(f"\n{'='*70}")
+print()
 print(f"  COMPETITION PRECISION RANKING")
-print(f"{'='*70}")
 teams = [
     ("NOWJ nowj001", 0.7604),
     ("DU DU2", 0.7529),

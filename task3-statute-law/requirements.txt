@@ -1,5 +1,5 @@
 # Task 3, statute retrieval and entailment. Open-weight models via OpenRouter.
 requests
-openai
+openai  # used only as an HTTP client for OpenRouter; the served model is open-weight Qwen2.5-72B
 rank-bm25
 scikit-learn

@@ -91,7 +91,7 @@ def parse_label(raw: str) -> str:
     return "N"
 
 
-# ─── Diverse prompt templates ───
+# diverse prompt templates
 
 PROMPTS = [
     # Prompt 1: Standard reasoning (our best prompt)
@@ -163,7 +163,7 @@ def main() -> None:
     parser.add_argument("--lora-path", type=Path, default=None)
     parser.add_argument("--input-jsonl", type=Path, required=True)
     parser.add_argument("--civil-xml", type=Path,
-                        default=Path("DATA/train2026(1)/2026/civil.xml"))
+                        default=Path("../data/task4/civil_code.xml"))
     parser.add_argument("--run-tag", required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--max-new-tokens", type=int, default=256)

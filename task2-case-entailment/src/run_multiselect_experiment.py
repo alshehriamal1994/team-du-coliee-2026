@@ -20,20 +20,16 @@ from pathlib import Path
 import numpy as np
 import requests
 
-# ─────────────────────────────────────────────────────────────
-# CONFIG
-# ─────────────────────────────────────────────────────────────
+# Config
 OPENROUTER_API_KEY = os.environ["OPENROUTER_API_KEY"]
 DATA_DIR = Path("../data/task2")
 CACHE_PATH = "cache/runs_final_2026/test_cache_monot5v2.pkl"
 FEWSHOT_PATH = "cache/runs_experiments/fewshot_cache_test.json"
-LABELS_PATH = "./task2_test_labels_2026(1).json"
+LABELS_PATH = "../data/task2/task2_test_labels_2026.json"
 OUTPUT_DIR = Path("./runs_multiselect")
 TOP_K = 20
 
-# ─────────────────────────────────────────────────────────────
-# PROMPTS
-# ─────────────────────────────────────────────────────────────
+# Prompts
 
 PROMPT_MULTISELECT_RAG = """\
 You are an expert in Canadian Federal Court legal case entailment.
@@ -56,7 +52,7 @@ IMPORTANT RULES:
 1. Most cases have 2-3 entailing paragraphs, not just one.
 2. Select EVERY paragraph that states a legal rule, principle, or reasoning \
    that DIRECTLY and NECESSARILY supports or produces the decision.
-3. Different paragraphs may contribute different parts of the legal basis — \
+3. Different paragraphs may contribute different parts of the legal basis, \
    one may state the general rule, another may apply it, another may address \
    an exception. Select ALL such paragraphs.
 4. REJECT paragraphs that are merely topically related, provide background \
@@ -83,7 +79,7 @@ IMPORTANT RULES:
 1. Most cases have 2-3 entailing paragraphs, not just one.
 2. Select EVERY paragraph that states a legal rule, principle, or reasoning \
    that DIRECTLY and NECESSARILY supports or produces the decision.
-3. Different paragraphs may contribute different parts of the legal basis — \
+3. Different paragraphs may contribute different parts of the legal basis, \
    one may state the general rule, another may apply it, another may address \
    an exception. Select ALL such paragraphs.
 4. REJECT paragraphs that are merely topically related, provide background \
@@ -94,9 +90,7 @@ Return ONLY the paragraph ID(s) separated by spaces \
 (e.g., "033" or "012 033 047") or "none". Nothing else."""
 
 
-# ─────────────────────────────────────────────────────────────
 # API
-# ─────────────────────────────────────────────────────────────
 
 def call_openrouter(prompt, model, temperature=0.0, max_tokens=512, retries=3):
     url = "https://openrouter.ai/api/v1/chat/completions"
@@ -143,9 +137,7 @@ def parse_para_ids(text, valid_ids):
     return result
 
 
-# ─────────────────────────────────────────────────────────────
-# DATA LOADING
-# ─────────────────────────────────────────────────────────────
+# Data loading
 
 print("Loading data...")
 with open(CACHE_PATH, "rb") as f:
@@ -194,9 +186,7 @@ def evaluate(preds, name):
     return micro_p, micro_r, micro_f1
 
 
-# ─────────────────────────────────────────────────────────────
-# RUN EXPERIMENTS
-# ─────────────────────────────────────────────────────────────
+# Run experiments
 
 OUTPUT_DIR.mkdir(exist_ok=True)
 
@@ -211,9 +201,8 @@ for exp_name, model, prompt_template, use_rag in EXPERIMENTS:
 
     # Skip if already done
     if out_path.exists():
-        existing = load_existing(out_path) if False else None
-        print(f"\n{'='*70}")
-        print(f"  {exp_name} — ALREADY EXISTS, loading...")
+        print()
+        print(f"  {exp_name} already exists, loading.")
         preds = defaultdict(set)
         with open(out_path) as f:
             for line in f:
@@ -223,9 +212,8 @@ for exp_name, model, prompt_template, use_rag in EXPERIMENTS:
         evaluate(dict(preds), exp_name)
         continue
 
-    print(f"\n{'='*70}")
+    print()
     print(f"  Running: {exp_name} (model={model}, RAG={use_rag})")
-    print(f"{'='*70}")
 
     results = []
     preds = {}
@@ -289,7 +277,7 @@ for exp_name, model, prompt_template, use_rag in EXPERIMENTS:
         # Progress
         hits = gold[cid] & set(selected)
         status = f"hit={len(hits)}/{len(gold[cid])}" if selected else "NONE"
-        print(f"  [{idx+1:3d}/100] Case {cid}: selected={selected} gold={sorted(gold[cid])} → {status}")
+        print(f"  [{idx+1:3d}/100] Case {cid}: selected={selected} gold={sorted(gold[cid])} -> {status}")
 
         # Rate limit
         time.sleep(0.5)
@@ -298,13 +286,11 @@ for exp_name, model, prompt_template, use_rag in EXPERIMENTS:
     print(f"\n  --- Results for {exp_name} ---")
     evaluate(preds, exp_name)
 
-# ─────────────────────────────────────────────────────────────
-# FINAL: Evaluate all and compare
-# ─────────────────────────────────────────────────────────────
+# Final: evaluate all and compare
+FINAL = "predictions/"
 
-print(f"\n{'='*70}")
-print(f"  FINAL COMPARISON")
-print(f"{'='*70}")
+print()
+print("  Final comparison")
 
 # Load all result files
 for fname in sorted(OUTPUT_DIR.glob("*.txt")):
@@ -331,5 +317,4 @@ for name, path in [
                 preds[parts[0]].add(parts[1].zfill(3))
     evaluate(dict(preds), name)
 
-FINAL = "predictions/"
 print(f"\n  Competition winner (IAI run2): P=0.4501 R=0.5374 F1=0.4899")

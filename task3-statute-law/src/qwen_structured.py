@@ -1,14 +1,13 @@
-import os
 import json, os, re, time
-from openai import OpenAI
+from openai import OpenAI  # used only as an HTTP client for OpenRouter; the served model is open-weight Qwen2.5-72B
 import xml.etree.ElementTree as ET
 from rank_bm25 import BM25Okapi
 from collections import defaultdict
 
 OPENROUTER_API_KEY = os.environ["OPENROUTER_API_KEY"]
 MODEL    = "qwen/qwen-2.5-72b-instruct"
-CIVIL_XML = "./train2026/2026/civil.xml"
-DATA_PATH = "./data/all.jsonl"
+CIVIL_XML = "../data/task3/civil.xml"
+DATA_PATH = "../data/task3/all.jsonl"
 OUT_PATH  = "./results/qwen72b_structured.jsonl"
 
 os.makedirs(os.path.dirname(OUT_PATH), exist_ok=True)
@@ -60,7 +59,7 @@ def retrieve(query,k=10):
     for art in list(retrieved): retrieved.update(xref_map.get(art,set()))
     return retrieved,score_map
 
-# TWO prompts — we run both and compare
+# Two prompts, run both and compare
 STANDARD_SYSTEM = """あなたは日本の民法の専門家です。
 与えられた条文と陳述文を分析し、陳述文が条文から論理的に導かれるか判断してください。
 最後に必ず「判定：Y」または「判定：N」とだけ記載してください。"""
@@ -105,7 +104,7 @@ done_ids=set()
 if os.path.exists(OUT_PATH):
     for l in open(OUT_PATH,encoding='utf-8'):
         done_ids.add(json.loads(l)['id'])
-    print(f"Resuming — {len(done_ids)} already done")
+    print(f"Resuming, {len(done_ids)} already done")
 
 print(f"Running STRUCTURED prompt on {len(data)} examples...")
 correct=total=0

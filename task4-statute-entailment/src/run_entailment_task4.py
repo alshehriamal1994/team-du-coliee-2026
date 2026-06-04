@@ -1,20 +1,8 @@
 #!/usr/bin/env python3
 """
-COLIEE Task 4 – Legal Textual Entailment Inference
-====================================================
-Loads a local HuggingFace causal/instruct LM, looks up article text from
-civil.xml, builds a Japanese chain-of-thought prompt, and writes submission-format
-predictions.
-
-Supports:
-  - 4-bit / 8-bit bitsandbytes quantisation (--load-in-4bit / --load-in-8bit)
-  - Chat-template formatting for instruct models (--use-chat-template)
-  - Optional few-shot examples prepended from a training JSONL (--few-shot-jsonl)
-  - Resume: skips already-written IDs if output file exists
-  - Optional article-text caching for inspection
-
-Output format (one line per query):
-  <QUERY_ID> <Y|N> <RUN_TAG>
+COLIEE Task 4, legal textual entailment inference.
+Loads a local HuggingFace model, looks up article text from civil.xml, builds a
+Japanese chain-of-thought prompt, and writes submission-format predictions.
 """
 
 from __future__ import annotations
@@ -30,7 +18,7 @@ from typing import Any
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
-# ─────────────────────────── Article Loader ──────────────────────────────────
+# article loader
 
 def load_civil_articles(xml_path: Path) -> dict[str, str]:
     """Parse civil.xml → {article_num: full_text}."""
@@ -60,7 +48,7 @@ def resolve_article_text(article_nums: list[str], arts: dict[str, str]) -> str:
             blocks.append(f"【第{num}条】（条文テキスト未収録）")
     return "\n\n".join(blocks)
 
-# ─────────────────────────── Prompt Builder ──────────────────────────────────
+# prompt builder
 
 SYSTEM_PROMPT = """あなたは日本の民法に関する法律専門家です。
 与えられた条文（t1）だけを根拠として、陳述文（t2）が論理的に導かれるかどうかを判断してください。
@@ -105,7 +93,7 @@ def build_raw_prompt(article_text: str, statement: str, few_shots: list[dict]) -
     user_msg = build_user_message(article_text, statement, few_shots)
     return f"{SYSTEM_PROMPT}\n\n{user_msg}\n\n判定："
 
-# ─────────────────────────── Output Parser ───────────────────────────────────
+# output parser
 
 YN_LAST_LINE = re.compile(r"^([YN])\s*$", re.MULTILINE | re.IGNORECASE)
 YN_ANYWHERE = re.compile(r"\b([YN])\b", re.IGNORECASE)
@@ -134,7 +122,7 @@ def parse_label(raw: str) -> str:
         return tokens[-1].upper()
     return "N"  # safe default
 
-# ─────────────────────────── JSONL helpers ───────────────────────────────────
+# jsonl helpers
 
 def load_jsonl(path: Path) -> list[dict[str, Any]]:
     rows = []
@@ -187,7 +175,7 @@ def select_few_shots(
         })
     return shots
 
-# ─────────────────────────── Model Loader ────────────────────────────────────
+# model loader
 
 def load_model_and_tokenizer(
     model_path: Path,
@@ -221,7 +209,7 @@ def load_model_and_tokenizer(
     print(f"Model loaded. device_map: {getattr(model, 'hf_device_map', 'auto')}", flush=True)
     return model, tokenizer
 
-# ─────────────────────────── Inference ───────────────────────────────────────
+# inference
 
 def run_inference(
     model,
@@ -255,7 +243,6 @@ def run_inference(
             **inputs,
             max_new_tokens=max_new_tokens,
             do_sample=False,
-            temperature=1.0,
             pad_token_id=tokenizer.pad_token_id,
             eos_token_id=tokenizer.eos_token_id,
         )
@@ -263,13 +250,13 @@ def run_inference(
     new_tokens = out[0][inputs["input_ids"].shape[1]:]
     return tokenizer.decode(new_tokens, skip_special_tokens=True)
 
-# ─────────────────────────── Main ────────────────────────────────────────────
+# main
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="COLIEE Task 4 entailment inference")
     parser.add_argument("--model-path", type=Path, required=True, help="Local HF model directory")
     parser.add_argument("--civil-xml", type=Path,
-                        default=Path("DATA/train2026(1)/2026/civil.xml"),
+                        default=Path("../data/task4/civil_code.xml"),
                         help="Path to civil.xml article database")
     parser.add_argument("--input-jsonl", type=Path, required=True,
                         help="Input JSONL with fields: id, articles (list of nums), statement")

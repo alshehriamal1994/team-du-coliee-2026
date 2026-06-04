@@ -67,6 +67,6 @@ python src/ensemble_predictions.py \
   --output runs/DU3.txt --run-tag DU3 --tie-break Y
 ```
 
-The two stronger runs build on this. DU2 adds the deliberation step, in which three judge models re-read the questions where the vote is close, and DU1 aggregates the experts hierarchically across three sub-panels. The deliberation prompt and the composition of the sub-panels are described in [`prompts.md`](prompts.md) and in the system description in our submission. Reproducing the exact DU1 and DU2 figures requires the same nine experts and that aggregation, and the largest models call for substantial GPU memory.
+The two stronger runs build on this. DU2 adds the deliberation step, in which three judge models re-read the questions where the vote is close, and DU1 aggregates the experts hierarchically across three sub-panels. The deliberation prompt and the composition of the sub-panels are described in [`prompts.md`](prompts.md) and in the system description in our submission. To be clear, DU3 (the nine-expert majority vote) is fully reproducible from this directory, whereas DU1 and DU2 are not: the deliberation and judge step and the hierarchical sub-panel aggregation are described here but their orchestration code is not shipped in this directory. Reproducing the exact DU1 and DU2 figures requires the same nine experts and that aggregation, and the largest models call for substantial GPU memory.
 
 Dependencies are in [`requirements.txt`](requirements.txt).

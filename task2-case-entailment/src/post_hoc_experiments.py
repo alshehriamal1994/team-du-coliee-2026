@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Comprehensive post-hoc experiments for COLIEE 2026 Task 2 paper.
+Post-hoc experiments for COLIEE 2026 Task 2 paper.
 Uses gold labels + cached reranker scores + individual LLM run files.
 """
 import json
@@ -8,12 +8,10 @@ import pickle
 import numpy as np
 from collections import defaultdict, Counter
 
-# ============================================================
-# LOAD DATA
-# ============================================================
+# Load data
 
 # Gold labels
-with open("./task2_test_labels_2026(1).json") as f:
+with open("../data/task2/task2_test_labels_2026.json") as f:
     raw_gold = json.load(f)
 gold = {}
 for cid, val in raw_gold.items():
@@ -30,7 +28,7 @@ try:
     with open("cache/runs_final_2026/test_cache_stage1top100_qwen2048.pkl", "rb") as f:
         cache_v1 = pickle.load(f)
     # v1 and v2 have same structure, rows is the key
-except:
+except Exception:
     cache_v1 = None
 
 # Build per-case reranker score dicts
@@ -72,11 +70,13 @@ llama_zero = load_run(BASE + "test2026_llama33_forced_top1_k20.txt")
 # Try to load QWQ too
 try:
     qwq_zero = load_run(BASE + "test2026_qwq_forced_top1_k20.txt")
-except: qwq_zero = {}
+except Exception:
+    qwq_zero = {}
 
 try:
     llama_zero_alt = load_run(BASE + "test2026_llama_zero_k20.txt")
-except: llama_zero_alt = {}
+except Exception:
+    llama_zero_alt = {}
 
 # Final submissions
 du1 = load_run(FINAL + "DU1/task2_DU1.txt")
@@ -86,9 +86,7 @@ du3 = load_run(FINAL + "DU3/task2_DU3.txt")
 # DU2 v3-rag with monot5v2
 du2_v3rag_monot5v2 = load_run("cache/runs_final_2026/test_v3_rag_monot5v2.txt")
 
-# ============================================================
-# EVALUATION FUNCTION
-# ============================================================
+# Evaluation function
 
 def evaluate(preds, name=None, verbose=False):
     correct = retrieved = 0
@@ -104,13 +102,9 @@ def evaluate(preds, name=None, verbose=False):
         print(f"  {name:55s}  P={micro_p:.4f} R={micro_r:.4f} F1={micro_f1:.4f}  (c={correct} ret={retrieved} rel={TOTAL_RELEVANT})")
     return micro_p, micro_r, micro_f1
 
-# ============================================================
-# EXPERIMENT 1: BASELINE — individual model runs scored against gold
-# ============================================================
-
-print("=" * 90)
+# Experiment 1: individual model runs scored against gold
+print()
 print("  EXPERIMENT 1: Individual Model Runs on Test Set")
-print("=" * 90)
 for name, run in [
     ("V3 zero-shot k=20", v3_zero),
     ("R1 zero-shot k=20", r1_zero),
@@ -127,13 +121,9 @@ for name, run in [
     if run:
         evaluate(run, name, verbose=True)
 
-# ============================================================
-# EXPERIMENT 2: Multi-model combination strategies (from existing runs)
-# ============================================================
-
-print("\n" + "=" * 90)
+# Experiment 2: multi-model combination strategies
+print()
 print("  EXPERIMENT 2: Multi-Model Combination Strategies")
-print("=" * 90)
 
 def combine_runs(runs, strategy="union"):
     result = {}
@@ -153,20 +143,20 @@ def combine_runs(runs, strategy="union"):
 # All possible pairwise and triple unions
 print("\n  --- Union strategies ---")
 for name, runs in [
-    ("V3_rag ∪ R1_rag", [v3_rag, r1_rag]),
-    ("V3_zero ∪ R1_zero", [v3_zero, r1_zero]),
-    ("V3_zero ∪ R1_zero ∪ LLaMA_zero", [v3_zero, r1_zero, llama_zero]),
-    ("V3_rag ∪ R1_rag ∪ LLaMA_zero", [v3_rag, r1_rag, llama_zero]),
-    ("DU1 ∪ DU2 ∪ DU3", [du1, du2, du3]),
+    ("V3_rag + R1_rag", [v3_rag, r1_rag]),
+    ("V3_zero + R1_zero", [v3_zero, r1_zero]),
+    ("V3_zero + R1_zero + LLaMA_zero", [v3_zero, r1_zero, llama_zero]),
+    ("V3_rag + R1_rag + LLaMA_zero", [v3_rag, r1_rag, llama_zero]),
+    ("DU1 + DU2 + DU3", [du1, du2, du3]),
     ("All 5 models union (V3r,R1r,V3z,R1z,LL)", [v3_rag, r1_rag, v3_zero, r1_zero, llama_zero]),
 ]:
     evaluate(combine_runs(runs, "union"), name, verbose=True)
 
 print("\n  --- Intersection strategies ---")
 for name, runs in [
-    ("V3_rag ∩ R1_rag", [v3_rag, r1_rag]),
-    ("V3_zero ∩ R1_zero", [v3_zero, r1_zero]),
-    ("V3_zero ∩ R1_zero ∩ LLaMA_zero", [v3_zero, r1_zero, llama_zero]),
+    ("V3_rag and R1_rag", [v3_rag, r1_rag]),
+    ("V3_zero and R1_zero", [v3_zero, r1_zero]),
+    ("V3_zero and R1_zero and LLaMA_zero", [v3_zero, r1_zero, llama_zero]),
 ]:
     evaluate(combine_runs(runs, "intersection"), name, verbose=True)
 
@@ -178,13 +168,9 @@ for name, runs in [
 ]:
     evaluate(combine_runs(runs, "majority"), name, verbose=True)
 
-# ============================================================
-# EXPERIMENT 3: Reranker-only baselines (no LLM)
-# ============================================================
-
-print("\n" + "=" * 90)
+# Experiment 3: reranker-only baselines (no LLM)
+print()
 print("  EXPERIMENT 3: Reranker-Only Baselines (MonoT5-v2 + Qwen3 ensemble)")
-print("=" * 90)
 
 def reranker_topN(scores_index, n=1, w_m5=0.8):
     """Predict top-N by ensemble score."""
@@ -248,13 +234,9 @@ for margin in [0.03, 0.05, 0.08, 0.10, 0.15, 0.20, 0.25]:
     p, rc, f1 = evaluate(r, verbose=False)
     print(f"  margin={margin:.2f}  P={p:.4f} R={rc:.4f} F1={f1:.4f}  avg_preds={avg_preds:.2f}")
 
-# ============================================================
-# EXPERIMENT 4: Recall@K analysis — are gold paragraphs in the reranker top-K?
-# ============================================================
-
-print("\n" + "=" * 90)
+# Experiment 4: recall@K of the reranker ensemble
+print()
 print("  EXPERIMENT 4: Recall@K of Reranker Ensemble (how many golds in top-K?)")
-print("=" * 90)
 
 def recall_at_k(scores_index, k, w_m5=0.8):
     found = 0
@@ -291,13 +273,9 @@ def recall_at_k(scores_index, k, w_m5=0.8):
 for k in [5, 10, 15, 20, 30, 50, 100]:
     recall_at_k(scores_v2, k)
 
-# ============================================================
-# EXPERIMENT 5: LLM + Reranker hybrid — use LLM pick + reranker top-N
-# ============================================================
-
-print("\n" + "=" * 90)
+# Experiment 5: hybrid LLM + reranker (LLM pick plus reranker top-N)
+print()
 print("  EXPERIMENT 5: Hybrid LLM + Reranker (augment LLM picks with reranker top-N)")
-print("=" * 90)
 
 def hybrid_llm_reranker(llm_run, scores_index, extra_n=2, w_m5=0.8):
     """Take LLM predictions + add reranker top-N if LLM predicted fewer than extra_n."""
@@ -362,27 +340,23 @@ for target in [2, 3, 4, 5]:
     r = llm_union_plus_reranker_fill([v3_rag, r1_rag], scores_v2, target, 0.8)
     avg_preds = np.mean([len(v) for v in r.values()])
     p, rc, f1 = evaluate(r, verbose=False)
-    print(f"  V3rag∪R1rag + fill to {target}:  P={p:.4f} R={rc:.4f} F1={f1:.4f}  avg={avg_preds:.1f}")
+    print(f"  V3rag+R1rag + fill to {target}:  P={p:.4f} R={rc:.4f} F1={f1:.4f}  avg={avg_preds:.1f}")
 
 for target in [2, 3, 4, 5]:
     r = llm_union_plus_reranker_fill([v3_rag, r1_rag, llama_zero], scores_v2, target, 0.8)
     avg_preds = np.mean([len(v) for v in r.values()])
     p, rc, f1 = evaluate(r, verbose=False)
-    print(f"  V3rag∪R1rag∪LLaMA + fill to {target}:  P={p:.4f} R={rc:.4f} F1={f1:.4f}  avg={avg_preds:.1f}")
+    print(f"  V3rag+R1rag+LLaMA + fill to {target}:  P={p:.4f} R={rc:.4f} F1={f1:.4f}  avg={avg_preds:.1f}")
 
 for target in [2, 3, 4, 5]:
     r = llm_union_plus_reranker_fill([v3_rag, r1_rag, v3_zero, r1_zero, llama_zero], scores_v2, target, 0.8)
     avg_preds = np.mean([len(v) for v in r.values()])
     p, rc, f1 = evaluate(r, verbose=False)
-    print(f"  All5LLM∪ + fill to {target}:  P={p:.4f} R={rc:.4f} F1={f1:.4f}  avg={avg_preds:.1f}")
+    print(f"  All5LLM + fill to {target}:  P={p:.4f} R={rc:.4f} F1={f1:.4f}  avg={avg_preds:.1f}")
 
-# ============================================================
-# EXPERIMENT 6: "None" case recovery — fill skipped cases with reranker
-# ============================================================
-
-print("\n" + "=" * 90)
+# Experiment 6: recovery of 'none' cases (fill skipped with reranker)
+print()
 print("  EXPERIMENT 6: Recovery of 'None' Cases (fill skipped with reranker top-1)")
-print("=" * 90)
 
 def fill_none_cases(llm_run, scores_index, fill_n=1, w_m5=0.8):
     preds = {}
@@ -400,15 +374,11 @@ for name, run in [("DU1", du1), ("DU2", du2), ("DU3", du3),
     filled = fill_none_cases(run, scores_v2, fill_n=1)
     p0, r0, f0 = evaluate(run, verbose=False)
     p1, r1_, f1_ = evaluate(filled, verbose=False)
-    print(f"  {name:20s}  skipped={skipped:2d}  before: F1={f0:.4f}  after fill: F1={f1_:.4f}  Δ={f1_-f0:+.4f}")
+    print(f"  {name:20s}  skipped={skipped:2d}  before: F1={f0:.4f}  after fill: F1={f1_:.4f}  delta={f1_-f0:+.4f}")
 
-# ============================================================
-# EXPERIMENT 7: What if we had used top-all prompt? Simulate multi-select
-# ============================================================
-
-print("\n" + "=" * 90)
-print("  EXPERIMENT 7: Simulated Multi-Select — what if LLMs returned top-3?")
-print("=" * 90)
+# Experiment 7: simulated multi-select using the existing LLM runs
+print()
+print("  EXPERIMENT 7: Simulated Multi-Select (what if LLMs returned top-3?)")
 print("  (Oracle: for each case, take all LLM-selected paras across all runs)")
 
 # Oracle: best possible from all available LLM data
@@ -441,13 +411,9 @@ total_unique_correct = sum(len(v) for v in oracle_correct_only.values())
 print(f"\n  Across all LLM runs, {total_unique_correct}/{TOTAL_RELEVANT} gold paragraphs were found by at least one model")
 print(f"  That's {total_unique_correct/TOTAL_RELEVANT*100:.1f}% coverage of all gold paragraphs")
 
-# ============================================================
-# EXPERIMENT 8: Reranker weight sensitivity
-# ============================================================
-
-print("\n" + "=" * 90)
+# Experiment 8: reranker weight sensitivity
+print()
 print("  EXPERIMENT 8: Ensemble Weight Sensitivity (MonoT5 weight)")
-print("=" * 90)
 
 for w in [0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
     for n in [1, 2, 3]:
@@ -455,13 +421,9 @@ for w in [0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
         print(f"  w_m5={w:.1f} top-{n}:  P={p:.4f} R={r_:.4f} F1={f1_:.4f}")
     print()
 
-# ============================================================
-# EXPERIMENT 9: Best achievable from our components (upper bound)
-# ============================================================
-
-print("=" * 90)
+# Experiment 9: upper bounds from the available components
+print()
 print("  EXPERIMENT 9: Upper Bounds & Comparative Analysis")
-print("=" * 90)
 
 # Perfect selection from reranker top-20
 topk_preds = reranker_topN(scores_v2, 20)
@@ -497,13 +459,9 @@ if missed_cases:
     for cid, missed, g in missed_cases:
         print(f"    Case {cid}: missed {sorted(missed)} (gold={sorted(g)})")
 
-# ============================================================
-# EXPERIMENT 10: Competition comparison context
-# ============================================================
-
-print("\n" + "=" * 90)
+# Experiment 10: comparison with the competition winner
+print()
 print("  EXPERIMENT 10: How our best post-hoc strategies compare to competition winner")
-print("=" * 90)
 
 winner_f1 = 0.4899
 print(f"\n  Competition winner (IAI run2): F1 = {winner_f1:.4f}")
@@ -517,9 +475,9 @@ configs = [
     ("DU2 (submitted)", du2),
     ("DU3 (submitted)", du3),
     ("Reranker top-3", reranker_topN(scores_v2, 3)),
-    ("V3rag ∪ R1rag", combine_runs([v3_rag, r1_rag], "union")),
-    ("V3rag∪R1rag + fill to 3", llm_union_plus_reranker_fill([v3_rag, r1_rag], scores_v2, 3)),
-    ("All5LLM ∪ fill to 3", llm_union_plus_reranker_fill([v3_rag, r1_rag, v3_zero, r1_zero, llama_zero], scores_v2, 3)),
+    ("V3rag + R1rag", combine_runs([v3_rag, r1_rag], "union")),
+    ("V3rag+R1rag + fill to 3", llm_union_plus_reranker_fill([v3_rag, r1_rag], scores_v2, 3)),
+    ("All5LLM + fill to 3", llm_union_plus_reranker_fill([v3_rag, r1_rag, v3_zero, r1_zero, llama_zero], scores_v2, 3)),
     ("V3rag + fill to 3", hybrid_llm_reranker(v3_rag, scores_v2, 2)),
     ("Majority(V3r,R1r,LLaMA)", combine_runs([v3_rag, r1_rag, llama_zero], "majority")),
     ("DU2 + none-fill top1", fill_none_cases(du2, scores_v2, 1)),
@@ -537,13 +495,9 @@ for i, (f1_, name, p, r_) in enumerate(best_strategies, 1):
     marker = "BEATS!" if delta > 0 else ""
     print(f"  {i:4d}  {name:55s}  {p:.4f}  {r_:.4f}  {f1_:.4f}  {delta:+.4f} {marker}")
 
-# ============================================================
-# SUMMARY STATISTICS
-# ============================================================
-
-print("\n" + "=" * 90)
+# Summary statistics
+print()
 print("  SUMMARY: Key Numbers for the Paper")
-print("=" * 90)
 
 gold_dist = Counter(len(g) for g in gold.values())
 print(f"\n  Test set: {len(gold)} cases, {TOTAL_RELEVANT} relevant paragraphs")

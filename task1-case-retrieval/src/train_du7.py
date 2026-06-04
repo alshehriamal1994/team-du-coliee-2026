@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-DU7-DU9: Fine-tuning around DU4's sweet spot.
+DU7-DU9: fine-tuning around DU4's sweet spot.
 DU4 (F1=0.3451) is the best so far. These runs explore whether
 different regularisation or subsampling can squeeze out more.
 
@@ -17,7 +17,7 @@ from pathlib import Path
 import lightgbm as lgb
 import numpy as np
 
-# ── Paths ──
+# paths
 ARCHIVE = Path("./ARCHIVE")
 CACHE_DIR = ARCHIVE / "cache_features"
 STEP8_SCRIPT = ARCHIVE / "code_AUTHORITY_v2/step8_postprocess_filters_v2.py"
@@ -27,8 +27,7 @@ GOLD_PATH = Path("./FINAL_SUBMISSION/task1_test_labels_2026.json")
 OUT_DIR = Path("./runs/du7_tuning")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-# ── Configs ──
-# DU4 baseline: 4000 trees, 255 leaves, LR=0.02, subsample=0.8, colsample=0.8, reg=0.1/0.1
+# configs. DU4 baseline: 4000 trees, 255 leaves, LR=0.02, subsample=0.8, colsample=0.8, reg=0.1/0.1
 CONFIGS = {
     "DU7": {
         "n_estimators": 4000, "num_leaves": 255, "learning_rate": 0.02,
@@ -82,7 +81,7 @@ def evaluate_against_gold(preds, gold_path):
     return {"micro_f1": micro_f1, "precision": micro_p, "recall": micro_r,
             "tp": tp, "fp": fp, "fn": fn, "zero_f1": int((arr == 0).sum())}
 
-# ── Load data ──
+# load data
 print("Loading feature matrices...")
 t0 = time.time()
 X1, y1, q1, c1, fnames = load_npz(CACHE_DIR / "feature_matrix_train2025.npz")
@@ -173,9 +172,8 @@ for run_name, cfg in CONFIGS.items():
         results[run_name] = {"raw": raw_metrics, "step8": None, "time": train_time, "cfg": cfg}
     print()
 
-# ── Summary ──
 print("=" * 70)
-print("  SUMMARY — All runs vs DU4 (F1=0.3451)")
+print("  Summary: all runs vs DU4 (F1=0.3451)")
 print("=" * 70)
 print(f"  {'Run':<6} {'Trees':>6} {'Leaves':>7} {'LR':>6} {'sub':>5} {'col':>5} {'reg':>7} {'Step8 F1':>9} {'vs DU4':>8}")
 print("  " + "-" * 68)

@@ -1,34 +1,24 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-DU1-v3: Dynamic K + LLM Reranking Pipeline
-============================================
+DU1 end-to-end pipeline: dynamic-K retrieval, listwise reranking and entailment.
 
-What this adds over v2:
-  1. Dynamic K: elbow detection on 3-way RRF scores per query
-     - Returns K*=3–30 articles (vs fixed 30 in v2)
-     - Improves F2 tiebreaker score on confident queries
-  2. LLM reranking: Qwen2.5-7B listwise reranking (1 call/query)
-     - Puts the most relevant article first in the entailment context
-     - Much cheaper than 30-article-scoring, smarter than RRF order alone
-  3. Entailment: Qwen2.5-72B, top-15 from reranked list (was top-25 from RRF order)
+Reciprocal-rank fusion of BM25, TF-IDF and BGE-M3, followed by a dynamic-K
+cutoff, a Qwen2.5-7B listwise reranking pass for context ordering, and a
+Qwen2.5-72B yes-or-no entailment decision.
 
 Usage:
   export OPENROUTER_API_KEY=sk-or-...
-  cd .
   python3 DU1/run_du1_v3_pipeline.py 2>&1 | tee DU1/output/v3_run.log
 """
 
-import os
 import argparse
-import json, math, os, re, time
+import json, os, re, time
 from collections import Counter, defaultdict
-from typing import Dict, List, Tuple, Any, Optional
+from typing import Dict, List, Tuple
 import requests
 
-# ─────────────────────────────────────────────
-# CONFIG
-# ─────────────────────────────────────────────
+# Config
 QUERIES_PATH    = "data/test_task3_norm.jsonl"
 CIVIL_INDEX     = "system/cache/civil_index_v2.json"
 BM25_CACHE      = "system/cache/du1_bm25_test.jsonl"
@@ -39,8 +29,8 @@ OUT_SUB_DIR     = "DU1"
 RUN_TAG         = "DU1"
 
 # Models
-RERANKER_MODEL  = "qwen/qwen-2.5-7b-instruct"    # cheap + fast, for ranking only
-ENTAIL_MODEL    = "qwen/qwen-2.5-72b-instruct"   # powerful, for Y/N decision
+RERANKER_MODEL  = "qwen/qwen-2.5-7b-instruct"    # smaller reranking model
+ENTAIL_MODEL    = "qwen/qwen-2.5-72b-instruct"   # larger model for the Y/N decision
 RERANK_TOP      = 10   # rerank only top-10 (shorter prompt, faster, avoids timeout)
 
 # Dynamic K parameters
@@ -50,7 +40,7 @@ DYN_K_GAP       = 0.20  # 20% relative drop in RRF score = elbow
 
 # Entailment parameters  
 RRF_K           = 60
-ENTAIL_TOPM     = 15    # top articles after reranking (was 25 in v2 before reranking)
+ENTAIL_TOPM     = 15    # top articles after reranking
 SC_SAMPLES      = 5
 SC_TEMP         = 0.4
 MIN_CONF        = 70
@@ -99,9 +89,7 @@ PROFILES = {
     },
 }
 
-# ─────────────────────────────────────────────
-# HELPERS
-# ─────────────────────────────────────────────
+# Helpers
 def read_jsonl(path):
     with open(path, encoding="utf-8") as f:
         for line in f:
@@ -158,9 +146,7 @@ def apply_profile(args):
     return args
 
 
-# ─────────────────────────────────────────────
-# STEP 1: 3-way RRF with scores
-# ─────────────────────────────────────────────
+# Step 1: 3-way RRF with scores
 def rrf_fuse_with_scores(runs: List[Dict[str, List[str]]], qids: List[str],
                           rrf_k: int = 60, max_len: int = 30
                           ) -> Dict[str, List[Tuple[str, float]]]:
@@ -176,9 +162,7 @@ def rrf_fuse_with_scores(runs: List[Dict[str, List[str]]], qids: List[str],
     return fused
 
 
-# ─────────────────────────────────────────────
-# STEP 2: Dynamic K elbow detection
-# ─────────────────────────────────────────────
+# Step 2: dynamic-K elbow detection
 def dynamic_k(scored: List[Tuple[str, float]],
               min_k: int = 3, max_k: int = 30,
               gap_threshold: float = 0.20) -> int:
@@ -192,7 +176,7 @@ def dynamic_k(scored: List[Tuple[str, float]],
     if n <= min_k:
         return n
 
-    for i in range(min_k - 1, n - 1):  # i is 0-indexed → K = i+1
+    for i in range(min_k - 1, n - 1):  # i is 0-indexed, so K = i+1
         if scores[i] > 1e-9:
             relative_drop = (scores[i] - scores[i + 1]) / scores[i]
             if relative_drop >= gap_threshold:
@@ -214,9 +198,7 @@ def apply_dynamic_k(fused: Dict[str, List[Tuple[str, float]]],
     return retrieval, k_values
 
 
-# ─────────────────────────────────────────────
-# STEP 3: LLM Reranking (Qwen2.5-7B, listwise)
-# ─────────────────────────────────────────────
+# Step 3: listwise reranking (Qwen2.5-7B)
 RERANK_SYSTEM = (
     "あなたは日本の民法の検索エキスパートです。"
     "与えられた条文候補を、設問（問い）への法的関連度が高い順に並べ替えてください。"
@@ -285,14 +267,14 @@ def llm_call(api_key: str, model: str, system: str, user: str,
 
 def run_reranking(queries, retrieval_full: Dict[str, List[str]],
                   text_map, cap_map, api_key: str, out_path: str,
-                  top_n: int = 10) -> Dict[str, List[str]]:
+                  top_n: int = 10, sleep_sec: float = SLEEP) -> Dict[str, List[str]]:
     """Rerank the top-N retrieved articles per query for context ordering.
     After reranking top-N, the remaining articles are appended in original RRF order."""
     done = {}
     if os.path.exists(out_path):
         for o in read_jsonl(out_path):
             done[o["id"]] = o["reranked_arts"]
-        print(f"[rerank] Resuming — {len(done)} done")
+        print(f"[rerank] Resuming, {len(done)} done")
 
     os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
     results = dict(done)
@@ -318,7 +300,7 @@ def run_reranking(queries, retrieval_full: Dict[str, List[str]],
                 ranking = parse_ranking(resp, len(arts))
                 reranked = [arts[i - 1] for i in ranking]
             except Exception as e:
-                print(f"  [WARN rerank] {qid}: {e} — keeping original order")
+                print(f"  [WARN rerank] {qid}: {e}, keeping original order")
                 reranked = arts  # fallback
 
             # Append tail (articles beyond top_n) in original RRF order
@@ -329,15 +311,13 @@ def run_reranking(queries, retrieval_full: Dict[str, List[str]],
             fout.write(json.dumps({"id": qid, "reranked_arts": full_reranked},
                                    ensure_ascii=False) + "\n")
             print(f"  [rerank] {qid}: rank1={reranked[0] if reranked else 'none'} (was {arts[0] if arts else 'none'})")
-            time.sleep(SLEEP)
+            time.sleep(sleep_sec)
 
     print(f"[rerank] Done. {len(results)} queries reranked.")
     return results
 
 
-# ─────────────────────────────────────────────
-# STEP 4: Entailment (Qwen2.5-72B, top-15 reranked)
-# ─────────────────────────────────────────────
+# Step 4: entailment (Qwen2.5-72B, top-15 reranked)
 ENTAIL_SYSTEM = """\
 あなたは日本の民法に精通した法務エキスパートです。与えられた「条文の断片」のみを根拠として、問いに対する「正誤（Entailment）」を判定してください。
 
@@ -419,7 +399,7 @@ def run_entailment(queries, reranked: Dict[str, List[str]],
     done = {}
     if os.path.exists(out_path):
         for o in read_jsonl(out_path): done[o["id"]] = o
-        print(f"[entail] Resuming — {len(done)} done")
+        print(f"[entail] Resuming, {len(done)} done")
 
     os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
     results = dict(done)
@@ -493,9 +473,7 @@ def run_entailment(queries, reranked: Dict[str, List[str]],
     return results
 
 
-# ─────────────────────────────────────────────
-# STEP 5: Export submission files
-# ─────────────────────────────────────────────
+# Step 5: export submission files
 def export(queries, retrieval_dynK, predictions, run_tag, trec_path, ent_path):
     os.makedirs(os.path.dirname(trec_path) or ".", exist_ok=True)
     os.makedirs(os.path.dirname(ent_path)  or ".", exist_ok=True)
@@ -510,7 +488,7 @@ def export(queries, retrieval_dynK, predictions, run_tag, trec_path, ent_path):
         n_lines = 0
         for q in queries:
             qid  = q["id"]
-            arts = retrieval_dynK.get(qid, [])   # ← Dynamic K set
+            arts = retrieval_dynK.get(qid, [])   # dynamic-K set
             for rank, art in enumerate(arts, 1):
                 ft.write(f"{qid} Q0 {art} {rank} {1.0/rank:.6f} {run_tag}\n")
                 n_lines += 1
@@ -519,9 +497,7 @@ def export(queries, retrieval_dynK, predictions, run_tag, trec_path, ent_path):
     print(f"[export] Retrieval : {trec_path} ({n_lines} lines)")
 
 
-# ─────────────────────────────────────────────
-# MAIN
-# ─────────────────────────────────────────────
+# Main
 def main():
     args = apply_profile(parse_args())
     api_key = os.environ.get("OPENROUTER_API_KEY","").strip()
@@ -575,7 +551,7 @@ def main():
     k_dist = Counter(k_values.values())
     avg_k  = sum(k_values.values()) / len(k_values)
     print(f"\n[Dynamic K] K distribution: {dict(sorted(k_dist.items()))}")
-    print(f"[Dynamic K] Avg K* = {avg_k:.1f} (was fixed 30 in v2)")
+    print(f"[Dynamic K] Avg K* = {avg_k:.1f}")
 
     # Save Dynamic K retrieval for export
     os.makedirs(os.path.dirname(out_retrieval) or ".", exist_ok=True)
@@ -585,10 +561,11 @@ def main():
                                  "k": k_values.get(qid, 0)}, ensure_ascii=False) + "\n")
 
     # Step 3: LLM Reranking of FULL top-30 (for entailment context ordering)
-    # Use full top-30 (not dynamic K) for reranking — we want all candidates considered
+    # Use full top-30 (not dynamic K) for reranking so all candidates are considered
     retrieval_full = {qid: [art for art, _ in scored] for qid, scored in fused_scored.items()}
     reranked = run_reranking(
-        queries, retrieval_full, text_map, cap_map, api_key, out_reranked, top_n=args.rerank_top
+        queries, retrieval_full, text_map, cap_map, api_key, out_reranked,
+        top_n=args.rerank_top, sleep_sec=args.sleep
     )
 
     # Step 4: Entailment with reranked context
@@ -607,7 +584,7 @@ def main():
         exception_sc_policy=args.exception_sc_policy,
     )
 
-    # Step 5: Export — use Dynamic K for retrieval, reranked for entailment
+    # Step 5: export, dynamic K for retrieval and reranked order for entailment
     export(queries, retrieval_dynK, predictions, safe_tag, out_trec, out_ent_file)
 
     # Final validation summary
@@ -621,7 +598,7 @@ def main():
     q_ent = set(l.split()[0] for l in ent_lines)
     print(f"Entailment: {len(ent_lines)} rows, Y={y}, N={n}, bad={len(bad)}")
     print(f"Retrieval:  {len(ret_lines)} lines, {len(q_ret)} queries, match={q_ret==q_ent}")
-    print(f"✓ DU1-v3 complete." if not bad and q_ret==q_ent else "✗ ERRORS FOUND")
+    print("[done] DU1 complete." if not bad and q_ret==q_ent else "[errors found]")
 
 
 if __name__ == "__main__":

@@ -22,9 +22,9 @@ Because retrieval recall is already high, the entailment model is the limiting f
 
 The open-weight pipeline is in [`src/`](src):
 
-- `run_du1_v3_pipeline.py` is the end-to-end run: BM25 retrieval over the Civil Code, a Qwen2.5-7B listwise reranking pass, and a Qwen2.5-72B yes-or-no entailment decision.
-- `qwen_structured.py` is the official entailment step on its own, Qwen2.5-72B returning a structured judgement at temperature zero.
-- `eval_task3_official.py` scores a run against the gold labels in the official format.
+- `qwen_structured.py` is the official DU2 entailment step over the retrieval described in the Method section: BM25 over character bigrams returns the top articles, a regular-expression pass then follows cross-references between articles, and Qwen2.5-72B returns a structured judgement at temperature zero. This is the script that writes the entailment jsonl.
+- `run_du1_v3_pipeline.py` is the separate DU1 end-to-end run. It does not use bigram BM25 alone; it fuses BM25, TF-IDF and BGE-M3 by reciprocal-rank fusion, applies a dynamic-K cutoff, adds a Qwen2.5-7B listwise reranking pass to order the context, and then runs the same Qwen2.5-72B yes-or-no entailment decision.
+- `eval_task3_official.py` scores the entailment jsonl that `qwen_structured.py` writes against the gold labels in the official format.
 
 The models are open-weight and are served through OpenRouter, so set your own key first:
 

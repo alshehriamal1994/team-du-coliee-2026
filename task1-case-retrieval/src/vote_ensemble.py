@@ -4,7 +4,7 @@ Vote ensemble across all available runs.
 For each query, counts how many runs predict each candidate,
 then picks the top-5 by vote count (ties broken by best run's rank).
 
-No training needed — just combines existing predictions.
+No training needed, just combines existing predictions.
 
 Usage: python3 vote_ensemble.py
 """
@@ -54,22 +54,22 @@ def evaluate(preds, gold):
     arr = np.array(pqf)
     return {"f1": mf, "p": mp, "r": mr, "tp": tp, "zero_f1": int((arr==0).sum())}
 
-# ── Load gold ──
+# load gold
 with open(GOLD_PATH) as f:
     gold_raw = json.load(f)
 gold = {norm_id(k): [norm_id(v) for v in vs] for k, vs in gold_raw.items()}
 print(f"Gold: {len(gold)} queries, {sum(len(v) for v in gold.values())} relevant\n")
 
-# ── Load all available runs ──
+# load all available runs
 runs = {}
 
-# Competition submissions
+# competition submissions
 for name in ["DU1", "DU2", "DU3"]:
     p = BASE / "FINAL_SUBMISSION" / f"{name}.txt"
     if p.exists():
         runs[name] = load_submission(p)
 
-# Post-competition runs (step8 predictions)
+# post-competition runs (step8 predictions)
 for name in ["du4", "du5", "du6"]:
     p = BASE / "runs" / "du4_bigger" / name / "step8_final_predictions.json"
     if p.exists():
@@ -87,7 +87,7 @@ for name in ["du7", "du8", "du9"]:
 
 print(f"Loaded {len(runs)} runs: {', '.join(runs.keys())}\n")
 
-# ── Evaluate individual runs ──
+# evaluate individual runs
 print("Individual run performance:")
 print(f"  {'Run':<6} {'F1':>7} {'P':>7} {'R':>7} {'Zero':>5}")
 print("  " + "-" * 35)
@@ -97,11 +97,11 @@ for name, preds in runs.items():
     run_scores[name] = m["f1"]
     print(f"  {name:<6} {m['f1']:.4f}  {m['p']:.4f}  {m['r']:.4f}  {m['zero_f1']:>4}")
 
-# Sort runs by F1 (best first) for tie-breaking
+# sort runs by F1 (best first) for tie-breaking
 runs_sorted = sorted(runs.keys(), key=lambda n: run_scores[n], reverse=True)
 print(f"\nRun ranking by F1: {' > '.join(runs_sorted)}\n")
 
-# ── Vote ensembles ──
+# vote ensembles
 def vote_ensemble(run_names, runs_dict, top_k=5):
     """For each query, count votes across runs. Break ties by best run's rank position."""
     all_qids = set()
@@ -176,7 +176,7 @@ for combo_name, combo_runs in combos:
 
 print(f"\n  Best ensemble: {best_name} (F1={best_f1:.4f})")
 
-# ── Save best ensemble ──
+# save best ensemble
 out_path = BASE / "runs" / "vote_ensemble_best.json"
 with open(out_path, "w") as f:
     json.dump(best_preds, f, indent=2)

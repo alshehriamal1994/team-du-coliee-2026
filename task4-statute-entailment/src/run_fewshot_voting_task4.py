@@ -1,23 +1,26 @@
 #!/usr/bin/env python3
 """
-Few-shot prompting with similarity-based example selection + majority voting.
-Based on KIS team approach (COLIEE 2025 winner, 90.41%).
+Few-shot prompting with similarity-based example selection and majority voting.
+
+This is an exploratory self-consistency baseline. The example below uses a small
+ELYZA 8B model, which is not one of the nine experts in the panel. The self-consistency
+expert in the submitted system is Qwen3-235B with k=3, as described in prompts.md.
 
 For each test question:
 1. Find most similar training examples using embedding similarity
 2. Select balanced Y/N examples from top-k similar
-3. Run inference K times with temperature sampling
+3. Run inference k times with temperature sampling
 4. Majority vote for final prediction
 
 Usage:
-  python3 scripts/run_fewshot_voting_task4.py \
+  python3 src/run_fewshot_voting_task4.py \
     --model-path models/elyza/Llama-3-ELYZA-JP-8B \
     --train-jsonl experiments/datasets/H30_formal/train.jsonl \
     --input-jsonl experiments/datasets/H30_formal/test.jsonl \
-    --civil-xml DATA/train2026(1)/2026/civil.xml \
+    --civil-xml ../data/task4/civil_code.xml \
     --run-tag FSVOTE-ELYZA-H30 \
     --output experiments/runs/task4-H30.FSVOTE-ELYZA-H30 \
-    --few-shot-n 4 --num-votes 5
+    --few-shot-n 4 --num-votes 3
 """
 
 from __future__ import annotations
@@ -86,7 +89,7 @@ def load_done_ids(path: Path) -> set[str]:
     return done
 
 
-# ─── Prompt ───
+# prompt
 
 SYSTEM_PROMPT = """あなたは日本の民法に関する法律専門家です。
 与えられた条文（t1）だけを根拠として、陳述文（t2）が論理的に導かれるかどうかを判断してください。
@@ -155,7 +158,7 @@ def parse_label(raw: str) -> str:
     return "N"
 
 
-# ─── Similarity-based example selection ───
+# similarity-based example selection
 
 class FewShotSelector:
     """Select balanced few-shot examples based on embedding similarity."""
@@ -229,11 +232,11 @@ def main() -> None:
     parser.add_argument("--train-jsonl", type=Path, required=True)
     parser.add_argument("--input-jsonl", type=Path, required=True)
     parser.add_argument("--civil-xml", type=Path,
-                        default=Path("DATA/train2026(1)/2026/civil.xml"))
+                        default=Path("../data/task4/civil_code.xml"))
     parser.add_argument("--run-tag", required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--few-shot-n", type=int, default=4)
-    parser.add_argument("--num-votes", type=int, default=5)
+    parser.add_argument("--num-votes", type=int, default=3)
     parser.add_argument("--temperature", type=float, default=0.7)
     parser.add_argument("--max-new-tokens", type=int, default=256)
     parser.add_argument("--load-in-4bit", action="store_true")

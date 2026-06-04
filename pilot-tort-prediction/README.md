@@ -25,7 +25,7 @@ The contribution of the bridge is visible in the ablation. A single BERT reaches
 
 The submitted system is the integrated solver in [`solver.py`](solver.py), with its support package in [`src/`](src). The solver loads the trained models, runs the five views, combines them with the stacker, applies the claim-to-verdict bridge, and makes the coherence repairs near the decision threshold. It implements the official LJPJT-26 task interface and is run through the task template, which provides each case as input.
 
-The solver expects the trained model artefacts and the case data as local inputs, placed relative to the task folder. Both come from the pilot data and from our own training, and are not included here.
+The solver expects an `app.ini` configuration file and the trained model artefacts under `models/` to be present before it can be imported and run, alongside the case data as local inputs, all placed relative to the task folder. These come from the pilot data and from our own training, and are not included here.
 
 This was an unofficial entry, as noted above. The many training scripts behind the individual views are part of our working tree and are not all reproduced here. Scripts from our exploration that called external services are left out, in keeping with the rest of this repository.
 

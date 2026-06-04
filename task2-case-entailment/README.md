@@ -23,14 +23,21 @@ Changing the instruction to select every paragraph that entails the fragment rem
 
 ## Running it
 
-The prompt study is in [`src/run_multiselect_experiment.py`](src/run_multiselect_experiment.py). It re-runs the three language models under the two prompts, the original single-selection instruction and the multi-select instruction, over the cached reranker scores, and reports the F1 of each. The models are open-weight and are served through OpenRouter, so set your own key in the environment first:
+The prompt study is in [`src/run_multiselect_experiment.py`](src/run_multiselect_experiment.py). It runs the three language models under the multi-select instruction over the cached reranker scores and reports the F1 of each. The single-selection results it compares against are read from the cached official run rather than recomputed. The models are open-weight and are served through OpenRouter, so set your own key in the environment first:
 
 ```
 export OPENROUTER_API_KEY=...
 python src/run_multiselect_experiment.py
 ```
 
-It reads the test data, the gold labels, and the cached reranker and few-shot scores as local inputs, placed relative to the task folder. These come from the licensed COLIEE data and from our own runs, and are not included here.
+It reads several local inputs, placed relative to the task folder:
+
+- the cached reranker scores (`cache/runs_final_2026/test_cache_monot5v2.pkl`) and few-shot examples (`cache/runs_experiments/fewshot_cache_test.json`),
+- the gold labels (`../data/task2/task2_test_labels_2026.json`),
+- the per-case query and paragraph text under `../data/task2/`,
+- the cached official runs under `predictions/` (DU1, DU2, DU3).
+
+These come from the licensed COLIEE data and from our own runs, and are not included here.
 
 The other scripts are the analysis behind the result. `diagnostics.py`, `error_analysis.py`, and `post_hoc_experiments.py` compare the runs against the gold labels and quantify how many paragraphs the single-selection rule cost us.
 

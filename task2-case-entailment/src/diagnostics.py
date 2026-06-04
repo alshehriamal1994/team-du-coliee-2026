@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
-"""
-Deep diagnostic analysis: understanding exactly what happened and why.
-"""
+"""Diagnostic analysis of the Task 2 submissions."""
 import json
 import pickle
 import numpy as np
 from collections import defaultdict, Counter
 
-# ============================================================
-# LOAD DATA
-# ============================================================
-with open("./task2_test_labels_2026(1).json") as f:
+# Load data
+with open("../data/task2/task2_test_labels_2026.json") as f:
     raw_gold = json.load(f)
 gold = {}
 for cid, val in raw_gold.items():
@@ -66,62 +62,50 @@ def evaluate(preds):
     micro_f1 = 2*micro_p*micro_r/(micro_p+micro_r) if (micro_p+micro_r) else 0
     return micro_p, micro_r, micro_f1, correct, retrieved
 
-# ============================================================
-# ANALYSIS A: Dev vs Test gold distribution — the fundamental mismatch
-# ============================================================
-print("=" * 80)
-print("  A. THE FUNDAMENTAL MISMATCH: Dev vs Test Gold Distribution")
-print("=" * 80)
+# A. Dev vs test gold distribution
+print("  A. Dev vs test gold distribution")
 # Dev set had 100 cases, 122 relevant = 1.22 avg
 # Test set has 100 cases, 294 relevant = 2.94 avg
 print("""
-  The dev set you optimised on:
-    - 100 cases, 122 relevant paragraphs → 1.22 gold per case
+  Development set:
+    - 100 cases, 122 relevant paragraphs, 1.22 gold per case
     - Most cases had exactly 1 gold paragraph
-    - Forced-top-1 was a RATIONAL strategy: predict 1, get 1 right = perfect
+    - Forced-top-1 maximised F1 under this distribution
 
-  The test set you were evaluated on:
-    - 100 cases, 294 relevant paragraphs → 2.94 gold per case
+  Test set:
+    - 100 cases, 294 relevant paragraphs, 2.94 gold per case
     - Only 5 cases (5%) had 1 gold paragraph
     - 43 cases (43%) had exactly 3 gold paragraphs
     - 25 cases (25%) had 4-6 gold paragraphs
 
-  This means the task FUNDAMENTALLY CHANGED between dev and test.
-  You designed a precision-optimised sniper rifle, but the test needed a shotgun.
+  The gold distribution differs between development and test. The development
+  set rewarded precision; the test set rewards recall.
 """)
 
-# ============================================================
-# ANALYSIS B: Decomposing the F1 gap — where exactly are the losses?
-# ============================================================
-print("=" * 80)
-print("  B. DECOMPOSING THE F1 GAP: Where exactly does DU2 lose to the winner?")
-print("=" * 80)
+# B. Decomposing the F1 gap
+print("  B. Decomposing the F1 gap between DU2 and the winner")
 
 # DU2: P=0.7529, R=0.2177, F1=0.3377
 # IAI:  P=0.4501, R=0.5374, F1=0.4899
 print("""
-  DU2 (your best):   P=0.7529  R=0.2177  F1=0.3377  (64 correct / 85 predicted)
+  DU2 (best DU run): P=0.7529  R=0.2177  F1=0.3377  (64 correct / 85 predicted)
   IAI (winner):      P=0.4501  R=0.5374  F1=0.4899
 
-  The gap is NOT precision. You WIN on precision by +0.30.
-  The gap IS recall. You lose by -0.32.
+  The gap is in recall, not precision. DU2 leads on precision by +0.30 and
+  trails on recall by -0.32.
 
-  Let's understand what that means in concrete numbers:
-    - You correctly identified 64 paragraphs
-    - The winner correctly identified ~158 paragraphs (0.5374 × 294)
-    - That's 94 MORE correct paragraphs than you
-    - But the winner also retrieved ~351 predictions (158/0.4501)
-    - So the winner predicted ~3.5 paragraphs per case vs your ~0.85
+  In concrete numbers:
+    - DU2 identified 64 correct paragraphs
+    - The winner identified about 158 correct paragraphs (0.5374 x 294)
+    - That is 94 more correct paragraphs than DU2
+    - The winner retrieved about 351 predictions (158/0.4501)
+    - So the winner predicted about 3.5 paragraphs per case against DU2's 0.85
 
-  The winner traded precision for recall — and at 2.94 gold/case, that's optimal.
+  The winner traded precision for recall, which at 2.94 gold per case is optimal.
 """)
 
-# ============================================================
-# ANALYSIS C: Case-by-case — what DU2 gets right vs wrong
-# ============================================================
-print("=" * 80)
-print("  C. CASE-BY-CASE DIAGNOSTIC: Your 3 categories of cases")
-print("=" * 80)
+# C. Case-by-case categories
+print("  C. Case-by-case diagnostic: three categories of DU2 cases")
 
 correct_cases = []  # Predicted correctly (hit at least 1 gold)
 wrong_cases = []    # Predicted but wrong
@@ -137,9 +121,9 @@ for cid in ALL_CASES:
     else:
         wrong_cases.append(cid)
 
-print(f"  CORRECT predictions (hit ≥1 gold): {len(correct_cases)} cases")
-print(f"  WRONG predictions (missed all gold): {len(wrong_cases)} cases")
-print(f"  SKIPPED ('none' returned):           {len(skipped_cases)} cases")
+print(f"  Correct predictions (hit at least 1 gold): {len(correct_cases)} cases")
+print(f"  Wrong predictions (missed all gold):        {len(wrong_cases)} cases")
+print(f"  Skipped ('none' returned):                  {len(skipped_cases)} cases")
 print()
 
 # For correct cases: how many gold did we miss?
@@ -148,25 +132,25 @@ correct_total_gold = 0
 for cid in correct_cases:
     g = gold[cid]
     correct_total_gold += len(g)
-    correct_missed += len(g) - 1  # We predicted 1, got it right, but missed the rest
-print(f"  In the {len(correct_cases)} CORRECT cases:")
+    correct_missed += len(g) - 1  # one predicted and correct, the rest missed
+print(f"  In the {len(correct_cases)} correct cases:")
 print(f"    Total gold paragraphs: {correct_total_gold}")
-print(f"    We found: {len(correct_cases)} (always 1 per case)")
-print(f"    We MISSED: {correct_missed} gold paragraphs (because forced-top-1)")
-print(f"    → Even when we're RIGHT, we only capture {len(correct_cases)/correct_total_gold*100:.1f}% of the gold")
+print(f"    Found: {len(correct_cases)} (one per case)")
+print(f"    Missed: {correct_missed} gold paragraphs (forced-top-1)")
+print(f"    Even when correct, only {len(correct_cases)/correct_total_gold*100:.1f}% of the gold is captured")
 print()
 
-# For skipped cases: what gold did we leave on the table?
+# For skipped cases: gold paragraphs not attempted
 skipped_gold = sum(len(gold[c]) for c in skipped_cases)
-print(f"  In the {len(skipped_cases)} SKIPPED cases:")
-print(f"    Gold paragraphs we never even attempted: {skipped_gold}")
-print(f"    These are PURE LOSS — 0 recall, 0 precision contribution")
+print(f"  In the {len(skipped_cases)} skipped cases:")
+print(f"    Gold paragraphs not attempted: {skipped_gold}")
+print(f"    These contribute nothing to recall or precision")
 for cid in skipped_cases:
-    print(f"    Case {cid}: {len(gold[cid])} gold paragraphs abandoned")
+    print(f"    Case {cid}: {len(gold[cid])} gold paragraphs not attempted")
 print()
 
-# For wrong cases: how far off were we?
-print(f"  In the {len(wrong_cases)} WRONG cases:")
+# For wrong cases: distance from gold
+print(f"  In the {len(wrong_cases)} wrong cases:")
 wrong_gold = sum(len(gold[c]) for c in wrong_cases)
 print(f"    Gold paragraphs: {wrong_gold}")
 for cid in wrong_cases:
@@ -178,15 +162,12 @@ for cid in wrong_cases:
         for gid in g:
             if abs(int(pid) - int(gid)) <= 2:
                 near = True
-    marker = " ← NEAR-MISS" if near else ""
+    marker = " [near-miss]" if near else ""
     print(f"    Case {cid}: predicted={p} gold={g}{marker}")
 
-# ============================================================
-# ANALYSIS D: The reranker sees the right answers — can we recover them?
-# ============================================================
-print("\n" + "=" * 80)
-print("  D. THE RERANKER KNOWS: Where do gold paragraphs rank in the ensemble?")
-print("=" * 80)
+# D. Where gold paragraphs rank in the reranker ensemble
+print()
+print("  D. Where gold paragraphs rank in the reranker ensemble")
 
 gold_ranks = []
 gold_rank_dist = Counter()
@@ -225,27 +206,23 @@ for cid in ALL_CASES:
             gold_ranks.append(999)
             gold_rank_dist['not in BM25'] += 1
 
-print(f"\n  Where do the {TOTAL_RELEVANT} gold paragraphs rank in your reranker output?")
+print(f"\n  Rank of the {TOTAL_RELEVANT} gold paragraphs in the reranker output")
 print(f"  (MonoT5-v2 + Qwen3, w=0.8)")
 print()
 for bucket in ['top-3', '4-5', '6-10', '11-20', '21-50', '51+', 'not in BM25']:
     count = gold_rank_dist.get(bucket, 0)
     pct = count / TOTAL_RELEVANT * 100
-    bar = '█' * int(pct / 2)
-    print(f"    {bucket:>12s}: {count:3d} ({pct:5.1f}%) {bar}")
+    print(f"    {bucket:>12s}: {count:3d} ({pct:5.1f}%)")
 
 print(f"\n  Median gold paragraph rank: {int(np.median(gold_ranks))}")
 print(f"  Mean gold paragraph rank:   {np.mean(gold_ranks):.1f}")
 
-# ============================================================
-# ANALYSIS E: The "none" problem — why did DU2 skip 15 cases?
-# ============================================================
-print("\n" + "=" * 80)
-print("  E. THE 'NONE' PROBLEM: Why DU2 skipped 15 cases")
-print("=" * 80)
+# E. The 'none' cases DU2 skipped
+print()
+print("  E. The 'none' cases DU2 skipped")
 
 # Check what the other models said for these skipped cases
-print(f"\n  DU2 skipped {len(skipped_cases)} cases. What did other models predict?")
+print(f"\n  DU2 skipped {len(skipped_cases)} cases. Other model predictions:")
 print(f"  {'Case':>6s}  {'V3_rag':>8s}  {'R1_rag':>8s}  {'V3_zero':>8s}  {'R1_zero':>8s}  {'LLaMA':>8s}  {'Gold':>20s}  {'Any_hit':>8s}")
 
 total_recoverable = 0
@@ -269,14 +246,11 @@ for cid in skipped_cases:
     print(f"  {cid:>6s}  {','.join(v3r):>8s}  {','.join(r1r):>8s}  {','.join(v3z):>8s}  {','.join(r1z):>8s}  {','.join(llm):>8s}  {','.join(g):>20s}  {'YES' if any_correct else 'no':>8s}")
 
 print(f"\n  Of {len(skipped_cases)} skipped cases, {total_recoverable} had a correct answer from another model")
-print(f"  → Simple fallback to ANY other model would recover these")
+print(f"  A fallback to any other model would recover these")
 
-# ============================================================
-# ANALYSIS F: Score distribution analysis — confidence vs correctness
-# ============================================================
-print("\n" + "=" * 80)
-print("  F. CONFIDENCE vs CORRECTNESS: Do high reranker scores predict gold?")
-print("=" * 80)
+# F. Confidence vs correctness
+print()
+print("  F. Confidence vs correctness: do high reranker scores predict gold?")
 
 # For each case, get the ensemble score of the top-1 candidate
 # and check if it's gold
@@ -306,17 +280,14 @@ for cid in ALL_CASES:
     else:
         top1_scores_wrong.append((top1_score, gap))
 
-print(f"\n  Reranker top-1 is CORRECT in {len(top1_scores_correct)} cases, WRONG in {len(top1_scores_wrong)} cases")
-print(f"  → Reranker top-1 accuracy: {len(top1_scores_correct)/100*100:.1f}%")
-print(f"\n  When CORRECT:  avg_score={np.mean([s for s,g in top1_scores_correct]):.4f}  avg_gap={np.mean([g for s,g in top1_scores_correct]):.4f}")
-print(f"  When WRONG:    avg_score={np.mean([s for s,g in top1_scores_wrong]):.4f}  avg_gap={np.mean([g for s,g in top1_scores_wrong]):.4f}")
+print(f"\n  Reranker top-1 is correct in {len(top1_scores_correct)} cases, wrong in {len(top1_scores_wrong)} cases")
+print(f"  Reranker top-1 accuracy: {len(top1_scores_correct)/100*100:.1f}%")
+print(f"\n  When correct:  avg_score={np.mean([s for s,g in top1_scores_correct]):.4f}  avg_gap={np.mean([g for s,g in top1_scores_correct]):.4f}")
+print(f"  When wrong:    avg_score={np.mean([s for s,g in top1_scores_wrong]):.4f}  avg_gap={np.mean([g for s,g in top1_scores_wrong]):.4f}")
 
-# ============================================================
-# ANALYSIS G: What does "predicting 3" look like? Detailed breakdown
-# ============================================================
-print("\n" + "=" * 80)
-print("  G. THE FIX: What happens when we predict 3 paragraphs?")
-print("=" * 80)
+# G. Predicting 3 paragraphs per case
+print()
+print("  G. Predicting 3 paragraphs per case")
 
 # Strategy: R1_rag pick + fill to 3 from reranker
 def get_reranker_ranked(cid, w_m5=0.8):
@@ -352,16 +323,16 @@ for target_n in [2, 3, 4]:
                 result.add(pid)
             preds[cid] = result
         p, r, f1, c, ret = evaluate(preds)
-        strategies[f"{llm_name} + fill→{target_n}"] = (f1, p, r, c, ret)
+        strategies[f"{llm_name} + fill to {target_n}"] = (f1, p, r, c, ret)
 
 # Strategy B: Union of 2 LLMs + fill
 for target_n in [2, 3, 4]:
     for combo_name, runs in [
-        ("V3r∪R1r", [v3_rag, r1_rag]),
-        ("V3z∪R1z", [v3_zero, r1_zero]),
-        ("V3r∪R1z", [v3_rag, r1_zero]),
-        ("V3z∪R1r", [v3_zero, r1_rag]),
-        ("V3r∪R1r∪LL", [v3_rag, r1_rag, llama_zero]),
+        ("V3r+R1r", [v3_rag, r1_rag]),
+        ("V3z+R1z", [v3_zero, r1_zero]),
+        ("V3r+R1z", [v3_rag, r1_zero]),
+        ("V3z+R1r", [v3_zero, r1_rag]),
+        ("V3r+R1r+LL", [v3_rag, r1_rag, llama_zero]),
     ]:
         preds = {}
         for cid in ALL_CASES:
@@ -376,7 +347,7 @@ for target_n in [2, 3, 4]:
                 result.add(pid)
             preds[cid] = result
         p, r, f1, c, ret = evaluate(preds)
-        strategies[f"{combo_name} + fill→{target_n}"] = (f1, p, r, c, ret)
+        strategies[f"{combo_name} + fill to {target_n}"] = (f1, p, r, c, ret)
 
 # Strategy C: Pure reranker
 for n in [2, 3, 4]:
@@ -387,7 +358,7 @@ for n in [2, 3, 4]:
     p, r, f1, c, ret = evaluate(preds)
     strategies[f"Pure reranker top-{n}"] = (f1, p, r, c, ret)
 
-# Strategy D: Adaptive — use score gap to decide how many
+# Strategy D: adaptive, use score gap to decide how many
 for gap_thresh in [0.15, 0.20, 0.25, 0.30]:
     preds = {}
     for cid in ALL_CASES:
@@ -414,17 +385,14 @@ winner_f1 = 0.4899
 sorted_strats = sorted(strategies.items(), key=lambda x: -x[1][0])
 for name, (f1, p, r, c, ret) in sorted_strats[:25]:
     delta = f1 - winner_f1
-    marker = " ★" if delta >= 0 else ""
+    marker = " [beats]" if delta >= 0 else ""
     print(f"  {name:50s}  {p:.4f}  {r:.4f}  {f1:.4f}  {c:5d}  {ret:5d}{marker}")
 
 print(f"\n  Competition winner (IAI run2):                       0.4501  0.5374  0.4899")
 
-# ============================================================
-# ANALYSIS H: The best achievable — step by step improvement
-# ============================================================
-print("\n" + "=" * 80)
-print("  H. STEP-BY-STEP: How each improvement adds up")
-print("=" * 80)
+# H. Step-by-step improvements
+print()
+print("  H. Step-by-step: how each improvement adds up")
 
 # Start from DU2 and improve incrementally
 print(f"\n  Starting point: DU2 (submitted)")
@@ -520,7 +488,7 @@ for cid in ALL_CASES:
         result.add(pid)
     step5[cid] = result
 
-print(f"\n  Step 5: Union V3_rag∪R1_rag + fill to 3")
+print(f"\n  Step 5: Union V3_rag and R1_rag + fill to 3")
 p, r, f1, c, ret = evaluate(step5)
 print(f"    P={p:.4f}  R={r:.4f}  F1={f1:.4f}  (correct={c}, retrieved={ret})")
 
@@ -549,20 +517,17 @@ print(f"    P={p:.4f}  R={r:.4f}  F1={f1:.4f}  (correct={c}, retrieved={ret})")
 
 print(f"\n  Competition winner: P=0.4501  R=0.5374  F1=0.4899")
 
-# ============================================================
-# ANALYSIS I: What would be needed to actually beat the winner?
-# ============================================================
-print("\n" + "=" * 80)
-print("  I. WHAT WOULD IT TAKE TO BEAT THE WINNER?")
-print("=" * 80)
+# I. Requirements to beat the winner
+print()
+print("  I. What it would take to beat the winner")
 
 # If we keep P=0.75 (our strength), what R do we need?
 for target_f1 in [0.49, 0.50, 0.55]:
-    # F1 = 2PR/(P+R) → R = F1*P / (2P - F1)
+    # F1 = 2PR/(P+R), so R = F1*P / (2P - F1)
     P = 0.75
     R_needed = target_f1 * P / (2 * P - target_f1)
     preds_needed = R_needed * TOTAL_RELEVANT
-    print(f"  To reach F1={target_f1:.2f} at P=0.75: need R≥{R_needed:.4f} → {preds_needed:.0f} correct paragraphs")
+    print(f"  To reach F1={target_f1:.2f} at P=0.75: need R>={R_needed:.4f}, {preds_needed:.0f} correct paragraphs")
 
 print()
 # If we keep P=0.50 (more realistic for multi-select), what R?
@@ -570,7 +535,7 @@ for target_f1 in [0.49, 0.50, 0.55]:
     P = 0.50
     R_needed = target_f1 * P / (2 * P - target_f1)
     preds_needed = R_needed * TOTAL_RELEVANT
-    print(f"  To reach F1={target_f1:.2f} at P=0.50: need R≥{R_needed:.4f} → {preds_needed:.0f} correct paragraphs")
+    print(f"  To reach F1={target_f1:.2f} at P=0.50: need R>={R_needed:.4f}, {preds_needed:.0f} correct paragraphs")
 
 print()
 # How many correct do we need at different prediction levels?

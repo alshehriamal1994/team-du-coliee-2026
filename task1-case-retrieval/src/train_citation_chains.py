@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """
-Citation chain features: exploit the citation GRAPH, not just text.
+Citation chain features over the citation graph.
 
-Builds a citation graph from all training labels, then computes 5 new features
+Builds a citation graph from all training labels, then computes 5 features
 for each (query, candidate) pair:
-  1. shared_citers      — how many training cases cite BOTH query and candidate
-  2. two_hop_score      — among cases that query cites, how many cite candidate
-  3. reverse_two_hop    — among cases that cite query, how many also cite candidate
-  4. cocitation_jaccard — Jaccard similarity of their "cited-by" sets
-  5. shared_citations   — how many cases are cited by BOTH query and candidate
+  1. shared_citers: cases that cite both query and candidate
+  2. two_hop_score: among cases the query cites, how many cite the candidate
+  3. reverse_two_hop: among cases that cite the query, how many the candidate cites
+  4. cocitation_jaccard: Jaccard of their cited-by sets
+  5. shared_citations: cases cited by both query and candidate
 
-Then retrains LightGBM with 39 features (34 original + 5 new) using DU9's
-best config (4000 trees, 255 leaves, LR=0.02, sub=0.9, col=0.9, reg=0.05).
+Retrains LightGBM with 39 features (34 original + 5 new) using DU9's
+config (4000 trees, 255 leaves, LR=0.02, sub=0.9, col=0.9, reg=0.05).
 
 Usage: python3 train_citation_chains.py
 Expected time: ~20 minutes (5 min features + 15 min training)
@@ -27,7 +27,7 @@ from pathlib import Path
 import lightgbm as lgb
 import numpy as np
 
-# ── Paths ──
+# paths
 ARCHIVE = Path("./ARCHIVE")
 CACHE_DIR = ARCHIVE / "cache_features"
 STEP8_SCRIPT = ARCHIVE / "code_AUTHORITY_v2/step8_postprocess_filters_v2.py"
@@ -78,10 +78,8 @@ def evaluate_against_gold(preds, gold_path):
     return {"f1": mf, "p": mp, "r": mr, "tp": tp, "zero_f1": int((arr==0).sum())}
 
 
-# ══════════════════════════════════════════════════════════
-# Step 1: Build the citation graph
-# ══════════════════════════════════════════════════════════
-print("Step 1: Building citation graph from all training labels...")
+# build the citation graph from all training labels
+print("building citation graph from all training labels...")
 t0 = time.time()
 
 # Load all labels
@@ -94,11 +92,9 @@ for lpath in [LABELS_2025_TRAIN, LABELS_2025_TEST, LABELS_2026_TRAIN]:
 
 print(f"  Total: {len(labels_all)} queries, {sum(len(v) for v in labels_all.values())} edges")
 
-# Build two views of the graph:
-# cites[A] = set of cases that A cites (outgoing edges)
-# cited_by[B] = set of cases that cite B (incoming edges)
-cites = defaultdict(set)      # A -> {B, C, D}  (A cites B, C, D)
-cited_by = defaultdict(set)   # B -> {A, E, F}  (B is cited by A, E, F)
+# cites: outgoing edges, cited_by: incoming edges
+cites = defaultdict(set)
+cited_by = defaultdict(set)
 
 for qid, cited_cases in labels_all.items():
     for cid in cited_cases:
@@ -111,9 +107,6 @@ print(f"  Graph: {len(all_cases)} unique cases, "
 print(f"  Built in {time.time()-t0:.1f}s\n")
 
 
-# ══════════════════════════════════════════════════════════
-# Step 2: Compute citation chain features for each (q, c) pair
-# ══════════════════════════════════════════════════════════
 def compute_chain_features(qids, cids):
     """Compute 5 citation chain features for arrays of (qid, cid) pairs."""
     n = len(qids)
@@ -123,44 +116,38 @@ def compute_chain_features(qids, cids):
         q = qids[i]
         c = cids[i]
 
-        q_cites = cites.get(q, set())        # cases q cites
-        q_cited_by = cited_by.get(q, set())   # cases that cite q
-        c_cites = cites.get(c, set())         # cases c cites
-        c_cited_by = cited_by.get(c, set())   # cases that cite c
+        q_cites = cites.get(q, set())
+        q_cited_by = cited_by.get(q, set())
+        c_cites = cites.get(c, set())
+        c_cited_by = cited_by.get(c, set())
 
-        # 1. shared_citers: cases that cite BOTH q and c
+        # shared_citers: cases that cite both q and c
         feats[i, 0] = len(q_cited_by & c_cited_by)
 
-        # 2. two_hop_score: among cases q cites, how many cite c?
-        #    q -> A -> c  (q cites A, A cites c)
+        # two_hop_score: among cases q cites, how many cite c
         two_hop = 0
         for a in q_cites:
             if c in cites.get(a, set()):
                 two_hop += 1
         feats[i, 1] = two_hop
 
-        # 3. reverse_two_hop: among cases that cite q, how many also cite c?
-        feats[i, 2] = len(q_cited_by & c_cited_by)  # same as shared_citers but from cited_by perspective
-        # Actually let's make this: cases that cite q AND also cite c
-        # This is the same as shared_citers. Let's do something different:
-        # reverse_two_hop: among cases that cite q, how many are cited by c?
-        #    A -> q, c -> A  (A cites q, c cites A)
+        # reverse_two_hop: among cases that cite q, how many c cites
         rev_hop = 0
         for a in q_cited_by:
             if a in c_cites:
                 rev_hop += 1
         feats[i, 2] = rev_hop
 
-        # 4. cocitation_jaccard: Jaccard of their cited-by sets
+        # cocitation_jaccard: Jaccard of their cited-by sets
         if len(q_cited_by) > 0 or len(c_cited_by) > 0:
             feats[i, 3] = len(q_cited_by & c_cited_by) / len(q_cited_by | c_cited_by)
 
-        # 5. shared_citations: cases cited by BOTH q and c
+        # shared_citations: cases cited by both q and c
         feats[i, 4] = len(q_cites & c_cites)
 
     return feats
 
-print("Step 2: Computing citation chain features...")
+print("computing citation chain features...")
 
 # Process each split
 splits = {
@@ -185,10 +172,8 @@ for split_name, npz_path in splits.items():
 
     X, labels, qids, cids, fnames = load_npz(npz_path)
 
-    # Compute chain features
     chain_feats = compute_chain_features(qids, cids)
 
-    # Augment feature matrix
     X_aug = np.hstack([X, chain_feats])
     fnames_aug = fnames + chain_feature_names
 
@@ -197,7 +182,6 @@ for split_name, npz_path in splits.items():
         "fnames": fnames_aug
     }
 
-    # Stats on new features
     nonzero_pct = [(chain_feats[:, j] > 0).mean() * 100 for j in range(5)]
     print(f"{time.time()-t1:.0f}s  |  nonzero%: " +
           "  ".join(f"{chain_feature_names[j].replace('chain_','')}={nonzero_pct[j]:.1f}%" for j in range(5)))
@@ -205,18 +189,15 @@ for split_name, npz_path in splits.items():
 print()
 
 
-# ══════════════════════════════════════════════════════════
-# Step 3: Train LightGBM with 39 features
-# ══════════════════════════════════════════════════════════
-print("Step 3: Training LightGBM with 39 features (34 + 5 chain)...")
+print("training LightGBM with 39 features (34 + 5 chain)...")
 
-# Merge training data
+# merge training data
 X_train = np.vstack([data["train2025"]["X"], data["test2025"]["X"], data["train2026"]["X"]])
 y_train = np.concatenate([data["train2025"]["labels"], data["test2025"]["labels"], data["train2026"]["labels"]])
 q_train = data["train2025"]["qids"] + data["test2025"]["qids"] + data["train2026"]["qids"]
 fnames = data["train2025"]["fnames"]
 
-# Filter labeled
+# keep labelled pairs
 mask = y_train >= 0
 X_train, y_train = X_train[mask], y_train[mask]
 q_filtered = [q for q, m in zip(q_train, mask) if m]
@@ -281,7 +262,7 @@ for run_name, cfg in CONFIGS.items():
 
     model.save_model(str(run_dir / "model.txt"))
 
-    # Feature importance — focus on new chain features
+    # feature importance for the chain features
     importance = dict(zip(fnames, model.feature_importance(importance_type='gain')))
     print(f"\n  Chain feature importance (gain):")
     for cf in chain_feature_names:
@@ -332,9 +313,8 @@ for run_name, cfg in CONFIGS.items():
         results[run_name] = {"raw": raw_m, "step8": None, "time": train_time}
 
 
-# ── Summary ──
 print(f"\n{'='*70}")
-print(f"  SUMMARY — Citation chain features vs DU9 baseline (F1=0.3456)")
+print(f"  Summary: citation chain features vs DU9 baseline (F1=0.3456)")
 print(f"{'='*70}")
 print(f"  {'Run':<6} {'Features':>8} {'Step8 F1':>9} {'vs DU9':>8} {'Time':>8}")
 print("  " + "-" * 50)

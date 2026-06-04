@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-DU4: Bigger model experiment.
-4000 trees, 255 leaves, LR 0.02 — double DU3's capacity.
+DU4: bigger model experiment.
+4000 trees, 255 leaves, LR 0.02, double DU3's capacity.
 Evaluates against gold labels directly.
 
 Usage: python3 train_du4.py
@@ -17,7 +17,7 @@ from pathlib import Path
 import lightgbm as lgb
 import numpy as np
 
-# ── Paths ──
+# paths
 ARCHIVE = Path("./ARCHIVE")
 CACHE_DIR = ARCHIVE / "cache_features"
 STEP8_SCRIPT = ARCHIVE / "code_AUTHORITY_v2/step8_postprocess_filters_v2.py"
@@ -27,7 +27,7 @@ GOLD_PATH = Path("./FINAL_SUBMISSION/task1_test_labels_2026.json")
 OUT_DIR = Path("./runs/du4_bigger")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-# ── Hyperparameters ──
+# hyperparameters
 CONFIGS = {
     "DU4": {"n_estimators": 4000, "num_leaves": 255, "learning_rate": 0.02},
     "DU5": {"n_estimators": 4000, "num_leaves": 255, "learning_rate": 0.01},
@@ -78,7 +78,7 @@ def evaluate_against_gold(preds, gold_path):
         "mean_f1": float(arr.mean()),
     }
 
-# ── Load data ──
+# load data
 print("Loading feature matrices...")
 t0 = time.time()
 
@@ -115,7 +115,7 @@ print(f"  Test: {Xt.shape[0]:,} pairs")
 print(f"  Features: {len(fnames)}")
 print()
 
-# ── Train and evaluate each config ──
+# train and evaluate each config
 results = {}
 
 for run_name, cfg in CONFIGS.items():
@@ -211,14 +211,13 @@ for run_name, cfg in CONFIGS.items():
         results[run_name] = {"raw": raw_metrics, "step8": step8_metrics, "time": train_time}
     except Exception as e:
         print(f"  Step8 failed: {e}")
-        print(f"  Using raw predictions only.")
+        print("  Using raw predictions only.")
         results[run_name] = {"raw": raw_metrics, "step8": None, "time": train_time}
 
     print()
 
-# ── Summary ──
 print("=" * 70)
-print("  SUMMARY — All runs vs DU3 baseline (F1=0.3141)")
+print("  Summary: all runs vs DU3 baseline (F1=0.3141)")
 print("=" * 70)
 print(f"  {'Run':<8} {'Trees':>6} {'Leaves':>7} {'LR':>6} {'Raw F1':>8} {'Step8 F1':>9} {'Time':>8} {'vs DU3':>8}")
 print("  " + "-" * 65)

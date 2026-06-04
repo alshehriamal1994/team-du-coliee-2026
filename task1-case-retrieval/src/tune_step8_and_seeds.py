@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
 Three experiments in one script:
-  Part A: Tune Step8 RRF k-value (5 minutes, no training)
-  Part B: Multi-seed ensemble (30 min, trains 5 models)
-  Part C: Combined best — apply best k to best ensemble
+  tune the Step8 RRF k-value (no training)
+  multi-seed ensemble (trains 5 models)
+  apply the best k to the best ensemble
 
 Usage: python3 tune_step8_and_seeds.py
 """
@@ -18,7 +18,7 @@ from pathlib import Path
 import lightgbm as lgb
 import numpy as np
 
-# ── Paths ──
+# paths
 ARCHIVE = Path("./ARCHIVE")
 CACHE_DIR = ARCHIVE / "cache_features"
 STEP8_SCRIPT = ARCHIVE / "code_AUTHORITY_v2/step8_postprocess_filters_v2.py"
@@ -77,9 +77,6 @@ with open(GOLD_PATH) as f:
     gold_raw = json.load(f)
 gold = {norm_id(k): [norm_id(v) for v in vs] for k, vs in gold_raw.items()}
 
-# ══════════════════════════════════════════════════════════
-# Load data (needed for Part B)
-# ══════════════════════════════════════════════════════════
 print("Loading feature matrices...")
 t0 = time.time()
 X1, y1, q1, c1, fnames = load_npz(CACHE_DIR / "feature_matrix_train2025.npz")
@@ -99,11 +96,9 @@ groups = [counts[q] for q in qid_order]
 print(f"  Loaded in {time.time()-t0:.1f}s\n")
 
 
-# ══════════════════════════════════════════════════════════
-# PART A: Tune Step8 RRF k on DU9's predictions
-# ══════════════════════════════════════════════════════════
+# tune Step8 RRF k on DU9's predictions
 print("=" * 70)
-print("  PART A: Tuning Step8 RRF k-value on DU9")
+print("  Tuning Step8 RRF k-value on DU9")
 print("=" * 70)
 
 # First, reproduce DU9's raw top-50 predictions (needed for Step8)
@@ -180,11 +175,9 @@ for k in k_values:
 print(f"\n  Best k={best_k} (F1={best_k_f1:.4f})\n")
 
 
-# ══════════════════════════════════════════════════════════
-# PART B: Multi-seed ensemble
-# ══════════════════════════════════════════════════════════
+# multi-seed ensemble
 print("=" * 70)
-print("  PART B: Multi-seed ensemble (DU9 config, 5 seeds)")
+print("  Multi-seed ensemble (DU9 config, 5 seeds)")
 print("=" * 70)
 
 seeds = [42, 7, 123, 456, 789]
@@ -228,7 +221,7 @@ for i, seed in enumerate(seeds):
     seed_top5[f"{seed}_s8"] = s8_preds
     print(f"    Step8 (k={best_k}) F1={s8_m['f1']:.4f}  zero-F1={s8_m['zero_f1']}")
 
-# ── Vote ensembles across seeds ──
+# vote ensembles across seeds
 print(f"\n{'='*60}")
 print(f"  Seed ensemble results (vote across 5 seeds)")
 print(f"{'='*60}")
@@ -325,9 +318,6 @@ for k in [1, 3, 5, 7, 10, 20]:
         best_ens_preds = preds
 
 
-# ══════════════════════════════════════════════════════════
-# FINAL SUMMARY
-# ══════════════════════════════════════════════════════════
 print(f"\n{'='*70}")
 print(f"  FINAL SUMMARY")
 print(f"{'='*70}")
@@ -337,7 +327,6 @@ print(f"  DU9 (best k={best_k}):            F1 = {best_k_f1:.4f}  ({best_k_f1-0.
 print(f"  5-seed score avg (best):    F1 = {best_ens_m['f1']:.4f}  ({best_ens_m['f1']-0.3456:+.4f} vs DU9 k=5)")
 print(f"  ")
 print(f"  Improvement over submitted: {best_ens_m['f1']-0.3141:+.4f}pp")
-print(f"  Gap to NOWJ (#1):           {0.4220-best_ens_m['f1']:.4f}pp")
 
 # Save best predictions
 with open(OUT_DIR / "best_predictions.json", "w") as f:

@@ -28,7 +28,7 @@ The learning-to-rank code is in [`src/`](src). It works on candidate features pr
 - `vote_ensemble.py` combines several trained runs.
 - `evaluate.py` reports micro precision, recall, and F1 against the gold labels.
 
-The scripts read the candidate feature files and the gold labels as local inputs, placed relative to the task folder. Both are derived from the licensed COLIEE data and are not included here. The retrieval and the thirty-four features that build those candidates are the ones described above.
+**Expected inputs.** The learning-to-rank scripts read pre-built candidate feature caches: the `.npz` files holding the arrays `X`, `labels`, `qids`, `cids`, and `feature_names`. The post-filter step (step8) takes the top-50 candidates and applies self-match and future-date filtering. The `FINAL_SUBMISSION/` directory holds the prediction files and gold labels, and the scripts write their outputs under `runs/`. All of these are derived from the licensed COLIEE data and are not shipped with this repository. The retrieval stage and the thirty-four features that build the candidates are the ones described above.
 
 Dependencies are in [`requirements.txt`](requirements.txt).
 

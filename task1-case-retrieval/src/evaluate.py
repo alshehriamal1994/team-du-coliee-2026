@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Comprehensive evaluation script for COLIEE 2026 Task 1 submissions.
+Evaluation script for COLIEE 2026 Task 1 submissions.
 
 Evaluates DU1, DU2, DU3 against gold labels and produces:
   - Micro-averaged F1, Precision, Recall
@@ -23,9 +23,7 @@ from pathlib import Path
 
 import numpy as np
 
-# ──────────────────────────────────────────────────────────
-# Paths
-# ──────────────────────────────────────────────────────────
+# paths
 BASE_DIR = Path(__file__).resolve().parent
 GOLD_PATH = BASE_DIR / "FINAL_SUBMISSION" / "task1_test_labels_2026.json"
 SUBMISSION_DIR = BASE_DIR / "FINAL_SUBMISSION"
@@ -36,9 +34,7 @@ def normalise_id(case_id: str) -> str:
     return case_id.replace(".txt", "")
 
 
-# ──────────────────────────────────────────────────────────
-# I/O
-# ──────────────────────────────────────────────────────────
+# i/o
 def load_gold(path: Path) -> dict[str, list[str]]:
     with open(path) as f:
         raw = json.load(f)
@@ -60,9 +56,7 @@ def load_submission(path: Path) -> dict[str, list[str]]:
     return dict(preds)
 
 
-# ──────────────────────────────────────────────────────────
-# Core evaluation
-# ──────────────────────────────────────────────────────────
+# core evaluation
 def evaluate(preds: dict, gold: dict) -> dict:
     """Compute micro-averaged and per-query metrics."""
     total_tp = total_fp = total_fn = 0
@@ -116,9 +110,7 @@ def evaluate(preds: dict, gold: dict) -> dict:
     }
 
 
-# ──────────────────────────────────────────────────────────
-# Reporting
-# ──────────────────────────────────────────────────────────
+# reporting
 def print_summary(name: str, result: dict):
     print(f"\n{'=' * 50}")
     print(f"  {name}")
@@ -163,7 +155,6 @@ def print_comparison_table(results: dict[str, dict]):
             row = f"  {label:<20}" + "".join(f"{v:>12d}" for v in vals)
         else:
             row = f"  {label:<20}" + "".join(f"{v:>12.4f}" for v in vals)
-        # Mark the best value
         print(row)
 
 
@@ -270,9 +261,7 @@ def pairwise_analysis(results: dict[str, dict]):
                   f"max_gain={max(diffs):.4f}  max_loss={min(diffs):.4f}")
 
 
-# ──────────────────────────────────────────────────────────
-# Main
-# ──────────────────────────────────────────────────────────
+# main
 def main():
     parser = argparse.ArgumentParser(description="COLIEE 2026 Task 1 Evaluation")
     parser.add_argument("--gold", type=Path, default=GOLD_PATH,
