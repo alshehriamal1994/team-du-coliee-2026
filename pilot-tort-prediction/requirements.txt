@@ -1,0 +1,8 @@
+# Pilot task, legal judgment prediction.
+torch
+transformers
+sentence-transformers
+scikit-learn
+joblib
+numpy
+requests

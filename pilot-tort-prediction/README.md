@@ -19,6 +19,12 @@ The system reads each case through five views and combines them, then repairs th
 
 The contribution of the bridge is visible in the ablation. A single BERT reaches 70.9%, the five views without the bridge reach 70.5%, and the full system reaches 73.1%.
 
-## Reproducing the result
+## Running it
 
-Place the pilot data under `../data/pilot/`. The five views, the stacker, and the bridge are in `src/`, with the order in which to run them.
+The submitted system is the integrated solver in [`solver.py`](solver.py), with its support package in [`src/`](src). The solver loads the trained models, runs the five views, combines them with the stacker, applies the claim-to-verdict bridge, and makes the coherence repairs near the decision threshold. It implements the official LJPJT-26 task interface and is run through the task template, which provides each case as input.
+
+The solver expects the trained model artefacts and the case data as local inputs, placed relative to the task folder. Both come from the pilot data and from our own training, and are not included here.
+
+This was an unofficial entry, as noted above. The many training scripts behind the individual views are part of our working tree and are not all reproduced here. Scripts from our exploration that called external services are left out, in keeping with the rest of this repository.
+
+Dependencies are in [`requirements.txt`](requirements.txt).
