@@ -34,6 +34,39 @@ The analysis behind these numbers, including the single-model study and the deco
 
 Every model is open-weight, as the rules require, and each was released before 15 July 2025, the cut-off the rules set for Tasks 3 and 4.
 
-## Reproducing the result
+## Running it
 
-Place the Task 4 data under `../data/task4/`. The expert prompts, the voting code, and the three aggregation runs are in `src/`, each with the command that produces its reported accuracy.
+The code that produces the experts and the vote is in [`src/`](src):
+
+- `run_entailment_task4.py` runs one model as an expert and writes a Y or N for every question.
+- `run_prompt_ensemble_task4.py` runs one model under several prompt strategies and votes across them.
+- `run_fewshot_voting_task4.py` runs the self-consistency expert, sampling several times and taking the internal majority.
+- `ensemble_predictions.py` takes the predictions of the nine experts and combines them by majority vote.
+
+What you need first. The COLIEE data placed under `../data/task4/`, the Civil Code articles as XML, and the open-weight models downloaded locally. The larger models are demanding, so the scripts accept `--load-in-4bit` and `--load-in-8bit` for quantised loading, and a GPU is assumed.
+
+A single expert:
+
+```
+python src/run_entailment_task4.py \
+  --model-path /path/to/a/local/model \
+  --civil-xml ../data/task4/civil_code.xml \
+  --input-jsonl ../data/task4/test.jsonl \
+  --run-tag EXPERT1 \
+  --output runs/expert1.txt \
+  --use-chat-template --load-in-4bit
+```
+
+The nine experts combined into the majority-vote run, which is DU3:
+
+```
+python src/ensemble_predictions.py \
+  --inputs runs/expert1.txt runs/expert2.txt runs/expert3.txt \
+           runs/expert4.txt runs/expert5.txt runs/expert6.txt \
+           runs/expert7.txt runs/expert8.txt runs/expert9.txt \
+  --output runs/DU3.txt --run-tag DU3 --tie-break Y
+```
+
+The two stronger runs build on this. DU2 adds the deliberation step, in which three judge models re-read the questions where the vote is close, and DU1 aggregates the experts hierarchically across three sub-panels. The deliberation prompt and the composition of the sub-panels are described in [`prompts.md`](prompts.md) and in the system description in our submission. Reproducing the exact DU1 and DU2 figures requires the same nine experts and that aggregation, and the largest models call for substantial GPU memory.
+
+Dependencies are in [`requirements.txt`](requirements.txt).
