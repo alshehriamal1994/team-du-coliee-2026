@@ -42,7 +42,7 @@ The COLIEE datasets are provided under an agreement with the competition organis
 
 ## Citing this work
 
-If you use this code, please cite the paper. The reference is in [`CITATION.cff`](CITATION.cff), and GitHub will show a "Cite this repository" button.
+If you use this code, please cite the paper. The reference is in [`CITATION.cff`](CITATION.cff), and GitHub will show a "Cite this repository" button. The paper is to appear in the COLIEE 2026 proceedings, and the full bibliographic details will be added here once they are published.
 
 ## Licence
 

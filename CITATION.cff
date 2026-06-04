@@ -13,7 +13,7 @@ authors:
     family-names: "Atapour-Abarghouei"
     affiliation: "Durham University"
 license: MIT
-repository-code: "https://github.com/TeamDU/team-du-coliee-2026"
+repository-code: "https://github.com/alshehriamal1994/team-du-coliee-2026"
 preferred-citation:
   type: conference-paper
   title: "Cross-Architecture LLM Ensembles, Feature-Based Reranking and Retrieval-Augmented Prompting for Legal Information Processing"
@@ -25,9 +25,6 @@ preferred-citation:
     - given-names: "Amir"
       family-names: "Atapour-Abarghouei"
   year: 2026
-  collection-title: "Proceedings of the COLIEE 2026 Workshop, co-located with the 21st International Conference on Artificial Intelligence and Law (ICAIL 2026)"
-  conference:
-    name: "Competition on Legal Information Extraction and Entailment (COLIEE 2026)"
-    city: "Singapore"
-    country: "SG"
-  # The volume, page range, and DOI will be added once the proceedings are published.
+  # Forthcoming. The paper is accepted at COLIEE 2026. The publisher, volume,
+  # page range, and DOI will be added here once the proceedings are published.
+  notes: "To appear in the proceedings of COLIEE 2026, co-located with ICAIL 2026, Singapore. Full bibliographic details will be added on publication."
