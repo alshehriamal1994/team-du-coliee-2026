@@ -6,7 +6,7 @@ The single idea running through the five tasks is that no one method wins everyw
 
 ## The competition
 
-COLIEE is the [Competition on Legal Information Extraction and Entailment](https://coliee.org/COLIEE2026/), an annual benchmark of legal case retrieval, statute retrieval, and legal entailment. The 2026 edition is held alongside [ICAIL 2026](https://site.smu.edu.sg/icail-2026), the 21st International Conference on Artificial Intelligence and Law, at the Yong Pung How School of Law, Singapore Management University, from 8 to 12 June 2026. This is the first time ICAIL has been held in Asia. COLIEE 2026 ran four shared tasks on case law and statute law, with a pilot task on tort prediction. We entered all of them.
+COLIEE is the [Competition on Legal Information Extraction and Entailment](https://coliee.org/COLIEE2026/overview), an annual benchmark of legal case retrieval, statute retrieval, and legal entailment. The 2026 edition is held alongside [ICAIL 2026](https://site.smu.edu.sg/icail-2026), the 21st International Conference on Artificial Intelligence and Law, at the Yong Pung How School of Law, Singapore Management University, from 8 to 12 June 2026. This is the first time ICAIL has been held in Asia. COLIEE 2026 ran four shared tasks on case law and statute law, with a pilot task on tort prediction. We entered all of them.
 
 ## Results
 
