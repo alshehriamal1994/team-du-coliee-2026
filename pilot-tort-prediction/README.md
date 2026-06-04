@@ -2,6 +2,8 @@
 
 The pilot task works over Japanese tort cases. For each case the system predicts the court's decision and the rationale it accepted. Two scores are reported, tort accuracy for the decision and F1 for the rationale.
 
+<p align="center"><img src="../assets/figures/pilot-pipeline.gif" alt="The pilot pipeline in motion: five views read each tort case, a stacker weights them, a claim-to-verdict bridge repairs the decision, a coherence check removes contradictions, and the result reaches 73.1 per cent, above every official entry" width="880"></p>
+
 ## Result
 
 Our system reached a tort accuracy of 73.1%, correct on 587 of 803 cases, and a rationale F1 of 68.2%.

@@ -45,6 +45,12 @@ Nine open-weight experts from three families each return an independent yes or n
 
 <p align="center"><img src="assets/figures/architecture-gap.gif" alt="Validation accuracy rising from 87.2 for a single-model ensemble to 91.9 for the nine-expert vote and 93.0 for the meta-ensemble" width="700"></p>
 
+## The pilot pipeline
+
+The pilot tort task is unofficial, submitted under the wrong run mode, but its tort accuracy is above every official entry and its rationale F1 matches the best. Five views read each case, a stacker weights them, a claim-to-verdict bridge repairs what truncation loses on the long cases, and a coherence check removes contradictions before the decision is fixed. The detail is in [`pilot-tort-prediction/`](pilot-tort-prediction/).
+
+<p align="center"><img src="assets/figures/pilot-pipeline.gif" alt="The pilot pipeline in motion: five views read each tort case, a stacker weights them, a claim-to-verdict bridge repairs the decision, a coherence check removes contradictions, and the result reaches 73.1 per cent, above every official entry" width="880"></p>
+
 ## Layout
 
 ```
