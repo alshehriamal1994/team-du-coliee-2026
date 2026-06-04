@@ -43,7 +43,7 @@ Diversity beat scale. On Task 4 the gain came from disagreement between model fa
 
 Nine open-weight experts from three families each return an independent yes or no, and a hierarchical meta-ensemble combines them. The experts differ in prompt as well as in model, from a plain instruction to chain-of-thought, the IRAC legal framework, and a word-by-word check, and that diversity of prompting is set out in [`task4-statute-entailment/prompts.md`](task4-statute-entailment/prompts.md). The case for diversity is clearest on the validation set, where a single model ensembled with itself plateaus well below the cross-architecture vote.
 
-<p align="center"><img src="assets/figures/architecture-gap.png" alt="Validation accuracy rising from 87.2 for a single-model ensemble to 91.9 for the nine-expert vote and 93.0 for the meta-ensemble" width="700"></p>
+<p align="center"><img src="assets/figures/architecture-gap.gif" alt="Validation accuracy rising from 87.2 for a single-model ensemble to 91.9 for the nine-expert vote and 93.0 for the meta-ensemble" width="700"></p>
 
 ## Layout
 
