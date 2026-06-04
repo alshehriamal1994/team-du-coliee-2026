@@ -21,6 +21,17 @@ The official prompt asked the model to select at most one paragraph, or none. Th
 
 Changing the instruction to select every paragraph that entails the fragment removed the cap and raised F1 to 0.555. The pipeline and the models were untouched. The point is narrow but worth making. On this task the wording of the instruction mattered more than the choice of model.
 
-## Reproducing the result
+## Running it
 
-Place the Task 2 data under `../data/task2/`, then run the pipeline. Both prompt variants are kept side by side in `src/`, since the contrast between them is the result.
+The prompt study is in [`src/run_multiselect_experiment.py`](src/run_multiselect_experiment.py). It re-runs the three language models under the two prompts, the original single-selection instruction and the multi-select instruction, over the cached reranker scores, and reports the F1 of each. The models are open-weight and are served through OpenRouter, so set your own key in the environment first:
+
+```
+export OPENROUTER_API_KEY=...
+python src/run_multiselect_experiment.py
+```
+
+It reads the test data, the gold labels, and the cached reranker and few-shot scores as local inputs, placed relative to the task folder. These come from the licensed COLIEE data and from our own runs, and are not included here.
+
+The other scripts are the analysis behind the result. `diagnostics.py`, `error_analysis.py`, and `post_hoc_experiments.py` compare the runs against the gold labels and quantify how many paragraphs the single-selection rule cost us.
+
+Dependencies are in [`requirements.txt`](requirements.txt).
