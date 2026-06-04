@@ -39,7 +39,7 @@ Diversity beat scale. On Task 4 the gain came from disagreement between model fa
 
 ## The winning system
 
-<p align="center"><img src="assets/figures/task4-system.png" alt="The Task 4 ensemble, from articles and statement through nine experts to the meta-ensemble and the result" width="860"></p>
+<p align="center"><img src="assets/figures/task4-ensemble.gif" alt="The Task 4 ensemble in motion, from the statement and articles through nine experts casting independent yes or no votes to the majority vote, the meta-ensemble, and the result" width="880"></p>
 
 Nine open-weight experts from three families each return an independent yes or no, and a hierarchical meta-ensemble combines them. The case for diversity is clearest on the validation set, where a single model ensembled with itself plateaus well below the cross-architecture vote.
 
