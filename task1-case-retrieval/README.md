@@ -18,9 +18,19 @@ The pipeline has three stages.
 
 The contribution of each group is visible in a development ablation, which moves from 16.5 with BM25 alone to 35.7 with all features and the full training data.
 
-## Reproducing the result
+## Running it
 
-Place the Task 1 data under `../data/task1/` as described in the data README, then run the stages in order. The exact commands and the feature definitions are documented alongside the scripts in `src/`.
+The learning-to-rank code is in [`src/`](src). It works on candidate features produced by the retrieval stage:
+
+- `train_du4.py` and `train_du7.py` train the LightGBM ranker under the configurations we used.
+- `train_citation_chains.py` adds the citation-chain features.
+- `tune_step8_and_seeds.py` tunes the fusion step and the seed ensemble.
+- `vote_ensemble.py` combines several trained runs.
+- `evaluate.py` reports micro precision, recall, and F1 against the gold labels.
+
+The scripts read the candidate feature files and the gold labels as local inputs, placed relative to the task folder. Both are derived from the licensed COLIEE data and are not included here. The retrieval and the thirty-four features that build those candidates are the ones described above.
+
+Dependencies are in [`requirements.txt`](requirements.txt).
 
 ## A note on what did not work
 
