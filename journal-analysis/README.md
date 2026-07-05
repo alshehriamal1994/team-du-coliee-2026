@@ -15,8 +15,10 @@ prediction files. No new model inference is required to reproduce any number.
   the 30-expert pool on H30, R01, R02 and R07 (`data/TASK4/experiments/
   runs_ensemble/`, one line per question: id, predicted label, model tag),
   the nine experts' predictions on retrieved articles, and the submitted DU2
-  retrieval run. These are outputs of our systems and contain no competition
-  text.
+  retrieval run. These prediction files are outputs of our systems and contain
+  no competition text. One exception for transparency: `example_boxes_facts.json`
+  quotes, verbatim, the three test questions analysed as worked examples in the
+  paper, exactly as the paper itself quotes them.
 
 ## What is not included
 
