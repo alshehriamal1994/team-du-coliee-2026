@@ -1,0 +1,198 @@
+{
+  "pool_models": {
+    "DeepSeek-R1": 3,
+    "DeepSeek-V3.1": 2,
+    "Gemma-3-27B": 1,
+    "Llama-3.3-70B": 6,
+    "Llama-4-Maverick": 1,
+    "Llama-4-Scout": 1,
+    "Mistral-Large": 1,
+    "QwQ-32B": 1,
+    "Qwen-2.5-72B": 7,
+    "Qwen3-235B": 6,
+    "Qwen3-32B": 1
+  },
+  "equal_compute_k3": {
+    "same_model_committees_test": {
+      "n": 76,
+      "mean_pc": 87.6,
+      "median_pc": 86.6,
+      "p5_pc": 82.9,
+      "p95_pc": 93.9,
+      "min_pc": 82.9,
+      "max_pc": 93.9
+    },
+    "same_model_by_model": {
+      "DeepSeek-R1": {
+        "n": 1,
+        "mean_pc": 93.9,
+        "median_pc": 93.9,
+        "p5_pc": 93.9,
+        "p95_pc": 93.9,
+        "min_pc": 93.9,
+        "max_pc": 93.9
+      },
+      "Llama-3.3-70B": {
+        "n": 20,
+        "mean_pc": 84.3,
+        "median_pc": 84.1,
+        "p5_pc": 82.9,
+        "p95_pc": 86.6,
+        "min_pc": 82.9,
+        "max_pc": 86.6
+      },
+      "Qwen-2.5-72B": {
+        "n": 35,
+        "mean_pc": 86.2,
+        "median_pc": 86.6,
+        "p5_pc": 84.1,
+        "p95_pc": 89.4,
+        "min_pc": 82.9,
+        "max_pc": 90.2
+      },
+      "Qwen3-235B": {
+        "n": 20,
+        "mean_pc": 93.2,
+        "median_pc": 93.3,
+        "p5_pc": 92.6,
+        "p95_pc": 93.9,
+        "min_pc": 90.2,
+        "max_pc": 93.9
+      }
+    },
+    "multi_model_committees_test": {
+      "n": 2000,
+      "mean_pc": 90.2,
+      "median_pc": 90.2,
+      "p5_pc": 84.1,
+      "p95_pc": 95.1,
+      "min_pc": 81.7,
+      "max_pc": 97.6
+    },
+    "gap_of_means_pp": 2.5
+  },
+  "equal_compute_k5": {
+    "same_model_committees_test": {
+      "n": 33,
+      "mean_pc": 86.6,
+      "median_pc": 85.4,
+      "p5_pc": 82.9,
+      "p95_pc": 93.9,
+      "min_pc": 82.9,
+      "max_pc": 93.9
+    },
+    "same_model_by_model": {
+      "Llama-3.3-70B": {
+        "n": 6,
+        "mean_pc": 83.5,
+        "median_pc": 83.5,
+        "p5_pc": 82.9,
+        "p95_pc": 84.1,
+        "min_pc": 82.9,
+        "max_pc": 84.1
+      },
+      "Qwen-2.5-72B": {
+        "n": 21,
+        "mean_pc": 85.4,
+        "median_pc": 85.4,
+        "p5_pc": 84.1,
+        "p95_pc": 86.6,
+        "min_pc": 84.1,
+        "max_pc": 87.8
+      },
+      "Qwen3-235B": {
+        "n": 6,
+        "mean_pc": 93.9,
+        "median_pc": 93.9,
+        "p5_pc": 93.9,
+        "p95_pc": 93.9,
+        "min_pc": 93.9,
+        "max_pc": 93.9
+      }
+    },
+    "multi_model_committees_test": {
+      "n": 2000,
+      "mean_pc": 90.3,
+      "median_pc": 90.2,
+      "p5_pc": 85.4,
+      "p95_pc": 95.1,
+      "min_pc": 82.9,
+      "max_pc": 96.3
+    },
+    "gap_of_means_pp": 3.8
+  },
+  "k9_single_family_qwen_vs_cross_family": {
+    "qwen_only_test": {
+      "n": 5005,
+      "mean_pc": 91.1,
+      "median_pc": 91.5,
+      "p5_pc": 87.8,
+      "p95_pc": 93.9,
+      "min_pc": 84.1,
+      "max_pc": 95.1
+    },
+    "cross_family_3plus_test": {
+      "n": 2000,
+      "mean_pc": 90.9,
+      "median_pc": 91.5,
+      "p5_pc": 86.6,
+      "p95_pc": 95.1,
+      "min_pc": 82.9,
+      "max_pc": 96.3
+    },
+    "gap_of_means_pp": -0.2,
+    "note": "Qwen is the only family with >=9 configurations (15)."
+  },
+  "lift_predictor_k9": {
+    "corr_test_lift__n_models": 0.33,
+    "corr_test_lift__n_families": 0.13,
+    "corr_val_lift__n_models": 0.16,
+    "corr_val_lift__n_families": 0.23,
+    "partial_corr_families_given_models_test": -0.05,
+    "note": "family count adds nothing to test lift once base-model count is controlled"
+  },
+  "selection_by_year": {
+    "H30": {
+      "selected": "qwen3-235b-a22b_sc3_v1",
+      "val_acc_pc": 91.0,
+      "test_acc_pc": 92.7,
+      "test_rank_of_30": 5
+    },
+    "R01": {
+      "selected": "llama-3.3-70b-instruct_standard_v1",
+      "val_acc_pc": 82.7,
+      "test_acc_pc": 82.9,
+      "test_rank_of_30": 28
+    },
+    "R02": {
+      "selected": "deepseek-r1-zs",
+      "val_acc_pc": 92.6,
+      "test_acc_pc": 95.1,
+      "test_rank_of_30": 1
+    },
+    "H30+R01": {
+      "selected": "qwen3-235b-a22b_sc3_v1",
+      "val_acc_pc": 83.1,
+      "test_acc_pc": 92.7,
+      "test_rank_of_30": 5
+    },
+    "H30+R02": {
+      "selected": "qwen3-235b-a22b_concise_v1",
+      "val_acc_pc": 90.5,
+      "test_acc_pc": 93.9,
+      "test_rank_of_30": 3
+    },
+    "R01+R02": {
+      "selected": "llama-3.3-70b-instruct_standard_v1",
+      "val_acc_pc": 86.4,
+      "test_acc_pc": 82.9,
+      "test_rank_of_30": 28
+    },
+    "H30+R01+R02": {
+      "selected": "llama-3.3-70b-instruct_standard_v1",
+      "val_acc_pc": 85.3,
+      "test_acc_pc": 82.9,
+      "test_rank_of_30": 28
+    }
+  }
+}

@@ -51,6 +51,14 @@ The pilot tort task is unofficial, submitted under the wrong run mode, but its t
 
 <p align="center"><img src="assets/figures/pilot-pipeline.gif" alt="The pilot pipeline in motion: five views read each tort case, a stacker weights them, a claim-to-verdict bridge repairs the decision, a coherence check removes contradictions, and the result reaches 73.1 per cent, above every official entry" width="880"></p>
 
+## Journal-extension analyses
+
+The `journal-analysis/` folder contains the post-hoc analysis code and result
+files behind our journal extension of the proceedings paper (Review of
+Socionetwork Strategies, COLIEE 2026 special issue), together with the
+per-expert prediction outputs the analyses run on. See the README in that
+folder for what is included and how to rerun it.
+
 ## Using this repository
 
 This repository is the reference record of the methods behind our paper. It is meant to be read alongside the paper and the per-task READMEs, and drawn on for the system designs, the exact prompts, the feature definitions and the evaluation procedures. It is not a turnkey package that can be cloned and run end to end, and it is worth being candid about why.

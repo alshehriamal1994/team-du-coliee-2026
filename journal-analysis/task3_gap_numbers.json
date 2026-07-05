@@ -1,0 +1,43 @@
+{
+  "context": "nine-expert vote on top-5 articles of the submitted DU2 retrieval run (the post-competition configuration)",
+  "sufficiency_at_5": {
+    "questions_with_all_gold_in_top5": 75,
+    "of": 82,
+    "rate_pc": 91.5
+  },
+  "vote_retrieved_errors_decomposed": {
+    "total_errors": 11,
+    "errors_with_sufficient_context": 9,
+    "errors_with_missing_gold": 2
+  },
+  "oracle_to_retrieved_flips": {
+    "total_flips_right_to_wrong": 8,
+    "flips_with_sufficient_context": 6,
+    "flips_with_missing_gold": 2,
+    "flip_ids": [
+      "R07-03-A",
+      "R07-04-O",
+      "R07-06-E",
+      "R07-08-E",
+      "R07-08-U",
+      "R07-13-E",
+      "R07-23-E",
+      "R07-29-U"
+    ]
+  },
+  "accuracy_on_sufficient_context_pc": 88.0,
+  "ceiling_with_this_retrieval_pc": 97.6,
+  "leaderboard_placement": {
+    "ensemble_pc": 86.6,
+    "official_top5": {
+      "1_NOWJ_run1": 95.1,
+      "2_JNLP1": 90.2,
+      "3_NOWJ_run2": 89.0,
+      "4_NOWJ_run3": 89.0,
+      "5_codyrag": 85.4,
+      "14_DU2_ours": 79.3
+    },
+    "placement": "exactly four official runs score above 86.6, so the ensemble would have placed 5th of 23 runs, not 1st (top-5 verified from the COLIEE 2026 proceedings, NOWJ paper Table 4)"
+  },
+  "gap_to_winner_questions": 7
+}
