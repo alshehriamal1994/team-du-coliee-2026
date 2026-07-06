@@ -36,48 +36,54 @@ vb = int(val_acc.argmax())
 tb = int(test_acc.argmax())
 assert pool[vb] == "llama-3.3-70b-instruct_standard_v1"
 
-# ---- Figure 1: the scatter, one message ------------------------------------
-fig, ax = plt.subplots(figsize=(TEXTWIDTH_IN * 0.92, 3.2))
-x, y = val_acc * 100, test_acc * 100
+# ---- Figure 1: the rank slopegraph ------------------------------------------
+# Rank = 1 + number strictly greater (the text's rule). For display, tied
+# accuracies are ordered so the highlighted expert sits at its text rank.
+def display_order(accs, favoured):
+    key = [(-accs[i], 0 if i == favoured else 1, i) for i in range(len(accs))]
+    order = sorted(range(len(accs)), key=lambda i: key[i])
+    pos = np.empty(len(accs), int)
+    for r, i in enumerate(order):
+        pos[i] = r + 1
+    return pos
 
-others = [i for i in range(len(pool)) if i not in (vb, tb)]
-ax.scatter(x[others], y[others], s=26, color="0.62",
-           edgecolor="white", linewidth=0.5, zorder=3)
 
-ax.scatter(x[vb], y[vb], s=42, color=VERM, edgecolor="white",
-           linewidth=0.6, zorder=4)
-ax.scatter(x[vb], y[vb], s=130, facecolor="none", edgecolor=VERM,
-           linewidth=1.0, zorder=4)
-ax.annotate("best on validation,\n28th of 30 on test",
-            xy=(x[vb] - 0.14, y[vb] - 0.6), xytext=(83.4, 79.3),
-            fontsize=8.5, color=VERM, ha="center", va="top",
-            arrowprops=dict(arrowstyle="-", color=VERM, lw=0.6))
+rv = display_order(val_acc, vb)
+rt = display_order(test_acc, vb)
+assert rv[vb] == 1 and rt[vb] == 28
 
-ax.scatter(x[tb], y[tb], s=52, facecolor="white", edgecolor=GREY,
-           linewidth=1.0, marker="D", zorder=4)
-ax.annotate("best on test\n(hindsight only)",
-            xy=(x[tb] + 0.12, y[tb]), xytext=(85.4, 92.6),
-            fontsize=8.5, color=GREY, ha="left", va="top",
-            arrowprops=dict(arrowstyle="-", color="0.5", lw=0.6))
+fig, ax = plt.subplots(figsize=(TEXTWIDTH_IN * 0.92, 3.6))
+for i in range(len(pool)):
+    if i in (vb, tb):
+        continue
+    ax.plot([0, 1], [rv[i], rt[i]], color="0.80", lw=0.9, zorder=2)
+    ax.scatter([0, 1], [rv[i], rt[i]], s=11, color="0.62", zorder=3)
 
-# one typical error cross instead of thirty error bars
-se_val = float(np.median(np.sqrt(val_acc * (1 - val_acc) / 258))) * 100
-se_test = float(np.median(np.sqrt(test_acc * (1 - test_acc) / 82))) * 100
-ex, ey = 78.9, 95.3
-ax.errorbar([ex], [ey], xerr=[se_val], yerr=[se_test], fmt="none",
-            ecolor="0.45", elinewidth=0.9, capsize=2.5, zorder=3)
-ax.text(ex + 0.35, ey - 1.0, "typical $\\pm$1 s.e.", fontsize=8,
-        color="0.35", ha="left", va="top")
+ax.plot([0, 1], [rv[tb], rt[tb]], color=GREY, lw=1.6, zorder=4,
+        ls=(0, (4, 2)))
+ax.scatter([0], [rv[tb]], s=30, color=GREY, zorder=5)
+ax.scatter([1], [rt[tb]], s=46, facecolor="white", edgecolor=GREY,
+           linewidth=1.1, marker="D", zorder=5)
+ax.text(1.05, rt[tb], "best on test (hindsight only)", ha="left",
+        va="center", fontsize=8.5, color=GREY)
 
-ax.text(0.03, 0.03, "Pearson $r = 0.43$, 95% CI $[0.09, 0.69]$",
-        transform=ax.transAxes, fontsize=8.5, color="0.35", va="bottom")
+ax.plot([0, 1], [rv[vb], rt[vb]], color=VERM, lw=2.4, zorder=6)
+ax.scatter([0, 1], [rv[vb], rt[vb]], s=42, color=VERM, zorder=7)
+ax.text(-0.08, rv[vb], "1st on validation", ha="right", va="center",
+        fontsize=9.5, fontweight="bold", color=VERM)
+ax.text(1.05, rt[vb], "28th of 30 on test", ha="left", va="center",
+        fontsize=9.5, fontweight="bold", color=VERM)
 
-ax.set_xlabel("Validation accuracy (%), 258 questions")
-ax.set_ylabel("Test accuracy (%), R07, 82 questions")
-ax.set_xlim(77.8, 87)
-ax.set_ylim(77.5, 97.5)
-ax.yaxis.grid(True, color="0.93", lw=0.4)
-ax.set_axisbelow(True)
+ax.set_xticks([0, 1])
+ax.set_xticklabels(["Rank on validation\n(258 questions)",
+                    "Rank on test\n(R07, 82 questions)"], fontsize=9)
+ax.set_ylim(31.2, 0)
+ax.set_yticks([1, 10, 20, 30])
+ax.set_ylabel("Rank among the 30 experts")
+ax.set_xlim(-0.52, 1.62)
+for s in ("top", "right", "bottom"):
+    ax.spines[s].set_visible(False)
+ax.tick_params(axis="x", length=0)
 fig_style.save(fig, "fig_scatter")
 
 # ---- Figure 2: the ladder, full width ---------------------------------------
