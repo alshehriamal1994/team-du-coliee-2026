@@ -52,7 +52,8 @@ inputs cannot produce silently different results.
 | `deltaq_ci_analysis.py` | oracle-versus-retrieved error-correlation interval |
 | `task3_gap_analysis.py` | Task 3 error decomposition and leaderboard placement of the post-competition committee |
 | `example_boxes.py` | the worked test-question examples |
-| `make_fig_selection.py`, `make_fig_policy.py` | the paper's figures |
+| `review_response_analysis.py` | test-side bootstrap of the policy comparison and the headroom control for the lift-diversity correlation |
+| `make_fig_selection.py`, `make_fig_policy.py`, `make_fig_design.py` | the paper's figures (`fig_style.py` holds the shared style) |
 
 Scripts that depend on shared loaders import from
 `selection_policy_analysis.py`, so run everything from this directory.

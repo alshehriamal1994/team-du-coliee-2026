@@ -1,0 +1,52 @@
+{
+ "seed": 20260706,
+ "M1a_realised_gap_test_bootstrap": {
+  "B": 10000,
+  "mean_gap_pp": 11.0,
+  "ci95_pp": [
+   3.7,
+   18.3
+  ],
+  "p_gap_le_0": 0.0016
+ },
+ "M1b_policy_means_test_bootstrap": {
+  "B": 10000,
+  "single_minus_random_pp": {
+   "mean": 0.38,
+   "ci95": [
+    -0.82,
+    1.51
+   ],
+   "p_abs_gt_2pp": 0.0016
+  },
+  "ensemble_minus_single_pp": {
+   "mean": 2.6,
+   "ci95": [
+    0.52,
+    4.81
+   ],
+   "p_le_0": 0.0066
+  },
+  "note": "selection frequencies estimated once from the validation bootstrap, policy means recomputed per test resample"
+ },
+ "M3_headroom_control": {
+  "n_ensembles": 50000,
+  "seed_spread_at_5000": [
+   0.333,
+   0.369
+  ],
+  "mean_lift_val_pp": 4.6,
+  "mean_lift_test_pp": 2.2,
+  "corr_test_lift__n_base_models": 0.36,
+  "corr_test_lift__n_families": 0.14,
+  "partial_families_given_models": -0.08,
+  "corr_val_lift__disagreement": 0.6,
+  "corr_test_lift__disagreement": -0.12,
+  "corr_test_lift__mean_member_acc": 0.55,
+  "corr_n_base_models__mean_member_acc": 0.25,
+  "partial_lift_models_given_member_acc": 0.28,
+  "vote_acc_corr_n_models": 0.36,
+  "partial_voteacc_models_given_member_acc": 0.28,
+  "note": "all correlations re-estimated on 50,000 ensembles (MC error < 0.01); partial controls mean member test accuracy"
+ }
+}
