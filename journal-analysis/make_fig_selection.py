@@ -1,12 +1,15 @@
 """Figures 1 and 2: the selection scatter and the accuracy ladder.
 
-Split into two full-width figures so each has room to read at print size.
+One message per figure. The scatter carries "validation cannot rank the
+pool": all experts in neutral grey, only the two story-bearing points
+highlighted, and a single typical-error cross in place of thirty error bars.
+The ladder carries the policy comparison with Wilson intervals.
 """
 
 import numpy as np
 
 import fig_style
-from fig_style import BLUE, VERM, GREY, FAMILY_COLOR, TEXTWIDTH_IN
+from fig_style import BLUE, VERM, GREY, TEXTWIDTH_IN
 from selection_policy_analysis import load_gold, build_pool
 
 fig_style.apply()
@@ -15,15 +18,6 @@ import matplotlib.pyplot as plt
 plt.rcParams.update({"font.size": 9, "axes.labelsize": 9,
                      "legend.fontsize": 8.5, "xtick.labelsize": 8.5,
                      "ytick.labelsize": 8.5})
-
-
-def family(name):
-    for pref, fam in (("deepseek", "DeepSeek"), ("llama", "Llama"),
-                      ("qwen", "Qwen"), ("qwq", "Qwen"),
-                      ("mistral", "Mistral"), ("gemma", "Gemma")):
-        if name.startswith(pref):
-            return fam
-    raise ValueError(name)
 
 
 def wilson(k, n, z=1.96):
@@ -39,38 +33,49 @@ pool, c_val, c_test, val_ids, test_ids = build_pool(gold)
 val_acc = c_val.mean(axis=1)
 test_acc = c_test.mean(axis=1)
 vb = int(val_acc.argmax())
+tb = int(test_acc.argmax())
 assert pool[vb] == "llama-3.3-70b-instruct_standard_v1"
 
-# ---- Figure 1: the scatter, full width -------------------------------------
-fig, ax = plt.subplots(figsize=(TEXTWIDTH_IN * 0.92, 3.3))
-se_val = np.sqrt(val_acc * (1 - val_acc) / 258) * 100
-se_test = np.sqrt(test_acc * (1 - test_acc) / 82) * 100
+# ---- Figure 1: the scatter, one message ------------------------------------
+fig, ax = plt.subplots(figsize=(TEXTWIDTH_IN * 0.92, 3.2))
 x, y = val_acc * 100, test_acc * 100
 
-for i in range(len(pool)):
-    ax.errorbar(x[i], y[i], xerr=se_val[i], yerr=se_test[i], fmt="none",
-                ecolor="0.88", elinewidth=0.6, capsize=0, zorder=1)
-seen = set()
-for i in range(len(pool)):
-    fam = family(pool[i])
-    ax.scatter(x[i], y[i], s=30, color=FAMILY_COLOR[fam],
-               edgecolor="white", linewidth=0.5, zorder=3,
-               label=fam if fam not in seen else None)
-    seen.add(fam)
-ax.scatter(x[vb], y[vb], s=110, facecolor="none", edgecolor="black",
+others = [i for i in range(len(pool)) if i not in (vb, tb)]
+ax.scatter(x[others], y[others], s=26, color="0.62",
+           edgecolor="white", linewidth=0.5, zorder=3)
+
+ax.scatter(x[vb], y[vb], s=42, color=VERM, edgecolor="white",
+           linewidth=0.6, zorder=4)
+ax.scatter(x[vb], y[vb], s=130, facecolor="none", edgecolor=VERM,
            linewidth=1.0, zorder=4)
-ax.annotate("validation best, 28th of 30 on test",
-            xy=(x[vb] - 0.12, y[vb] - 0.55), xytext=(82.6, 79.5),
-            fontsize=8.5, color="black", ha="center", va="top",
-            arrowprops=dict(arrowstyle="-", color="black", lw=0.6))
+ax.annotate("best on validation,\n28th of 30 on test",
+            xy=(x[vb] - 0.14, y[vb] - 0.6), xytext=(83.4, 79.3),
+            fontsize=8.5, color=VERM, ha="center", va="top",
+            arrowprops=dict(arrowstyle="-", color=VERM, lw=0.6))
+
+ax.scatter(x[tb], y[tb], s=52, facecolor="white", edgecolor=GREY,
+           linewidth=1.0, marker="D", zorder=4)
+ax.annotate("best on test\n(hindsight only)",
+            xy=(x[tb] + 0.12, y[tb]), xytext=(85.4, 92.6),
+            fontsize=8.5, color=GREY, ha="left", va="top",
+            arrowprops=dict(arrowstyle="-", color="0.5", lw=0.6))
+
+# one typical error cross instead of thirty error bars
+se_val = float(np.median(np.sqrt(val_acc * (1 - val_acc) / 258))) * 100
+se_test = float(np.median(np.sqrt(test_acc * (1 - test_acc) / 82))) * 100
+ex, ey = 78.9, 95.3
+ax.errorbar([ex], [ey], xerr=[se_val], yerr=[se_test], fmt="none",
+            ecolor="0.45", elinewidth=0.9, capsize=2.5, zorder=3)
+ax.text(ex + 0.35, ey - 1.0, "typical $\\pm$1 s.e.", fontsize=8,
+        color="0.35", ha="left", va="top")
+
+ax.text(0.03, 0.03, "Pearson $r = 0.43$, 95% CI $[0.09, 0.69]$",
+        transform=ax.transAxes, fontsize=8.5, color="0.35", va="bottom")
 
 ax.set_xlabel("Validation accuracy (%), 258 questions")
 ax.set_ylabel("Test accuracy (%), R07, 82 questions")
 ax.set_xlim(77.8, 87)
 ax.set_ylim(77.5, 97.5)
-ax.legend(frameon=False, ncol=5, loc="lower left",
-          bbox_to_anchor=(-0.02, 1.0), columnspacing=1.1,
-          handletextpad=0.2)
 ax.yaxis.grid(True, color="0.93", lw=0.4)
 ax.set_axisbelow(True)
 fig_style.save(fig, "fig_scatter")
