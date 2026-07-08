@@ -98,6 +98,8 @@ ypos = [3, 2, 1, 0]
 for (label, k, color, marker, open_m), yp in zip(rows, ypos):
     lo, hi = wilson(k, 82)
     pc = k / 82 * 100
+    ax.plot([64.2, lo - 0.8], [yp, yp], color="0.85", lw=0.6,
+            ls=(0, (1, 2)), zorder=1)
     ax.plot([lo, hi], [yp, yp], color=color, lw=1.8, alpha=0.45,
             solid_capstyle="round", ls=(0, (3, 2)) if open_m else "-",
             zorder=2)
