@@ -19,5 +19,13 @@
  "wide": {
   "queries": 78,
   "share": 0.195
- }
+ },
+ "placebo_random_offsets": {
+  "reps": 20,
+  "mean": 54.1,
+  "min": 45,
+  "max": 61,
+  "note": "same window count per document at random offsets; the difference from the narrow count is the marker-specific excess"
+ },
+ "documents_containing_the_word": 110
 }

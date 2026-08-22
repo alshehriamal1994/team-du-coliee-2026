@@ -20,6 +20,7 @@ Writes expY_numbers.json.
 
 import json
 import os
+import random
 import re
 import sys
 from pathlib import Path
@@ -31,6 +32,8 @@ LABELS = Path(ROOT) / "task1_test_labels_2026.json"
 OUT = HERE / "expY_numbers.json"
 
 WINDOW = 250          # characters either side of the suppression marker
+PLACEBO_REPS = 20     # random-offset windows, to establish the ambient rate
+SEED = 20260822
 EXPECT_QUERIES = 400
 EXPECT_GOLD = 1750
 
@@ -80,6 +83,23 @@ def main():
     if missing:
         sys.exit(f"GATE FAILED: {missing} query files not found under {CORPUS}")
 
+    # Placebo: the same number of windows per document, placed at random offsets.
+    # Without it the raw count cannot be told from the ambient rate of the word.
+    rng = random.Random(SEED)
+    placebo = []
+    for _ in range(PLACEBO_REPS):
+        hit = 0
+        for qid in sorted(gold):
+            name = qid if qid.endswith(".txt") else qid + ".txt"
+            text = (CORPUS / name).read_text(encoding="utf-8", errors="replace")
+            n = len(SUPPRESSION.findall(text))
+            for _ in range(n):
+                c = rng.randrange(len(text))
+                if NARROW.search(text[max(0, c - WINDOW): c + WINDOW]):
+                    hit += 1
+                    break
+        placebo.append(hit)
+
     out = {
         "question": "how often does a Task 1 gold citation sit beside language "
                     "of distinguishing or negative treatment",
@@ -101,6 +121,18 @@ def main():
             "queries": len(counts["wide"]),
             "share": round(len(counts["wide"]) / len(gold), 4),
         },
+        "placebo_random_offsets": {
+            "reps": PLACEBO_REPS,
+            "mean": round(sum(placebo) / len(placebo), 1),
+            "min": min(placebo),
+            "max": max(placebo),
+            "note": "same window count per document at random offsets; the "
+                    "difference from the narrow count is the marker-specific excess",
+        },
+        "documents_containing_the_word": sum(
+            1 for qid in sorted(gold)
+            if NARROW.search((CORPUS / (qid if qid.endswith(".txt") else qid + ".txt"))
+                             .read_text(encoding="utf-8", errors="replace"))),
     }
     json.dump(out, open(OUT, "w"), indent=1)
     print(f"narrow: {out['narrow']['queries']}/{len(gold)} "
