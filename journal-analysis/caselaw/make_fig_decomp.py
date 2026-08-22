@@ -35,7 +35,7 @@ for y, (name, t) in zip(ypos, rows):
         (c["1_better_constant"],       ACC,    "a better constant"),
         (c["2_per_query_adaptivity"],  ACC_LT, "per-query count"),
         (c["3_ranking_within_list"],   GREY_A, "ranking in the list"),
-        (c["4_gold_never_retrieved"],  GREY_B, "never retrieved"),
+        (c["4_gold_never_retrieved"],  GREY_B, "below evaluated depth"),
     ]
     left = 0.0
     for w, col, _ in segs:
@@ -72,7 +72,7 @@ ax.set_ylim(-0.55, 1.85)
 
 handles = [plt.Rectangle((0, 0), 1, 1, color=c) for c in (INK, ACC, ACC_LT, GREY_A, GREY_B)]
 labels = ["achieved", "a better constant", "per-query count",
-          "ranking in the list", "never retrieved"]
+          "ranking in the list", "below evaluated depth"]
 ax.legend(handles, labels, frameon=False, fontsize=7, ncol=5,
           loc="lower center", bbox_to_anchor=(0.5, -0.42), handlelength=1.1,
           columnspacing=1.0, handletextpad=0.4)
