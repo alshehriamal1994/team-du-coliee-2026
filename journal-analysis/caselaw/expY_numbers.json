@@ -1,0 +1,23 @@
+{
+ "question": "how often does a Task 1 gold citation sit beside language of distinguishing or negative treatment",
+ "method": {
+  "window_chars": 250,
+  "narrow_pattern": "\\bdistinguish\\w*",
+  "wide_pattern": "(\\bdistinguish\\w*|declined to follow|doubt (?:has been )?cast|overrul\\w*|not persuaded by)",
+  "unit": "query case, counted once if any marker matches",
+  "caveat": "a lower bound on prevalence; detects only treatment signalled by an explicit verb near the marker"
+ },
+ "gates": {
+  "queries": 400,
+  "gold_citations": 1750
+ },
+ "suppression_markers_total": 10164,
+ "narrow": {
+  "queries": 76,
+  "share": 0.19
+ },
+ "wide": {
+  "queries": 78,
+  "share": 0.195
+ }
+}
