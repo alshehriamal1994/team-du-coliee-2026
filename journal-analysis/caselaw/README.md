@@ -50,3 +50,12 @@ under `COLIEE_ROOT`.
   only. They record runs made before this folder was assembled, and the figures they
   hold are reproduced by the scripts that cite them rather than by a generator of
   their own.
+
+- `expY_citation_treatment.py` -> `expY_numbers.json`. Counts query cases where a
+  citation-suppression marker stands near distinguishing language, with a
+  random-offset placebo for the ambient rate.
+- `expZ_reference_ranker_sweep.py` -> `expZ_numbers.json`. The six post-competition
+  Task 1 configurations and their test scores, recording how the reference ranker
+  was selected.
+- `expH3_exact_envelope.py` -> `expH3_numbers.json`. Null B recomputed with the
+  exact perfect-ranker envelope, gated on reproducing expH2 first.

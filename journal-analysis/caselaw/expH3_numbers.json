@@ -1,0 +1,43 @@
+{
+ "question": "does the exact perfect-ranker envelope change the null",
+ "permutations": 10000,
+ "seed": 20260810,
+ "gates": {
+  "T1": {
+   "rho_reproduced": 0.675,
+   "min_k_g_null_mean_reproduced": 0.468
+  },
+  "T2": {
+   "rho_reproduced": 0.61,
+   "min_k_g_null_mean_reproduced": 0.751
+  }
+ },
+ "tasks": {
+  "T1": {
+   "observed_spearman": 0.675,
+   "null_min_k_g": {
+    "mean": 0.468,
+    "sd": 0.105,
+    "observed_percentile": 98.2
+   },
+   "null_exact_envelope": {
+    "mean": 0.249,
+    "sd": 0.136,
+    "observed_percentile": 100.0
+   }
+  },
+  "T2": {
+   "observed_spearman": 0.61,
+   "null_min_k_g": {
+    "mean": 0.751,
+    "sd": 0.056,
+    "observed_percentile": 1.0
+   },
+   "null_exact_envelope": {
+    "mean": 0.748,
+    "sd": 0.056,
+    "observed_percentile": 1.1
+   }
+  }
+ }
+}

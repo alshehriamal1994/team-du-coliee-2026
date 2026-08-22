@@ -1,0 +1,54 @@
+{
+ "question": "how was the post-competition Task 1 reference ranker chosen, and how wide is the field it was chosen from",
+ "protocol": {
+  "selection": "argmax of step-8 micro-F1 on the released 2026 test labels; the configurations differ in capacity, learning rate, sampling and regularisation only",
+  "caveat": "selection on the evaluation collection. The ranker is a reference held fixed across the stopping analyses, not a system that could have been submitted."
+ },
+ "n_configurations": 6,
+ "scores": {
+  "DU4": 0.3451,
+  "DU5": 0.3264,
+  "DU6": 0.336,
+  "DU7": 0.3387,
+  "DU8": 0.3424,
+  "DU9": 0.3456
+ },
+ "selected": "DU9",
+ "spread": {
+  "min": 0.3264,
+  "max": 0.3456,
+  "range_pp": 1.92
+ },
+ "configurations": {
+  "DU4": {},
+  "DU5": {},
+  "DU6": {},
+  "DU7": {
+   "colsample_bytree": 0.7,
+   "learning_rate": 0.02,
+   "n_estimators": 4000,
+   "num_leaves": 255,
+   "reg_alpha": 0.5,
+   "reg_lambda": 0.5,
+   "subsample": 0.7
+  },
+  "DU8": {
+   "colsample_bytree": 0.8,
+   "learning_rate": 0.015,
+   "n_estimators": 5000,
+   "num_leaves": 255,
+   "reg_alpha": 0.1,
+   "reg_lambda": 0.1,
+   "subsample": 0.8
+  },
+  "DU9": {
+   "colsample_bytree": 0.9,
+   "learning_rate": 0.02,
+   "n_estimators": 4000,
+   "num_leaves": 255,
+   "reg_alpha": 0.05,
+   "reg_lambda": 0.05,
+   "subsample": 0.9
+  }
+ }
+}
