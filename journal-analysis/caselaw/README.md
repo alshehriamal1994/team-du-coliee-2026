@@ -44,7 +44,9 @@ under `COLIEE_ROOT`.
   is read on the same scale as the full-field association.
 - `make_fig_*.py`, `make_figures2.py`, `figstyle.py` — figure generators.
 - `make_appendix_audit.py` — Appendix C from `expH_runs.csv`.
-- `expF_numbers.json`, `expI_numbers.json` and `expO_numbers.json` are ledgers
-  only. They record runs made before this folder was assembled, and the figures
-  they hold are reproduced by the scripts that cite them rather than by a
-  generator of their own.
+- `expF_verify.py` checks the internal consistency of `expF_numbers.json` and the
+  difference column the article prints from it.
+- `expI_numbers.json` and `expO_numbers.json` are ledgers
+  only. They record runs made before this folder was assembled, and the figures they
+  hold are reproduced by the scripts that cite them rather than by a generator of
+  their own.
