@@ -1,0 +1,34 @@
+{
+  "experiment": "expS_submitted_oracle",
+  "model": "saved submitted DU3 booster (ARCHIVE/runs/du3_bigmodel/model.txt)",
+  "gates": {
+    "rebuilt_top5_scores_official_0.3141": true,
+    "per_query_exact_match_ge_0.99": true,
+    "per_query_exact_match_fraction": 1.0
+  },
+  "protocol": {
+    "B": 10000,
+    "seed": 20260822,
+    "n_queries": 400
+  },
+  "submitted_fixed5_F1": 0.3408,
+  "submitted_oracle_F1": 0.3954,
+  "submitted_oracle_ci95": [
+    0.3638,
+    0.4283
+  ],
+  "stopping_on_submitted_pp": {
+    "point": 5.46,
+    "ci95": [
+      3.82,
+      7.26
+    ],
+    "prob_positive": 1.0
+  },
+  "references": {
+    "official_DU3": 0.3141,
+    "winner": 0.422,
+    "du9_oracle": 0.4143,
+    "du9_fixed5": 0.3456
+  }
+}

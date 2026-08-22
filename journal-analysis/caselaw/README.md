@@ -59,3 +59,6 @@ under `COLIEE_ROOT`.
   was selected.
 - `expH3_exact_envelope.py` -> `expH3_numbers.json`. Null B recomputed with the
   exact perfect-ranker envelope, gated on reproducing expH2 first.
+- `expS_submitted_oracle.py` -> `expS_numbers.json`. Rebuilds the submitted DU3
+  booster, gated on reproducing its official run exactly, and prices the answer
+  count on that ranking rather than on the post-competition reference.
