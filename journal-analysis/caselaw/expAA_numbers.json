@@ -1,0 +1,111 @@
+{
+ "question": "is the count-permission effect a property of one wording and one run, or of the permission",
+ "protocol": {
+  "model": "deepseek/deepseek-chat",
+  "temperature": 0.0,
+  "repeats": 3,
+  "arms": [
+   "control",
+   "treatment_A",
+   "treatment_B",
+   "treatment_C"
+  ],
+  "cases": 100,
+  "top_k": 20,
+  "control_and_treatment_A": "extracted verbatim from run_singleclause_manipulation.py",
+  "paraphrases": "B and C alter only the three count-bearing phrases of the control; the entailment criterion is unchanged",
+  "bootstrap": "case-level, B=10000, seed 20260822, difference of run-averaged scores"
+ },
+ "failed_calls": {
+  "control_run1": 0,
+  "control_run2": 0,
+  "control_run3": 0,
+  "treatment_A_run1": 0,
+  "treatment_A_run2": 0,
+  "treatment_A_run3": 0,
+  "treatment_B_run1": 0,
+  "treatment_B_run2": 0,
+  "treatment_B_run3": 0,
+  "treatment_C_run1": 0,
+  "treatment_C_run2": 0,
+  "treatment_C_run3": 0
+ },
+ "per_run_F1": {
+  "control_run1": 0.3542,
+  "control_run2": 0.3532,
+  "control_run3": 0.3584,
+  "treatment_A_run1": 0.4793,
+  "treatment_A_run2": 0.473,
+  "treatment_A_run3": 0.4825,
+  "treatment_B_run1": 0.496,
+  "treatment_B_run2": 0.501,
+  "treatment_B_run3": 0.4889,
+  "treatment_C_run1": 0.4754,
+  "treatment_C_run2": 0.4713,
+  "treatment_C_run3": 0.4823
+ },
+ "by_arm": {
+  "control": {
+   "runs": [
+    0.3542,
+    0.3532,
+    0.3584
+   ],
+   "mean": 0.3553,
+   "spread": 0.0052
+  },
+  "treatment_A": {
+   "runs": [
+    0.4793,
+    0.473,
+    0.4825
+   ],
+   "mean": 0.4783,
+   "spread": 0.0095
+  },
+  "treatment_B": {
+   "runs": [
+    0.496,
+    0.501,
+    0.4889
+   ],
+   "mean": 0.4953,
+   "spread": 0.0121
+  },
+  "treatment_C": {
+   "runs": [
+    0.4754,
+    0.4713,
+    0.4823
+   ],
+   "mean": 0.4763,
+   "spread": 0.011
+  }
+ },
+ "effect_vs_control": {
+  "treatment_A": {
+   "points": 12.3,
+   "ci95": [
+    7.88,
+    16.82
+   ],
+   "prob_positive": 1.0
+  },
+  "treatment_B": {
+   "points": 14.0,
+   "ci95": [
+    9.74,
+    18.38
+   ],
+   "prob_positive": 1.0
+  },
+  "treatment_C": {
+   "points": 12.11,
+   "ci95": [
+    7.74,
+    16.65
+   ],
+   "prob_positive": 1.0
+  }
+ }
+}

@@ -62,3 +62,6 @@ under `COLIEE_ROOT`.
 - `expS_submitted_oracle.py` -> `expS_numbers.json`. Rebuilds the submitted DU3
   booster, gated on reproducing its official run exactly, and prices the answer
   count on that ranking rather than on the post-competition reference.
+- `run_prompt_robustness.py` -> `expAA_numbers.json`. The count permission across
+  three wordings and three runs each, against a shared control extracted verbatim
+  from the single-clause manipulation.
