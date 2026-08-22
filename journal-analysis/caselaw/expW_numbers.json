@@ -1,0 +1,57 @@
+{
+  "experiment": "expW_lecard",
+  "source": "LeCaRD repository (Ma et al., SIGIR 2021), golden labels and the authors' published baseline rankings; no model run here",
+  "gates": {
+    "golden_has_107_queries": true,
+    "all_rankings_cover_107": true,
+    "rankings_are_top100": true,
+    "distribution_matches_paper": true
+  },
+  "collection": {
+    "n_queries": 107,
+    "golden_total": 1112,
+    "golden_mean": 10.39,
+    "golden_min_max": [
+      1,
+      30
+    ]
+  },
+  "perfect_ranker": {
+    "best_constant": 13,
+    "ceiling_at_best": 0.6576
+  },
+  "rankings": {
+    "tfidf_top100": {
+      "best_fixed_F1": 0.0449,
+      "best_fixed_k": 30,
+      "oracle_F1": 0.054,
+      "count_worth_pp": 0.91
+    },
+    "bm25_top100": {
+      "best_fixed_F1": 0.0269,
+      "best_fixed_k": 23,
+      "oracle_F1": 0.0324,
+      "count_worth_pp": 0.55
+    },
+    "lm_top100": {
+      "best_fixed_F1": 0.4104,
+      "best_fixed_k": 27,
+      "oracle_F1": 0.4982,
+      "count_worth_pp": 8.78
+    },
+    "combined_top100": {
+      "best_fixed_F1": 0.5062,
+      "best_fixed_k": 30,
+      "oracle_F1": 0.5998,
+      "count_worth_pp": 9.36
+    }
+  },
+  "golden_coverage_in_top100": {
+    "tfidf_top100": 0.5,
+    "bm25_top100": 0.984,
+    "lm_top100": 0.984,
+    "combined_top100": 0.984
+  },
+  "quality_vs_count_worth_spearman": 1.0,
+  "reading": "The fixed-count ceiling of a perfect ranker is far lower than on COLIEE because the golden counts spread more widely, and the worth of count knowledge rises monotonically with ranking quality across the benchmark's own published baselines, the relation Section 6.5 measures within COLIEE."
+}

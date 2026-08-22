@@ -1,0 +1,99 @@
+{
+  "protocol": {
+    "purpose": "replace the simulated middle of the count-value curve with real rankers over the identical candidate pool",
+    "held_fixed": "queries, gold, candidate pool, micro-averaged F1",
+    "k_grid": [
+      1,
+      15
+    ],
+    "gate": "du9 count value must match expM alpha=0 (7.1 points)"
+  },
+  "task1_rankers": [
+    {
+      "best_k": 6,
+      "best_fixed_F1": 0.121,
+      "oracle_F1": 0.1394,
+      "count_value_pp": 1.8,
+      "ranker": "dense retrieval",
+      "kind": "first-stage signal"
+    },
+    {
+      "best_k": 6,
+      "best_fixed_F1": 0.1369,
+      "oracle_F1": 0.148,
+      "count_value_pp": 1.1,
+      "ranker": "paragraph Jaccard",
+      "kind": "first-stage signal"
+    },
+    {
+      "best_k": 5,
+      "best_fixed_F1": 0.1856,
+      "oracle_F1": 0.2069,
+      "count_value_pp": 2.1,
+      "ranker": "reciprocal rank fusion",
+      "kind": "first-stage signal"
+    },
+    {
+      "best_k": 5,
+      "best_fixed_F1": 0.1899,
+      "oracle_F1": 0.216,
+      "count_value_pp": 2.6,
+      "ranker": "BM25",
+      "kind": "first-stage signal"
+    },
+    {
+      "best_k": 5,
+      "best_fixed_F1": 0.3227,
+      "oracle_F1": 0.3891,
+      "count_value_pp": 6.6,
+      "ranker": "LambdaRank (du7)",
+      "kind": "trained model"
+    },
+    {
+      "best_k": 6,
+      "best_fixed_F1": 0.3258,
+      "oracle_F1": 0.3966,
+      "count_value_pp": 7.1,
+      "ranker": "LambdaRank (du9)",
+      "kind": "trained model"
+    },
+    {
+      "best_k": 6,
+      "best_fixed_F1": 0.3292,
+      "oracle_F1": 0.3891,
+      "count_value_pp": 6.0,
+      "ranker": "LambdaRank (du4)",
+      "kind": "trained model"
+    }
+  ],
+  "task1_relation": {
+    "spearman_quality_vs_count_value": 0.857,
+    "pearson_quality_vs_count_value": 0.975,
+    "range_best_fixed_F1": [
+      0.121,
+      0.3292
+    ],
+    "range_count_value_pp": [
+      1.1,
+      7.1
+    ],
+    "spearman_quality_vs_count_share": 0.679,
+    "caveat": "as a share of oracle F1 the trend is much weaker, reported so that the absolute relation is not mistaken for a scale-free one"
+  },
+  "task2_reranker_upgrade": {
+    "v1": {
+      "best_k": 2,
+      "best_fixed_F1": 0.3725,
+      "oracle_F1": 0.398,
+      "recall_at_20": 0.8163,
+      "count_value_pp": 2.6
+    },
+    "v2": {
+      "best_k": 3,
+      "best_fixed_F1": 0.4646,
+      "oracle_F1": 0.4932,
+      "recall_at_20": 0.881,
+      "count_value_pp": 2.9
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "date": "2026-07-22",
+    "n_train_q": 1712,
+    "seed": 42,
+    "ladder": {
+      "fixed5": 0.3456,
+      "G1_learned": 0.3489,
+      "oracle": 0.4143,
+      "winner_NOWJ": 0.422
+    }
+  },
+  "count_cv_train": {
+    "MAE": 1.975,
+    "corr": 0.575,
+    "mean_pred": 4.16
+  },
+  "count_test": {
+    "MAE": 2.185,
+    "corr": 0.458,
+    "mean_pred": 3.27
+  },
+  "f1_test": {
+    "P": 0.4205,
+    "R": 0.3143,
+    "F1": 0.3597
+  },
+  "feature_importance_top10": {
+    "sh_gap25": 962,
+    "bm25_gap12": 902,
+    "sh_std10": 854,
+    "n_suppr": 784,
+    "dense_gap12": 723,
+    "dense_mean10": 708,
+    "sh_gap510": 696,
+    "sh_gap12": 669,
+    "bm25_gap56": 651,
+    "dense_n90": 630
+  },
+  "gap_closed_pct": 20.5
+}

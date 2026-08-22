@@ -1,0 +1,145 @@
+{
+  "purpose": "distribution-free risk control for the vote-margin abstention rule",
+  "method": "threshold chosen on 258 validation questions as the smallest whose exact one-sided Clopper-Pearson upper bound on selective risk meets the target; applied once to the 82 test questions",
+  "delta": 0.05,
+  "gates": {
+    "val_vote_accuracy_matches_91.9": true,
+    "test_vote_accuracy_matches_93.9": true,
+    "val_unanimous_share_matches_52.7": true,
+    "test_unanimous_share_matches_73.2": true
+  },
+  "validation_curve": {
+    "1": {
+      "coverage_pc": 100.0,
+      "n_retained": 258,
+      "n_errors": 21,
+      "selective_accuracy_pc": 91.9,
+      "selective_risk_pc": 8.1,
+      "risk_upper_bound_pc": 11.5
+    },
+    "3": {
+      "coverage_pc": 88.8,
+      "n_retained": 229,
+      "n_errors": 17,
+      "selective_accuracy_pc": 92.6,
+      "selective_risk_pc": 7.4,
+      "risk_upper_bound_pc": 10.9
+    },
+    "5": {
+      "coverage_pc": 80.6,
+      "n_retained": 208,
+      "n_errors": 13,
+      "selective_accuracy_pc": 93.8,
+      "selective_risk_pc": 6.2,
+      "risk_upper_bound_pc": 9.8
+    },
+    "7": {
+      "coverage_pc": 70.9,
+      "n_retained": 183,
+      "n_errors": 12,
+      "selective_accuracy_pc": 93.4,
+      "selective_risk_pc": 6.6,
+      "risk_upper_bound_pc": 10.4
+    },
+    "9": {
+      "coverage_pc": 52.7,
+      "n_retained": 136,
+      "n_errors": 5,
+      "selective_accuracy_pc": 96.3,
+      "selective_risk_pc": 3.7,
+      "risk_upper_bound_pc": 7.6
+    }
+  },
+  "test_curve": {
+    "1": {
+      "coverage_pc": 100.0,
+      "n_retained": 82,
+      "n_errors": 5,
+      "selective_accuracy_pc": 93.9,
+      "selective_risk_pc": 6.1,
+      "risk_upper_bound_pc": 12.4
+    },
+    "3": {
+      "coverage_pc": 95.1,
+      "n_retained": 78,
+      "n_errors": 3,
+      "selective_accuracy_pc": 96.2,
+      "selective_risk_pc": 3.8,
+      "risk_upper_bound_pc": 9.6
+    },
+    "5": {
+      "coverage_pc": 90.2,
+      "n_retained": 74,
+      "n_errors": 3,
+      "selective_accuracy_pc": 95.9,
+      "selective_risk_pc": 4.1,
+      "risk_upper_bound_pc": 10.1
+    },
+    "7": {
+      "coverage_pc": 82.9,
+      "n_retained": 68,
+      "n_errors": 3,
+      "selective_accuracy_pc": 95.6,
+      "selective_risk_pc": 4.4,
+      "risk_upper_bound_pc": 11.0
+    },
+    "9": {
+      "coverage_pc": 73.2,
+      "n_retained": 60,
+      "n_errors": 1,
+      "selective_accuracy_pc": 98.3,
+      "selective_risk_pc": 1.7,
+      "risk_upper_bound_pc": 7.7
+    }
+  },
+  "calibrated": {
+    "alpha_0.05": {
+      "threshold": null,
+      "note": "no threshold meets this target on validation"
+    },
+    "alpha_0.1": {
+      "threshold_selected_on_validation": 5,
+      "validation": {
+        "coverage_pc": 80.6,
+        "n_retained": 208,
+        "n_errors": 13,
+        "selective_accuracy_pc": 93.8,
+        "selective_risk_pc": 6.2,
+        "risk_upper_bound_pc": 9.8
+      },
+      "test_realised": {
+        "coverage_pc": 90.2,
+        "n_retained": 74,
+        "n_errors": 3,
+        "selective_accuracy_pc": 95.9,
+        "selective_risk_pc": 4.1,
+        "risk_upper_bound_pc": 10.1
+      },
+      "guarantee": "with 95% confidence, selective risk at margin >= 5 is at most 9.8% on data distributed as the validation split"
+    },
+    "alpha_0.15": {
+      "threshold_selected_on_validation": 1,
+      "validation": {
+        "coverage_pc": 100.0,
+        "n_retained": 258,
+        "n_errors": 21,
+        "selective_accuracy_pc": 91.9,
+        "selective_risk_pc": 8.1,
+        "risk_upper_bound_pc": 11.5
+      },
+      "test_realised": {
+        "coverage_pc": 100.0,
+        "n_retained": 82,
+        "n_errors": 5,
+        "selective_accuracy_pc": 93.9,
+        "selective_risk_pc": 6.1,
+        "risk_upper_bound_pc": 12.4
+      },
+      "guarantee": "with 95% confidence, selective risk at margin >= 1 is at most 11.5% on data distributed as the validation split"
+    }
+  },
+  "reading": {
+    "bounds_are_loose_at_this_size": "The 82-question test split cannot support a tight guarantee. Where the bound is weaker than the descriptive point estimate, both are reported and the bound is the claim.",
+    "distribution_assumption": "Validity requires the test questions to be exchangeable with the validation ones. They come from a later examination year, so the realised test risk is reported as a check on that assumption rather than as a second guarantee."
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "experiment": "expP_paired_bootstrap",
+  "purpose": "paired case-level bootstrap on the differences the paper claims",
+  "protocol": {
+    "B": 10000,
+    "seed": 20260819,
+    "resampling_unit": "test case",
+    "n_cases": 100
+  },
+  "gates": {
+    "control_reproduces_ledger": true,
+    "treatment_reproduces_ledger": true,
+    "v3_rag_prior_reproduces_ledger": true,
+    "v3_rag_noprior_reproduces_ledger": true
+  },
+  "full_sample": {
+    "control": {
+      "P": 0.7528,
+      "R": 0.2279,
+      "F1": 0.3499
+    },
+    "treatment": {
+      "P": 0.6138,
+      "R": 0.3946,
+      "F1": 0.4803
+    },
+    "v3_rag_prior": {
+      "P": 0.572,
+      "R": 0.5272,
+      "F1": 0.5487
+    },
+    "v3_rag_noprior": {
+      "P": 0.5302,
+      "R": 0.5068,
+      "F1": 0.5183
+    }
+  },
+  "contrasts": {
+    "count_clause_alone": {
+      "arm_a": "treatment",
+      "arm_b": "control",
+      "full_sample_diff_pp": 13.04,
+      "boot_mean_diff_pp": 13.03,
+      "boot_ci95_pp": [
+        8.76,
+        17.39
+      ],
+      "prob_positive": 1.0,
+      "excludes_zero": true
+    },
+    "count_prior_worth": {
+      "arm_a": "v3_rag_prior",
+      "arm_b": "v3_rag_noprior",
+      "full_sample_diff_pp": 3.04,
+      "boot_mean_diff_pp": 3.03,
+      "boot_ci95_pp": [
+        -0.08,
+        6.15
+      ],
+      "prob_positive": 0.9717,
+      "excludes_zero": false
+    },
+    "broadened_wording_share": {
+      "arm_a": "v3_rag_noprior",
+      "arm_b": "treatment",
+      "full_sample_diff_pp": 3.8,
+      "boot_mean_diff_pp": 3.83,
+      "boot_ci95_pp": [
+        0.38,
+        7.54
+      ],
+      "prob_positive": 0.9861,
+      "excludes_zero": true
+    }
+  },
+  "note": "The broadened_wording_share contrast crosses the expI/expO endpoint dates and carries the between-day caveat stated in the paper."
+}

@@ -1,0 +1,39 @@
+{
+  "experiment": "expP2_paired_extra",
+  "gates": {
+    "official_is_0.3377": true,
+    "noprior_is_0.5183": true,
+    "fixed3_is_0.465": true,
+    "oracle_is_0.4932": true
+  },
+  "full_sample": {
+    "official_DU2": 0.3377,
+    "noprior_rewrite": 0.5183,
+    "fixed3": 0.4646,
+    "oracle": 0.4932
+  },
+  "protocol": {
+    "B": 10000,
+    "seed": 20260825,
+    "resampling_unit": "test case"
+  },
+  "contrasts": {
+    "rewrite_total": {
+      "full_sample_diff_pp": 18.06,
+      "boot_ci95_pp": [
+        13.66,
+        22.61
+      ],
+      "prob_positive": 1.0
+    },
+    "oracle_vs_fixed3": {
+      "full_sample_diff_pp": 2.86,
+      "boot_ci95_pp": [
+        0.5,
+        5.4
+      ],
+      "prob_positive": 0.9906
+    }
+  },
+  "note": "rewrite_total crosses the June-to-August endpoint gap; the same-day manipulation of expO carries the caveat-free version"
+}

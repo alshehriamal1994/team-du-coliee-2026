@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "date": "2026-07-22",
+    "source": "coliee.org/COLIEE2026/results/task{1,2}, fetched 2026-07-22",
+    "excluded": "zero-score runs (10 in T1, 3 in T2) = pipeline failures, not policy",
+    "du_sizes": {
+      "T1_du3": 5.0,
+      "T2_du3": 0.97
+    }
+  },
+  "task1": {
+    "n_runs_scored": 44,
+    "gold_mean": 4.375,
+    "spearman_F1_vs_size": -0.194,
+    "spearman_F1_vs_logdist_from_gold": 0.675,
+    "top5_size_mean": 4.23,
+    "rest_size_mean": 5.84,
+    "note": "T1: F1 vs -|log(size/gold_mean)| \u2014 positive means closer to gold size, higher F1"
+  },
+  "task2": {
+    "n_runs_scored": 32,
+    "gold_mean": 2.94,
+    "spearman_F1_vs_size": 0.614,
+    "spearman_F1_vs_logdist_from_gold": 0.61,
+    "top5_size_mean": 3.21,
+    "rest_size_mean": 1.83,
+    "note": "T2: F1 vs -|log(size/gold_mean)| \u2014 positive means closer to gold size, higher F1"
+  }
+}

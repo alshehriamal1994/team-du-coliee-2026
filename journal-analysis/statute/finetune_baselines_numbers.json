@@ -1,0 +1,111 @@
+{
+  "purpose": "provenance and verification for Table tab:finetune",
+  "benchmark": {
+    "n_questions": 258,
+    "per_year": {
+      "H30": 67,
+      "R01": 110,
+      "R02": 81
+    },
+    "majority_class_floor_pc": 51.2
+  },
+  "finetuned": {
+    "deberta_v2_large_japanese": {
+      "params": "324M",
+      "method": "full cross-encoder fine-tune",
+      "train_examples": 965,
+      "settings": {
+        "epochs": 15,
+        "batch": 4,
+        "grad_accum": 4,
+        "lr": 1e-05,
+        "schedule": "cosine with warmup",
+        "early_stopping_patience": 3
+      },
+      "n_correct": 166,
+      "n_questions": 258,
+      "acc_pc": 64.3,
+      "recorded_per_year_pc": {
+        "H30": 55.2,
+        "R01": 66.4,
+        "R02": 69.1
+      },
+      "recorded_micro_pc": 64.3,
+      "recomputed_from_logs": true
+    },
+    "qwen2.5_7b_instruct_qlora": {
+      "params": "7B",
+      "method": "QLoRA 4-bit, r=16, alpha=32, attention-only",
+      "train_examples": 965,
+      "settings": {
+        "epochs": 5,
+        "batch": 1,
+        "grad_accum": 16,
+        "lr": 0.0002
+      },
+      "n_correct": 190,
+      "n_questions": 258,
+      "acc_pc": 73.6,
+      "recorded_per_year_pc": {
+        "H30": 74.6,
+        "R01": 70.9,
+        "R02": 76.5
+      },
+      "recorded_micro_pc": 73.6,
+      "recomputed_from_logs": true
+    },
+    "qwen2.5_32b_instruct_qlora": {
+      "params": "32B",
+      "method": "QLoRA 4-bit NF4, r=64, alpha=128, all projections",
+      "train_examples": 10525,
+      "train_examples_source": "<COLIEE_ROOT>/TASK4/ncc_qlora_package/train_data.jsonl",
+      "train_composition": {
+        "task4": 965,
+        "task3": 9560
+      },
+      "settings": {
+        "steps": 640,
+        "hardware": "1x A100-80GB",
+        "wall_clock_h": 8.3
+      },
+      "recorded_per_year_pc": {
+        "H30": 50.7,
+        "R01": 48.4,
+        "R02": 59.3
+      },
+      "acc_pc": 52.8,
+      "acc_basis": "mean of recorded per-year accuracies",
+      "recomputed_from_logs": false,
+      "note": "prediction file not retained; 77 of 82 test predictions on a single label per DETAILED_REPORT 5.3.3"
+    }
+  },
+  "not_tabulated": {
+    "elyza_jp_8b_lora": {
+      "pooled_correct_per_year": [
+        53,
+        84,
+        62
+      ],
+      "acc_pc": 77.1,
+      "source": "TASK4/experiments/RESULTS.md (per-year adapters)",
+      "conflicting_record": "DETAILED_REPORT.md 5.3.4 reports 62.7/59.1/65.4 for a full-data adapter"
+    },
+    "llmjp_3_13b_lora": {
+      "pooled_correct_per_year": [
+        46,
+        68,
+        63
+      ],
+      "acc_pc": 68.6,
+      "source": "TASK4/experiments/RESULTS.md (per-year adapters)"
+    },
+    "reason": "two surviving records describe different protocols; the manuscript quotes only the higher pooled value"
+  },
+  "zero_shot_reference": {
+    "best_expert": "llama-3.3-70b-instruct_standard_v1",
+    "best_expert_val_acc_pc": 85.3,
+    "pool_size": 30,
+    "du3_vote_val": "237/258",
+    "du3_vote_val_acc_pc": 91.9
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "seed": 20260704,
+  "R07_gold_provenance": {
+    "n_R07_gold_mv": 82,
+    "n_overlap_adversarial": 40,
+    "adversarial_disagreements": [],
+    "test_R07_dataset_label_values": [
+      null
+    ],
+    "note": "primary gold = ensemble_majority_vote.jsonl; adversarial_verification.jsonl agrees on all overlapping ids"
+  },
+  "frozen_official_runs": {
+    "DU1": {
+      "H30": "63/67 = 94.0%",
+      "R01": "97/110 = 88.2%",
+      "R02": "80/81 = 98.8%",
+      "R07": "79/82 = 96.3%",
+      "val_258": "240/258 = 93.0%"
+    },
+    "DU2": {
+      "H30": "63/67 = 94.0%",
+      "R01": "97/110 = 88.2%",
+      "R02": "79/81 = 97.5%",
+      "R07": "79/82 = 96.3%",
+      "val_258": "239/258 = 92.6%"
+    },
+    "DU3": {
+      "H30": "63/67 = 94.0%",
+      "R01": "96/110 = 87.3%",
+      "R02": "78/81 = 96.3%",
+      "R07": "77/82 = 93.9%",
+      "val_258": "237/258 = 91.9%"
+    }
+  },
+  "DU3_reproduction": {
+    "H30": {
+      "reproduced_vote": "63/67 = 94.0%",
+      "agreement_with_frozen_DU3": "67/67"
+    },
+    "R01": {
+      "reproduced_vote": "96/110 = 87.3%",
+      "agreement_with_frozen_DU3": "110/110"
+    },
+    "R02": {
+      "reproduced_vote": "78/81 = 96.3%",
+      "agreement_with_frozen_DU3": "81/81"
+    },
+    "R07": {
+      "reproduced_vote": "77/82 = 93.9%",
+      "agreement_with_frozen_DU3": "82/82"
+    }
+  },
+  "ledger_gate": "PASS: pool=30, val-best=llama-3.3-70b standard 68/82, DU3 vote 77/82, r=0.43 - matches deep_analysis_numbers.json",
+  "pool": {
+    "rule": "base-LLM API configs with files on all 4 splits; excludes meta outputs (deliberation/stacking/neural fusion), fine-tuned encoders, and single-split variants (oldlaw/fewshot/thinking)",
+    "n": 30,
+    "val_best": "llama-3.3-70b-instruct_standard_v1",
+    "val_best_test_rank": "28 of 30 (27 strictly higher, 1 tied)",
+    "selection_regret_pp": 12.2,
+    "pearson_r_val_test": 0.434
+  },
+  "mcnemar_R07": {
+    "deployable_single_vs_DU3_vote": {
+      "first_only_correct": 1,
+      "second_only_correct": 10,
+      "exact_two_sided_p": 0.01172
+    },
+    "deployable_single_vs_official_DU1": {
+      "first_only_correct": 0,
+      "second_only_correct": 11,
+      "exact_two_sided_p": 0.00098
+    },
+    "DU3_vote_vs_official_DU1": {
+      "first_only_correct": 0,
+      "second_only_correct": 2,
+      "exact_two_sided_p": 0.5
+    }
+  },
+  "noise_only_null": {
+    "B": 10000,
+    "observed": {
+      "pearson_r": 0.434,
+      "regret_pp": 12.2,
+      "val_best_rank": 28
+    },
+    "null_mean": {
+      "pearson_r": 0.358,
+      "regret_pp": 5.7,
+      "val_best_rank": 9.1
+    },
+    "null_90pct_interval": {
+      "pearson_r": [
+        0.086,
+        0.598
+      ],
+      "regret_pp": [
+        0.0,
+        13.4
+      ],
+      "val_best_rank": [
+        1,
+        23
+      ]
+    },
+    "p_values_one_sided": {
+      "P(r_null <= r_obs)": 0.6687,
+      "P(regret_null >= regret_obs)": 0.0837,
+      "P(rank_null >= rank_obs)": 0.0137
+    },
+    "caveat": "The null fixes each expert's true skill at its validation accuracy, so validation-side estimation noise (winner's curse on the val-best) is not modelled; the rank p-value may partly reflect that rather than distribution shift. Safe wording: the observed val-test correlation is consistent with sampling noise alone - an 82-question test cannot rank this pool, so neither can a 258-question validation set; selection is unreliable whatever the mechanism."
+  }
+}

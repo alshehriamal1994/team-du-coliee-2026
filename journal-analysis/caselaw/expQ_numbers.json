@@ -1,0 +1,42 @@
+{
+  "experiment": "expQ_replication_2025",
+  "design": "frozen expO prompt pair on the COLIEE 2025 test collection, 71 cases untouched by prompt development, BM25 top-20 candidates, BM25 worked examples from a bank purged of all 2025 cases; no trained component",
+  "collection": {
+    "n_cases": 71,
+    "gold_total": 122,
+    "gold_mean": 1.72,
+    "bm25_top20_recall": 0.828
+  },
+  "registered_prediction": "intermediate effect, between zero and the 13.0 points of the 2026 test, since the gold mean 1.72 sits between the development split's 1.22 and the 2026 test's 2.94",
+  "gates": {
+    "control_covers_all_71": true,
+    "control_preds_within_shortlist": true,
+    "treatment_covers_all_71": true,
+    "treatment_preds_within_shortlist": true,
+    "no_case_prompt_touched": true
+  },
+  "arms": {
+    "control": {
+      "P": 0.4138,
+      "R": 0.1967,
+      "F1": 0.2667,
+      "avg_returned": 0.82
+    },
+    "treatment": {
+      "P": 0.3697,
+      "R": 0.3607,
+      "F1": 0.3651,
+      "avg_returned": 1.68
+    }
+  },
+  "paired_difference": {
+    "diff_pp": 9.84,
+    "boot_ci95_pp": [
+      1.35,
+      18.07
+    ],
+    "prob_positive": 0.9896,
+    "B": 10000,
+    "seed": 20260820
+  }
+}

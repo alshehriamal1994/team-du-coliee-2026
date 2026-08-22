@@ -1,0 +1,36 @@
+{
+  "experiment": "expO_singleclause_manipulation",
+  "date": "2026-08-11",
+  "script": "TASK2_code/run_singleclause_manipulation.py",
+  "outputs": "TASK2_code/runs_singleclause/test2026_{control,treatment}.txt",
+  "protocol": {
+    "model": "deepseek/deepseek-chat",
+    "temperature": 0.0,
+    "config": "DU2-matched: Legal-RAG worked examples, monoT5-v2 fused top-20",
+    "assembly": "copied line for line from run_multiselect_noprior.py (expI protocol)",
+    "arms": {
+      "control": "the deployed PROMPT_FORCED_TOP1_RAG, verbatim, on today's endpoint",
+      "treatment": "identical except three count phrases: 'the SINGLE candidate paragraph (if any)' -> 'EVERY candidate paragraph'; '- Select AT MOST ONE paragraph, the single most directly entailing' -> '- Select EVERY entailing paragraph'; output line permits multiple IDs. The FORCES entailment criterion, the exclusion rule, the none rule, the worked examples and the pipeline are untouched."
+    },
+    "same_day_same_endpoint": true,
+    "coverage": "100 of 100 cases in both arms, zero permanent API failures"
+  },
+  "results": {
+    "control": {"P": 0.7528, "R": 0.2279, "F1": 0.3499, "correct": 67, "returned": 89, "avg_set_size": 0.89},
+    "treatment": {"P": 0.6138, "R": 0.3946, "F1": 0.4803, "correct": 116, "returned": 189, "avg_set_size": 1.89}
+  },
+  "gates": {
+    "control_reproduces_official_precision": "control P 0.7528 vs official DU2 P 0.753 (paper Section 6.4): PASS",
+    "control_near_official_F1": "control F1 0.3499 vs official 0.3377, drift +1.2 points over the June-to-August endpoint gap",
+    "coverage_both_arms_100": true,
+    "failed_calls": 0
+  },
+  "reading": {
+    "single_clause_effect_pp": 13.0,
+    "basis": "0.3499 -> 0.4803, same day, same endpoint, paired",
+    "full_rewrite_leakage_free_F1": 0.5183,
+    "rewrite_beyond_count_clause_pp": 3.8,
+    "rewrite_caveat": "the 0.5183 was run 2026-07-25, so the 3.8 attribution to the broadened wording carries a between-day endpoint caveat the 13.0 does not",
+    "treatment_avg_vs_gold_mean": "1.89 returned vs gold mean 2.94: the permission alone still under-returns, consistent with Section 6's account"
+  }
+}

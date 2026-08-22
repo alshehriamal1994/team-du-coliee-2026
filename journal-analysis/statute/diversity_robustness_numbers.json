@@ -1,0 +1,160 @@
+{
+  "corr_ci": {
+    "pearson_r": 0.43,
+    "fisher_95ci": [
+      0.09,
+      0.69
+    ],
+    "binomial_se_test_acc_pp": 3.5
+  },
+  "tiebreak_sensitivity": {
+    "alphabetical": {
+      "mean_pc": 88.9,
+      "p5_pc": 82.9,
+      "p95_pc": 95.1
+    },
+    "random": {
+      "mean_pc": 89.1,
+      "p5_pc": 82.9,
+      "p95_pc": 95.1
+    }
+  },
+  "diversity_size_9experts_by_model": {
+    "3": {
+      "n_low": 1,
+      "n_high": 3,
+      "val_low_pc": 85.7,
+      "val_high_pc": 89.5,
+      "val_gap_pp": 3.9,
+      "val_gap_95ci_pp": [
+        0.0,
+        7.8
+      ],
+      "test_low_pc": 93.9,
+      "test_high_pc": 95.1
+    },
+    "5": {
+      "n_low": 2,
+      "n_high": 5,
+      "val_low_pc": 88.8,
+      "val_high_pc": 90.3,
+      "val_gap_pp": 1.6,
+      "val_gap_95ci_pp": [
+        -1.6,
+        4.7
+      ],
+      "test_low_pc": 93.9,
+      "test_high_pc": 93.9
+    },
+    "7": {
+      "n_low": 4,
+      "n_high": 6,
+      "val_low_pc": 90.7,
+      "val_high_pc": 91.1,
+      "val_gap_pp": 0.4,
+      "val_gap_95ci_pp": [
+        -1.9,
+        2.7
+      ],
+      "test_low_pc": 93.9,
+      "test_high_pc": 95.1
+    }
+  },
+  "diversity_size_9experts_by_family": {
+    "3": {
+      "n_low": 1,
+      "n_high": 3,
+      "val_low_pc": 88.4,
+      "val_high_pc": 88.4,
+      "val_gap_pp": 0.0,
+      "val_gap_95ci_pp": [
+        -3.5,
+        3.5
+      ],
+      "test_low_pc": 92.7,
+      "test_high_pc": 92.7
+    },
+    "5": {
+      "n_low": 2,
+      "n_high": 3,
+      "val_low_pc": 90.7,
+      "val_high_pc": 90.3,
+      "val_gap_pp": -0.4,
+      "val_gap_95ci_pp": [
+        -3.1,
+        1.9
+      ],
+      "test_low_pc": 93.9,
+      "test_high_pc": 93.9
+    },
+    "7": {
+      "n_low": 2,
+      "n_high": 3,
+      "val_low_pc": 91.1,
+      "val_high_pc": 91.1,
+      "val_gap_pp": 0.0,
+      "val_gap_95ci_pp": [
+        -1.9,
+        2.3
+      ],
+      "test_low_pc": 93.9,
+      "test_high_pc": 95.1
+    }
+  },
+  "pool_lift_vs_diversity": {
+    "n_committees": 5000,
+    "mean_lift_val_pp": 4.6,
+    "mean_lift_test_pp": 2.2,
+    "corr_lift_val__n_families": 0.23,
+    "corr_lift_val__cross_frac": 0.31,
+    "corr_lift_val__disagreement": 0.6,
+    "corr_lift_test__n_families": 0.15,
+    "corr_lift_test__cross_frac": 0.19,
+    "corr_lift_test__disagreement": -0.12,
+    "corr_commacc_test__cross_frac": 0.1,
+    "lift_val_by_nfam": {
+      "1": [
+        4.6,
+        1
+      ],
+      "2": [
+        4.3,
+        343
+      ],
+      "3": [
+        4.5,
+        2487
+      ],
+      "4": [
+        4.8,
+        1875
+      ],
+      "5": [
+        5.3,
+        294
+      ]
+    },
+    "lift_test_by_nfam": {
+      "1": [
+        2.4,
+        1
+      ],
+      "2": [
+        0.9,
+        343
+      ],
+      "3": [
+        2.2,
+        2487
+      ],
+      "4": [
+        2.4,
+        1875
+      ],
+      "5": [
+        2.6,
+        294
+      ]
+    }
+  }
+}

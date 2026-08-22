@@ -1,0 +1,68 @@
+{
+ "protocol": {
+  "question": "does the best-run-per-team association exceed what the micro-F1 surface alone produces, as the full-field association does in Task 1",
+  "null": "same two nulls as expH2, applied to the team-restricted subset",
+  "permutations": 10000,
+  "seed": 20260810
+ },
+ "gates": {
+  "T1": {
+   "full_field_spearman_reproduced": 0.675,
+   "team_level_spearman_reproduced": 0.695
+  },
+  "T2": {
+   "full_field_spearman_reproduced": 0.61,
+   "team_level_spearman_reproduced": 0.677
+  }
+ },
+ "tasks": {
+  "T1": {
+   "n_teams": 18,
+   "observed_spearman": 0.695,
+   "null_A_yield_independent_of_size": {
+    "mean": 0.327,
+    "sd": 0.176,
+    "ci95": [
+     0.001,
+     0.697
+    ],
+    "observed_percentile": 97.4,
+    "p_observed_exceeds_null": 0.026
+   },
+   "null_B_perfect_ranker_envelope": {
+    "mean": 0.544,
+    "sd": 0.144,
+    "ci95": [
+     0.243,
+     0.802
+    ],
+    "observed_percentile": 84.7,
+    "p_observed_exceeds_null": 0.1535
+   }
+  },
+  "T2": {
+   "n_teams": 13,
+   "observed_spearman": 0.677,
+   "null_A_yield_independent_of_size": {
+    "mean": -0.355,
+    "sd": 0.235,
+    "ci95": [
+     -0.748,
+     0.16
+    ],
+    "observed_percentile": 100.0,
+    "p_observed_exceeds_null": 0.0002
+   },
+   "null_B_perfect_ranker_envelope": {
+    "mean": 0.769,
+    "sd": 0.077,
+    "ci95": [
+     0.611,
+     0.908
+    ],
+    "observed_percentile": 11.9,
+    "p_observed_exceeds_null": 0.8812
+   }
+  }
+ }
+}

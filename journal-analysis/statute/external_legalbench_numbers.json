@@ -1,0 +1,95 @@
+{
+  "purpose": "external test of the selection claim on third-party data",
+  "source": "Stanford CRFM HELM published per-instance exact-match results, release v1.1.0; no model was run here",
+  "url_pattern": "https://storage.googleapis.com/crfm-helm-public/lite/benchmark_output/runs/<suite>/legalbench:subset=<task>,model=<model>/per_instance_stats.json",
+  "seed": 20260818,
+  "bootstrap_splits": 2000,
+  "gates": {
+    "five_tasks": true,
+    "thirty_two_models_each": true,
+    "proa_has_95_instances": true
+  },
+  "tasks": {
+    "abercrombie": {
+      "n_instances": 95,
+      "n_models_available": 32,
+      "full_pool_spread_pp": 56.8,
+      "shortlist_k": 8,
+      "shortlist_spread_pp": 11.6,
+      "shortlist_distinct_vendors": 6,
+      "shortlist_error_overlap_ratio": 2.15,
+      "p_select_best": 0.447,
+      "selected_acc_pc": 73.29,
+      "random_draw_acc_pc": 68.63,
+      "vote_acc_pc": 67.4,
+      "selection_minus_random_pp": 4.66,
+      "vote_minus_selected_pp": -5.89
+    },
+    "corporate_lobbying": {
+      "n_instances": 490,
+      "n_models_available": 32,
+      "full_pool_spread_pp": 83.5,
+      "shortlist_k": 8,
+      "shortlist_spread_pp": 6.1,
+      "shortlist_distinct_vendors": 5,
+      "shortlist_error_overlap_ratio": 2.65,
+      "p_select_best": 0.104,
+      "selected_acc_pc": 81.71,
+      "random_draw_acc_pc": 81.5,
+      "vote_acc_pc": 83.26,
+      "selection_minus_random_pp": 0.21,
+      "vote_minus_selected_pp": 1.55
+    },
+    "function_of_decision_section": {
+      "n_instances": 367,
+      "n_models_available": 32,
+      "full_pool_spread_pp": 34.6,
+      "shortlist_k": 8,
+      "shortlist_spread_pp": 4.6,
+      "shortlist_distinct_vendors": 5,
+      "shortlist_error_overlap_ratio": 1.52,
+      "p_select_best": 0.226,
+      "selected_acc_pc": 44.66,
+      "random_draw_acc_pc": 44.27,
+      "vote_acc_pc": 42.86,
+      "selection_minus_random_pp": 0.4,
+      "vote_minus_selected_pp": -1.8
+    },
+    "international_citizenship_questions": {
+      "n_instances": 1000,
+      "n_models_available": 32,
+      "full_pool_spread_pp": 62.8,
+      "shortlist_k": 8,
+      "shortlist_spread_pp": 3.3,
+      "shortlist_distinct_vendors": 6,
+      "shortlist_error_overlap_ratio": 1.68,
+      "p_select_best": 0.282,
+      "selected_acc_pc": 61.52,
+      "random_draw_acc_pc": 61.03,
+      "vote_acc_pc": 59.77,
+      "selection_minus_random_pp": 0.49,
+      "vote_minus_selected_pp": -1.76
+    },
+    "proa": {
+      "n_instances": 95,
+      "n_models_available": 32,
+      "full_pool_spread_pp": 51.6,
+      "shortlist_k": 8,
+      "shortlist_spread_pp": 6.3,
+      "shortlist_distinct_vendors": 5,
+      "shortlist_error_overlap_ratio": 5.41,
+      "p_select_best": 0.479,
+      "selected_acc_pc": 98.36,
+      "random_draw_acc_pc": 95.16,
+      "vote_acc_pc": 96.85,
+      "selection_minus_random_pp": 3.2,
+      "vote_minus_selected_pp": -1.51
+    }
+  },
+  "reading": {
+    "condition_not_met_by_full_pools": "The full HELM pools span 34.6 to 83.5 points best to worst because they survey all models rather than shortlisting strong ones. Our pool spans 6.2. The paper's claim is conditional on near-tied candidates and does not apply to a pool of that shape, so each task is restricted to its strongest eight.",
+    "selection_finding_corroborated": "On the three shortlists whose spread is closest to our own, selecting on half the instances is worth 0.2 to 0.5 points over drawing at random, against 0.3 points in our own pool, and the probability of identifying the genuinely best shortlisted model runs from 0.10 to 0.48.",
+    "voting_remedy_not_corroborated": "An unweighted majority vote over the shortlist is worse than the selected single on four of the five tasks, where in our setting it is better by eleven points. The shortlists are as heterogeneous as ours by vendor count and by error-overlap ratio, so architectural homogeneity does not explain the difference and we offer no explanation."
+  },
+  "scope": "These are United States legal reasoning tasks of five different kinds, only one of which, proa, supplies a statutory provision and asks a binary judgement of it. No claim is made that a statute-entailment result replicates. What is tested is the selection phenomenon."
+}

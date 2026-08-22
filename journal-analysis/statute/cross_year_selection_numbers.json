@@ -1,0 +1,88 @@
+{
+  "purpose": "does the selection failure survive rotating the deployment target?",
+  "method": "leave-one-examination-year-out: rank the thirty experts on the other three years, deploy the best, score it on the held-out year; no new inference, the pool is already scored on all four years",
+  "gates": {
+    "r07_rotation_reproduces_rank_28": true,
+    "r07_rotation_reproduces_82.9": true,
+    "four_years_present": true,
+    "question_total_is_340": true
+  },
+  "rotations": {
+    "H30": {
+      "n_questions": 67,
+      "selected_on": [
+        "R01",
+        "R02",
+        "R07"
+      ],
+      "deployed_expert": "deepseek-r1-zs",
+      "deployed_accuracy_pc": 86.6,
+      "deployed_rank_of_30": 7,
+      "random_draw_accuracy_pc": 83.2,
+      "selection_minus_random_pp": 3.3,
+      "full_pool_vote_accuracy_pc": 89.6,
+      "vote_minus_deployed_pp": 3.0,
+      "best_expert_on_target_pc": 91.0
+    },
+    "R01": {
+      "n_questions": 110,
+      "selected_on": [
+        "H30",
+        "R02",
+        "R07"
+      ],
+      "deployed_expert": "deepseek-r1-zs",
+      "deployed_accuracy_pc": 76.4,
+      "deployed_rank_of_30": 16,
+      "random_draw_accuracy_pc": 77.6,
+      "selection_minus_random_pp": -1.2,
+      "full_pool_vote_accuracy_pc": 83.6,
+      "vote_minus_deployed_pp": 7.3,
+      "best_expert_on_target_pc": 82.7
+    },
+    "R02": {
+      "n_questions": 81,
+      "selected_on": [
+        "H30",
+        "R01",
+        "R07"
+      ],
+      "deployed_expert": "qwen3-235b-a22b_sc3_v1",
+      "deployed_accuracy_pc": 88.9,
+      "deployed_rank_of_30": 16,
+      "random_draw_accuracy_pc": 88.8,
+      "selection_minus_random_pp": 0.1,
+      "full_pool_vote_accuracy_pc": 92.6,
+      "vote_minus_deployed_pp": 3.7,
+      "best_expert_on_target_pc": 92.6
+    },
+    "R07": {
+      "n_questions": 82,
+      "selected_on": [
+        "H30",
+        "R01",
+        "R02"
+      ],
+      "deployed_expert": "llama-3.3-70b-instruct_standard_v1",
+      "deployed_accuracy_pc": 82.9,
+      "deployed_rank_of_30": 28,
+      "random_draw_accuracy_pc": 88.6,
+      "selection_minus_random_pp": -5.7,
+      "full_pool_vote_accuracy_pc": 91.5,
+      "vote_minus_deployed_pp": 8.5,
+      "best_expert_on_target_pc": 95.1
+    }
+  },
+  "summary": {
+    "rotations": 4,
+    "rotations_where_vote_beats_deployed_single": 4,
+    "rotations_where_selection_worse_than_random": 2,
+    "mean_selection_minus_random_pp": -0.9,
+    "mean_vote_minus_deployed_pp": 5.6,
+    "deployed_rank_range": [
+      7,
+      28
+    ]
+  },
+  "scope": "All four years come from the same competition and the same Civil Code, so this bounds the within-benchmark generality of the finding and does not establish it on other jurisdictions or tasks."
+}

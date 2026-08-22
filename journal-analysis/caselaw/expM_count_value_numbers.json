@@ -1,0 +1,185 @@
+{
+  "protocol": {
+    "alpha": "fraction by which each gold citation's rank is compressed towards the top; 0 is our ranker, 1 is a perfect ranker",
+    "held_fixed": "queries, gold, micro-averaged F1, candidate pool",
+    "count_value": "score under the true per-query count minus score under the best fixed count at that ranker quality",
+    "n_queries": 400,
+    "total_gold": 1750
+  },
+  "curve": {
+    "0.0": {
+      "best_k": 6,
+      "best_fixed_F1": 0.3258,
+      "fixed5_F1": 0.3211,
+      "oracle_F1": 0.3966,
+      "count_value_pp": 7.1,
+      "count_value_vs_fixed5_pp": 7.6
+    },
+    "0.05": {
+      "best_k": 5,
+      "best_fixed_F1": 0.3515,
+      "fixed5_F1": 0.3515,
+      "oracle_F1": 0.4314,
+      "count_value_pp": 8.0,
+      "count_value_vs_fixed5_pp": 8.0
+    },
+    "0.1": {
+      "best_k": 5,
+      "best_fixed_F1": 0.3515,
+      "fixed5_F1": 0.3515,
+      "oracle_F1": 0.4349,
+      "count_value_pp": 8.3,
+      "count_value_vs_fixed5_pp": 8.3
+    },
+    "0.15": {
+      "best_k": 6,
+      "best_fixed_F1": 0.3557,
+      "fixed5_F1": 0.3515,
+      "oracle_F1": 0.4411,
+      "count_value_pp": 8.5,
+      "count_value_vs_fixed5_pp": 9.0
+    },
+    "0.2": {
+      "best_k": 5,
+      "best_fixed_F1": 0.368,
+      "fixed5_F1": 0.368,
+      "oracle_F1": 0.4457,
+      "count_value_pp": 7.8,
+      "count_value_vs_fixed5_pp": 7.8
+    },
+    "0.25": {
+      "best_k": 4,
+      "best_fixed_F1": 0.3713,
+      "fixed5_F1": 0.3701,
+      "oracle_F1": 0.4566,
+      "count_value_pp": 8.5,
+      "count_value_vs_fixed5_pp": 8.6
+    },
+    "0.3": {
+      "best_k": 5,
+      "best_fixed_F1": 0.3824,
+      "fixed5_F1": 0.3824,
+      "oracle_F1": 0.472,
+      "count_value_pp": 9.0,
+      "count_value_vs_fixed5_pp": 9.0
+    },
+    "0.35": {
+      "best_k": 4,
+      "best_fixed_F1": 0.3952,
+      "fixed5_F1": 0.3851,
+      "oracle_F1": 0.4891,
+      "count_value_pp": 9.4,
+      "count_value_vs_fixed5_pp": 10.4
+    },
+    "0.4": {
+      "best_k": 4,
+      "best_fixed_F1": 0.3952,
+      "fixed5_F1": 0.3941,
+      "oracle_F1": 0.4937,
+      "count_value_pp": 9.8,
+      "count_value_vs_fixed5_pp": 10.0
+    },
+    "0.45": {
+      "best_k": 4,
+      "best_fixed_F1": 0.4078,
+      "fixed5_F1": 0.4069,
+      "oracle_F1": 0.5137,
+      "count_value_pp": 10.6,
+      "count_value_vs_fixed5_pp": 10.7
+    },
+    "0.5": {
+      "best_k": 4,
+      "best_fixed_F1": 0.4078,
+      "fixed5_F1": 0.4069,
+      "oracle_F1": 0.5171,
+      "count_value_pp": 10.9,
+      "count_value_vs_fixed5_pp": 11.0
+    },
+    "0.55": {
+      "best_k": 5,
+      "best_fixed_F1": 0.4341,
+      "fixed5_F1": 0.4341,
+      "oracle_F1": 0.5389,
+      "count_value_pp": 10.5,
+      "count_value_vs_fixed5_pp": 10.5
+    },
+    "0.6": {
+      "best_k": 5,
+      "best_fixed_F1": 0.44,
+      "fixed5_F1": 0.44,
+      "oracle_F1": 0.5543,
+      "count_value_pp": 11.4,
+      "count_value_vs_fixed5_pp": 11.4
+    },
+    "0.65": {
+      "best_k": 4,
+      "best_fixed_F1": 0.4567,
+      "fixed5_F1": 0.4485,
+      "oracle_F1": 0.5794,
+      "count_value_pp": 12.3,
+      "count_value_vs_fixed5_pp": 13.1
+    },
+    "0.7": {
+      "best_k": 4,
+      "best_fixed_F1": 0.4675,
+      "fixed5_F1": 0.4619,
+      "oracle_F1": 0.5966,
+      "count_value_pp": 12.9,
+      "count_value_vs_fixed5_pp": 13.5
+    },
+    "0.75": {
+      "best_k": 5,
+      "best_fixed_F1": 0.4795,
+      "fixed5_F1": 0.4795,
+      "oracle_F1": 0.6143,
+      "count_value_pp": 13.5,
+      "count_value_vs_fixed5_pp": 13.5
+    },
+    "0.8": {
+      "best_k": 4,
+      "best_fixed_F1": 0.5063,
+      "fixed5_F1": 0.504,
+      "oracle_F1": 0.6526,
+      "count_value_pp": 14.6,
+      "count_value_vs_fixed5_pp": 14.9
+    },
+    "0.85": {
+      "best_k": 4,
+      "best_fixed_F1": 0.5248,
+      "fixed5_F1": 0.5211,
+      "oracle_F1": 0.6811,
+      "count_value_pp": 15.6,
+      "count_value_vs_fixed5_pp": 16.0
+    },
+    "0.9": {
+      "best_k": 4,
+      "best_fixed_F1": 0.5528,
+      "fixed5_F1": 0.5477,
+      "oracle_F1": 0.7269,
+      "count_value_pp": 17.4,
+      "count_value_vs_fixed5_pp": 17.9
+    },
+    "0.95": {
+      "best_k": 4,
+      "best_fixed_F1": 0.5857,
+      "fixed5_F1": 0.5829,
+      "oracle_F1": 0.7971,
+      "count_value_pp": 21.1,
+      "count_value_vs_fixed5_pp": 21.4
+    },
+    "1.0": {
+      "best_k": 4,
+      "best_fixed_F1": 0.6842,
+      "fixed5_F1": 0.6752,
+      "oracle_F1": 0.9434,
+      "count_value_pp": 25.9,
+      "count_value_vs_fixed5_pp": 26.8
+    }
+  },
+  "headline": {
+    "count_value_at_our_ranker_pp": 7.1,
+    "count_value_at_perfect_ranker_pp": 25.9,
+    "ratio": 3.6,
+    "monotone_increasing": false
+  }
+}

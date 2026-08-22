@@ -1,0 +1,35 @@
+{
+  "meta": {
+    "date": "2026-07-22",
+    "config": "DU9 params, raw top-5, no step8",
+    "reference_DU9_all_years_raw_test2026": 0.3211
+  },
+  "E_a_train2026clean_test2025": {
+    "P": 0.307,
+    "R": 0.3614,
+    "F1": 0.332,
+    "n_queries": 400,
+    "total_gold": 1699
+  },
+  "E_a_train2026clean_test2026": {
+    "P": 0.29,
+    "R": 0.3314,
+    "F1": 0.3093,
+    "n_queries": 400,
+    "total_gold": 1750
+  },
+  "E_b_train2025_test2026": {
+    "P": 0.249,
+    "R": 0.2846,
+    "F1": 0.2656,
+    "n_queries": 400,
+    "total_gold": 1750
+  },
+  "E_b_train2025_test2025": {
+    "P": 0.2885,
+    "R": 0.3396,
+    "F1": 0.312,
+    "n_queries": 400,
+    "total_gold": 1699
+  }
+}

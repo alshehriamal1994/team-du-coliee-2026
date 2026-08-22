@@ -1,0 +1,44 @@
+{
+  "purpose": "complementarity measured from predictions alone, no keyword proxy",
+  "gates": {
+    "n_experts_is_30": true,
+    "n_val_questions_is_258": true,
+    "n_test_questions_is_82": true,
+    "pool_mean_test_acc_matches_ledger": true
+  },
+  "n_distinct_base_models": 11,
+  "validation": {
+    "split": "validation (H30, R01, R02)",
+    "n_experts": 30,
+    "n_questions": 258,
+    "mean_expert_error_rate_pc": 17.44,
+    "mean_pairwise_both_wrong_pc": 8.43,
+    "independence_expectation_pc": 3.04,
+    "overlap_ratio_observed_over_independent": 2.773,
+    "n_pairs": 435,
+    "pairs_more_correlated_than_independent": 435,
+    "coverage_at_least_one_correct_pc": 99.61,
+    "questions_all_experts_fail": 1,
+    "pool_majority_vote_acc_pc": 87.98,
+    "coverage_minus_vote_pp": 11.63
+  },
+  "test": {
+    "split": "official test (R07)",
+    "n_experts": 30,
+    "n_questions": 82,
+    "mean_expert_error_rate_pc": 11.42,
+    "mean_pairwise_both_wrong_pc": 5.77,
+    "independence_expectation_pc": 1.3,
+    "overlap_ratio_observed_over_independent": 4.436,
+    "n_pairs": 435,
+    "pairs_more_correlated_than_independent": 434,
+    "coverage_at_least_one_correct_pc": 100.0,
+    "questions_all_experts_fail": 0,
+    "pool_majority_vote_acc_pc": 91.46,
+    "coverage_minus_vote_pp": 8.54
+  },
+  "reading": {
+    "errors_are_not_independent": "Both splits show pairwise error overlap well above the independence expectation, so the experts fail together far more than chance. The complementarity that voting exploits is partial, not a profile of unrelated failures.",
+    "coverage_is_an_oracle_bound": "Coverage counts questions some expert answers correctly. It is an upper bound on any aggregation over this pool and is not reached by majority voting; the gap between the two is reported as coverage_minus_vote_pp."
+  }
+}

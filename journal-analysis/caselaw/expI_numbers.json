@@ -1,0 +1,61 @@
+{
+  "experiment": "expI_noprior",
+  "date": "2026-07-25",
+  "question": "Does the multi-selection result survive removing the answer-count prior from the prompt?",
+  "method": "run_multiselect_noprior.py, generated from run_multiselect_experiment.py by deleting the rule 'Most cases have 2-3 entailing paragraphs, not just one.' from both prompts and renumbering. Retrieval, reranker (MonoT5-v2 cache), few-shot demonstrations, models, temperature and candidate depth all identical. 0 permanent API failures.",
+  "prior_removed": {
+    "v3_multiselect_rag": {
+      "P": 0.5302,
+      "R": 0.5068,
+      "F1": 0.5183,
+      "avg_set_size": 2.81,
+      "correct": 149,
+      "retrieved": 281
+    },
+    "r1_multiselect_rag": {
+      "P": 0.4133,
+      "R": 0.4864,
+      "F1": 0.4469,
+      "avg_set_size": 3.46,
+      "correct": 143,
+      "retrieved": 346
+    },
+    "v3_multiselect_zero": {
+      "P": 0.5355,
+      "R": 0.5136,
+      "F1": 0.5243,
+      "avg_set_size": 2.82,
+      "correct": 151,
+      "retrieved": 282
+    },
+    "majority_vote_2of3": {
+      "P": 0.521,
+      "R": 0.5068,
+      "F1": 0.5138,
+      "avg_set_size": 2.86,
+      "correct": 149,
+      "retrieved": 286
+    },
+    "union_v3_r1": {
+      "P": 0.4112,
+      "R": 0.5748,
+      "F1": 0.4794
+    }
+  },
+  "with_prior_as_published": {
+    "v3_multiselect_rag": 0.5487,
+    "r1_multiselect_rag": 0.5009,
+    "v3_multiselect_zero": 0.5333,
+    "majority_vote_2of3": 0.5553,
+    "union_v3_r1": 0.5408
+  },
+  "reference_points": {
+    "official_DU2": 0.3377,
+    "official_DU3": 0.3427,
+    "winner_IAI": 0.4899,
+    "best_fixed_cutoff_k3": 0.4646,
+    "single_selection_ceiling": 0.5076,
+    "oracle_count_reranker_only": 0.4932
+  },
+  "verdict": "The effect survives. Removing the prior costs 3.0 points on the DU2-matched configuration (0.5487 to 0.5183), 0.9 on zero-shot, 5.4 on the reasoning model, 6.1 on the union and 4.2 on the vote. The DU2-matched A/B is 0.338 to 0.518 with no test-derived count information in the prompt. The ORDERING CHANGES: as run the vote led (0.5553); with the prior removed the zero-shot run leads (0.5243) and the vote falls to third (0.5138), i.e. the vote leaned on the prior more than the matched single run did. All configurations clear the best fixed cutoff 0.4646 except the reasoning model; the two strongest (zero-shot 0.5243, V3-RAG 0.5183) also clear the winning 0.4899, while the vote 0.5138 clears it and the union 0.4794 does not."
+}

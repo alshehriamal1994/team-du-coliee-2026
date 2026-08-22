@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+title: "Team DU at COLIEE 2026"
+message: "If you use this code, please cite the paper below."
+type: software
+authors:
+  - given-names: "Amal Saad"
+    family-names: "Alshehri"
+    affiliation: "Durham University"
+  - given-names: "Nelly"
+    family-names: "Bencomo"
+    affiliation: "Durham University"
+  - given-names: "Amir"
+    family-names: "Atapour-Abarghouei"
+    affiliation: "Durham University"
+license: MIT
+repository-code: "https://github.com/alshehriamal1994/team-du-coliee-2026"
+preferred-citation:
+  type: conference-paper
+  title: "Cross-Architecture LLM Ensembles, Feature-Based Reranking and Retrieval-Augmented Prompting for Legal Information Processing"
+  authors:
+    - given-names: "Amal Saad"
+      family-names: "Alshehri"
+    - given-names: "Nelly"
+      family-names: "Bencomo"
+    - given-names: "Amir"
+      family-names: "Atapour-Abarghouei"
+  year: 2026
+  # Forthcoming. The paper is accepted at COLIEE 2026. The publisher, volume,
+  # page range, and DOI will be added here once the proceedings are published.
+  notes: "To appear in the proceedings of COLIEE 2026, co-located with ICAIL 2026, Singapore. Full bibliographic details will be added on publication."

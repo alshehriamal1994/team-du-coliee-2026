@@ -1,0 +1,70 @@
+{
+  "du1_du2_submitted": {
+    "description": "DU1 and DU2, the submitted meta-ensemble and deliberation vote",
+    "correct": 79,
+    "of": 82,
+    "accuracy_pc": 96.3,
+    "wilson95_pc": [
+      89.8,
+      98.7
+    ]
+  },
+  "best_competitor": {
+    "description": "the strongest competing runs, JNLP and IAI",
+    "correct": 78,
+    "of": 82,
+    "accuracy_pc": 95.1,
+    "wilson95_pc": [
+      88.1,
+      98.1
+    ]
+  },
+  "du3_plain_vote": {
+    "description": "DU3, the plain nine-expert vote",
+    "correct": 77,
+    "of": 82,
+    "accuracy_pc": 93.9,
+    "wilson95_pc": [
+      86.5,
+      97.4
+    ]
+  },
+  "validation_selected_single": {
+    "description": "the model a practitioner would have deployed",
+    "correct": 68,
+    "of": 82,
+    "accuracy_pc": 82.9,
+    "wilson95_pc": [
+      73.4,
+      89.5
+    ]
+  },
+  "hindsight_best_single": {
+    "description": "the best single expert in hindsight, not identifiable in advance",
+    "correct": 78,
+    "of": 82,
+    "accuracy_pc": 95.1,
+    "wilson95_pc": [
+      88.1,
+      98.1
+    ]
+  },
+  "contrasts": {
+    "ensemble_vs_best_competitor": {
+      "intervals_overlap": true,
+      "reading": "The split cannot resolve this contrast, which is why the paper reports the placement and declines to claim superiority."
+    },
+    "ensemble_vs_deployable_single": {
+      "intervals_overlap": false,
+      "reading": "The split does resolve this contrast, which is the comparison the paper's argument rests on."
+    }
+  },
+  "method": "two-sided 95% Wilson score intervals on 82 test questions; Wilson rather than the normal approximation because of behaviour near the boundary at 79 of 82",
+  "gates": {
+    "du1_du2_submitted_accuracy_matches_table": true,
+    "best_competitor_accuracy_matches_table": true,
+    "du3_plain_vote_accuracy_matches_table": true,
+    "validation_selected_single_accuracy_matches_table": true,
+    "hindsight_best_single_accuracy_matches_table": true
+  }
+}

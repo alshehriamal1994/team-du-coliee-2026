@@ -1,0 +1,148 @@
+{
+  "definition": "residue = questions with at most 7 of 30 experts correct, over all 340 labelled questions",
+  "residue_size": 14,
+  "by_year": {
+    "H30": 3,
+    "R01": 9,
+    "R07": 2
+  },
+  "base_counts": {
+    "H30": 67,
+    "R01": 110,
+    "R02": 81,
+    "R07": 82
+  },
+  "r01_share_pc": 64,
+  "r01_base_rate_pc": 32,
+  "zero_correct": [
+    {
+      "id": "R01-25-I",
+      "year": "R01",
+      "correct_of_30": 0,
+      "gold_articles": [
+        "604"
+      ]
+    }
+  ],
+  "residue": [
+    {
+      "id": "H30-22-O",
+      "year": "H30",
+      "correct_of_30": 1,
+      "gold_articles": [
+        "448"
+      ]
+    },
+    {
+      "id": "H30-5-E",
+      "year": "H30",
+      "correct_of_30": 6,
+      "gold_articles": [
+        "116"
+      ]
+    },
+    {
+      "id": "H30-8-I",
+      "year": "H30",
+      "correct_of_30": 7,
+      "gold_articles": [
+        "180"
+      ]
+    },
+    {
+      "id": "R01-25-I",
+      "year": "R01",
+      "correct_of_30": 0,
+      "gold_articles": [
+        "604"
+      ]
+    },
+    {
+      "id": "R01-26-I",
+      "year": "R01",
+      "correct_of_30": 7,
+      "gold_articles": [
+        "415"
+      ]
+    },
+    {
+      "id": "R01-3-A",
+      "year": "R01",
+      "correct_of_30": 6,
+      "gold_articles": [
+        "99",
+        "100"
+      ]
+    },
+    {
+      "id": "R01-3-E",
+      "year": "R01",
+      "correct_of_30": 2,
+      "gold_articles": [
+        "106"
+      ]
+    },
+    {
+      "id": "R01-31-A",
+      "year": "R01",
+      "correct_of_30": 4,
+      "gold_articles": [
+        "159"
+      ]
+    },
+    {
+      "id": "R01-5-E",
+      "year": "R01",
+      "correct_of_30": 3,
+      "gold_articles": [
+        "162"
+      ]
+    },
+    {
+      "id": "R01-6-A",
+      "year": "R01",
+      "correct_of_30": 3,
+      "gold_articles": [
+        "177"
+      ]
+    },
+    {
+      "id": "R1-18-U",
+      "year": "R01",
+      "correct_of_30": 3,
+      "gold_articles": [
+        "468"
+      ]
+    },
+    {
+      "id": "R1-19-E",
+      "year": "R01",
+      "correct_of_30": 6,
+      "gold_articles": [
+        "514"
+      ]
+    },
+    {
+      "id": "R07-21-A",
+      "year": "R07",
+      "correct_of_30": 3,
+      "gold_articles": [
+        "466",
+        "466-4"
+      ]
+    },
+    {
+      "id": "R07-28-I",
+      "year": "R07",
+      "correct_of_30": 1,
+      "gold_articles": [
+        "670-2"
+      ]
+    }
+  ],
+  "reform_notes": {
+    "R01-25-I": "Art. 604: pre-reform maximum lease term 20 years; the 2017 amendment (effective April 2020) raised it to 50. Gold answer keyed to pre-reform law; 0 of 30 experts recover it.",
+    "R01-3-E": "keyed to the pre-reform sub-agency provisions; the reform deleted the former agent-liability rule and reorganised the surrounding articles; 2 of 30 experts recover the pre-reform answer.",
+    "R07": "the 2025 test examination postdates the reform, so the current Code and the answer key agree; the test-side conclusions of the paper are unaffected."
+  }
+}

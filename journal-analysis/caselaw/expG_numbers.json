@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "date": "2026-07-22",
+    "features": [
+      "n_tokens",
+      "n_paras",
+      "header_words",
+      "body_words",
+      "year",
+      "n_suppr",
+      "bm25_top1",
+      "bm25_mean10",
+      "bm25_std10",
+      "bm25_gap12",
+      "bm25_gap56",
+      "bm25_n50",
+      "bm25_n70",
+      "bm25_n90",
+      "dense_top1",
+      "dense_mean10",
+      "dense_std10",
+      "dense_gap12",
+      "dense_gap56",
+      "dense_n50",
+      "dense_n70",
+      "dense_n90",
+      "s1_overlap10"
+    ],
+    "seed": 42,
+    "ladder": {
+      "fixed5": 0.3456,
+      "oracle": 0.4143,
+      "winner_NOWJ": 0.422
+    }
+  },
+  "count_cv_train": {
+    "MAE": 2.256,
+    "corr": 0.424,
+    "mean_pred": 4.18
+  },
+  "count_test": {
+    "learned": {
+      "MAE": 2.197,
+      "corr": 0.422,
+      "mean_pred": 3.62
+    },
+    "suppr_only": {
+      "MAE": 2.37,
+      "corr": 0.38,
+      "mean_pred": 4.29
+    },
+    "constant4": {
+      "MAE": 2.405,
+      "corr": NaN,
+      "mean_pred": 4.0
+    },
+    "gold_mean": 4.38
+  },
+  "f1_test": {
+    "learned": {
+      "P": 0.3851,
+      "R": 0.3189,
+      "F1": 0.3489
+    },
+    "suppr_only": {
+      "P": 0.3498,
+      "R": 0.3434,
+      "F1": 0.3466
+    },
+    "constant4": {
+      "P": 0.355,
+      "R": 0.3246,
+      "F1": 0.3391
+    }
+  },
+  "feature_importance_top8": {
+    "dense_n90": 1034,
+    "bm25_gap56": 991,
+    "bm25_gap12": 989,
+    "dense_gap56": 927,
+    "dense_gap12": 846,
+    "bm25_std10": 813,
+    "dense_std10": 805,
+    "dense_top1": 803
+  },
+  "gap_closed_pct": 4.8
+}

@@ -1,0 +1,11 @@
+{
+  "meanQ_oracle": 0.9,
+  "meanQ_retrieved": 0.893,
+  "deltaQ": -0.007,
+  "deltaQ_95ci": [
+    -0.112,
+    0.664
+  ],
+  "n_bootstrap_valid": 10000,
+  "prob_deltaQ_ge_0.10": 0.2146
+}

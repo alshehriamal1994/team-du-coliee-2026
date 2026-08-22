@@ -1,0 +1,45 @@
+{
+  "meta": {
+    "experiment": "classical score-distribution truncation on the Task 1 ranker",
+    "method": "per-query Normal plus Exponential score mixture by EM, cutoff maximising expected micro-F1",
+    "reference": "arampatzis2009stop",
+    "ranking_held_fixed": "expA2 step8-filtered deep ranking, identical to every other rung of the ladder",
+    "n_queries": 400,
+    "total_gold": 1750,
+    "em_iters": 200,
+    "degenerate_fits": 0
+  },
+  "ladder": {
+    "fixed5": 0.3456,
+    "oracle": 0.4143
+  },
+  "gate": {
+    "fixed5_reproduced": 0.3456,
+    "oracle_reproduced": 0.4143
+  },
+  "score_distribution_truncation": {
+    "P": 0.0933,
+    "R": 0.6366,
+    "F1": 0.1627,
+    "n_pred": 11946
+  },
+  "counts": {
+    "mean_predicted": 29.86,
+    "median_predicted": 30.0,
+    "min": 10.0,
+    "max": 30.0,
+    "gold_mean": 4.38,
+    "MAE": 25.49,
+    "corr_with_gold": 0.063
+  },
+  "gap_closed_pct": -266.2,
+  "why_it_fails": {
+    "note": "the method presumes the relevant documents form a separable high-scoring component of the score distribution",
+    "separation_median": -0.082,
+    "separation_note": "minimum gold score minus the 99th percentile of non-gold scores, divided by the score range. Positive would mean gold sits clear of the non-gold bulk",
+    "pct_separation_positive": 35.9,
+    "gold_rank_median": 9.0,
+    "gold_rank_p90": 216.0,
+    "pct_gold_beyond_rank_30": 31.6
+  }
+}

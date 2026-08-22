@@ -1,0 +1,160 @@
+{
+  "protocol": {
+    "purpose": "robustness of the Section 5.3 policy bootstrap to the exchangeability assumption",
+    "bootstrap_replicates": 10000,
+    "committee_candidates_sampled": 5000,
+    "seed_published_draw": 20260704,
+    "seed_stratified_draws": 20260804,
+    "committees_identical_across_schemes": true,
+    "cluster_bootstrap_over_years": "not run; three examination years give a degenerate cluster bootstrap",
+    "tie_break": "lowest index in alphabetical expert order"
+  },
+  "reproduction_gate": {
+    "published_file": "selection_policy_numbers.json",
+    "all_checks_passed": true,
+    "checked_keys": [
+      "committee9.mean_pc",
+      "committee9.p5_pc",
+      "committee9.p95_pc",
+      "committee9.prob_below_90",
+      "committee9.prob_reach_du3_93.9",
+      "committee9.sd_pp",
+      "single.mean_pc",
+      "single.p5_pc",
+      "single.p95_pc",
+      "single.prob_below_90",
+      "single.prob_reach_du3_93.9",
+      "single.sd_pp"
+    ]
+  },
+  "schemes": {
+    "unstratified": {
+      "strata": {
+        "all": 258
+      },
+      "n_strata": 1,
+      "policy_single": {
+        "mean_pc": 88.9,
+        "sd_pp": 4.4,
+        "p5_pc": 82.9,
+        "median_pc": 89.0,
+        "p95_pc": 95.1,
+        "min_pc": 81.7,
+        "expected_regret_vs_oracle_pp": 6.2,
+        "prob_reach_du3_93.9": 0.148,
+        "prob_below_90": 0.509
+      },
+      "policy_committee9": {
+        "mean_pc": 91.4,
+        "sd_pp": 2.5,
+        "p5_pc": 86.6,
+        "median_pc": 91.5,
+        "p95_pc": 95.1,
+        "min_pc": 84.1,
+        "expected_regret_vs_oracle_pp": 3.7,
+        "prob_reach_du3_93.9": 0.223,
+        "prob_below_90": 0.212
+      },
+      "committee_minus_single_mean_pp": 2.5,
+      "prob_committee_beats_single": 0.625
+    },
+    "year": {
+      "strata": {
+        "H30": 67,
+        "R01": 110,
+        "R02": 81
+      },
+      "n_strata": 3,
+      "policy_single": {
+        "mean_pc": 88.9,
+        "sd_pp": 4.4,
+        "p5_pc": 82.9,
+        "median_pc": 89.0,
+        "p95_pc": 95.1,
+        "min_pc": 81.7,
+        "expected_regret_vs_oracle_pp": 6.2,
+        "prob_reach_du3_93.9": 0.156,
+        "prob_below_90": 0.505
+      },
+      "policy_committee9": {
+        "mean_pc": 91.5,
+        "sd_pp": 2.5,
+        "p5_pc": 86.6,
+        "median_pc": 91.5,
+        "p95_pc": 95.1,
+        "min_pc": 84.1,
+        "expected_regret_vs_oracle_pp": 3.6,
+        "prob_reach_du3_93.9": 0.231,
+        "prob_below_90": 0.209
+      },
+      "committee_minus_single_mean_pp": 2.5,
+      "prob_committee_beats_single": 0.621
+    },
+    "label": {
+      "strata": {
+        "N": 126,
+        "Y": 132
+      },
+      "n_strata": 2,
+      "policy_single": {
+        "mean_pc": 89.0,
+        "sd_pp": 4.4,
+        "p5_pc": 82.9,
+        "median_pc": 90.2,
+        "p95_pc": 95.1,
+        "min_pc": 81.7,
+        "expected_regret_vs_oracle_pp": 6.1,
+        "prob_reach_du3_93.9": 0.157,
+        "prob_below_90": 0.499
+      },
+      "policy_committee9": {
+        "mean_pc": 91.5,
+        "sd_pp": 2.5,
+        "p5_pc": 86.6,
+        "median_pc": 91.5,
+        "p95_pc": 95.1,
+        "min_pc": 84.1,
+        "expected_regret_vs_oracle_pp": 3.7,
+        "prob_reach_du3_93.9": 0.225,
+        "prob_below_90": 0.207
+      },
+      "committee_minus_single_mean_pp": 2.4,
+      "prob_committee_beats_single": 0.613
+    },
+    "year_x_label": {
+      "strata": {
+        "H30/N": 32,
+        "H30/Y": 35,
+        "R01/N": 51,
+        "R01/Y": 59,
+        "R02/N": 43,
+        "R02/Y": 38
+      },
+      "n_strata": 6,
+      "policy_single": {
+        "mean_pc": 89.0,
+        "sd_pp": 4.4,
+        "p5_pc": 82.9,
+        "median_pc": 89.0,
+        "p95_pc": 95.1,
+        "min_pc": 81.7,
+        "expected_regret_vs_oracle_pp": 6.2,
+        "prob_reach_du3_93.9": 0.162,
+        "prob_below_90": 0.512
+      },
+      "policy_committee9": {
+        "mean_pc": 91.4,
+        "sd_pp": 2.5,
+        "p5_pc": 86.6,
+        "median_pc": 91.5,
+        "p95_pc": 95.1,
+        "min_pc": 84.1,
+        "expected_regret_vs_oracle_pp": 3.7,
+        "prob_reach_du3_93.9": 0.213,
+        "prob_below_90": 0.217
+      },
+      "committee_minus_single_mean_pp": 2.4,
+      "prob_committee_beats_single": 0.612
+    }
+  }
+}

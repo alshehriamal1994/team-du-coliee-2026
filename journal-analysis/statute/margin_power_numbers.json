@@ -1,0 +1,152 @@
+{
+  "margin_val": {
+    "buckets": {
+      "1": {
+        "n": 29,
+        "share_pc": 11.2,
+        "vote_accuracy_pc": 86.2
+      },
+      "3": {
+        "n": 21,
+        "share_pc": 8.1,
+        "vote_accuracy_pc": 81.0
+      },
+      "5": {
+        "n": 25,
+        "share_pc": 9.7,
+        "vote_accuracy_pc": 96.0
+      },
+      "7": {
+        "n": 47,
+        "share_pc": 18.2,
+        "vote_accuracy_pc": 85.1
+      },
+      "9": {
+        "n": 136,
+        "share_pc": 52.7,
+        "vote_accuracy_pc": 96.3
+      }
+    },
+    "coverage": {
+      "margin>=3": {
+        "coverage_pc": 88.8,
+        "selective_accuracy_pc": 92.6,
+        "flagged_pc": 11.2,
+        "accuracy_on_flagged_pc": 86.2
+      },
+      "margin>=5": {
+        "coverage_pc": 80.6,
+        "selective_accuracy_pc": 93.8,
+        "flagged_pc": 19.4,
+        "accuracy_on_flagged_pc": 84.0
+      },
+      "margin>=7": {
+        "coverage_pc": 70.9,
+        "selective_accuracy_pc": 93.4,
+        "flagged_pc": 29.1,
+        "accuracy_on_flagged_pc": 88.0
+      },
+      "margin>=9": {
+        "coverage_pc": 52.7,
+        "selective_accuracy_pc": 96.3,
+        "flagged_pc": 47.3,
+        "accuracy_on_flagged_pc": 86.9
+      }
+    }
+  },
+  "margin_test_R07": {
+    "buckets": {
+      "1": {
+        "n": 4,
+        "share_pc": 4.9,
+        "vote_accuracy_pc": 50.0
+      },
+      "3": {
+        "n": 4,
+        "share_pc": 4.9,
+        "vote_accuracy_pc": 100.0
+      },
+      "5": {
+        "n": 6,
+        "share_pc": 7.3,
+        "vote_accuracy_pc": 100.0
+      },
+      "7": {
+        "n": 8,
+        "share_pc": 9.8,
+        "vote_accuracy_pc": 75.0
+      },
+      "9": {
+        "n": 60,
+        "share_pc": 73.2,
+        "vote_accuracy_pc": 98.3
+      }
+    },
+    "coverage": {
+      "margin>=3": {
+        "coverage_pc": 95.1,
+        "selective_accuracy_pc": 96.2,
+        "flagged_pc": 4.9,
+        "accuracy_on_flagged_pc": 50.0
+      },
+      "margin>=5": {
+        "coverage_pc": 90.2,
+        "selective_accuracy_pc": 95.9,
+        "flagged_pc": 9.8,
+        "accuracy_on_flagged_pc": 75.0
+      },
+      "margin>=7": {
+        "coverage_pc": 82.9,
+        "selective_accuracy_pc": 95.6,
+        "flagged_pc": 17.1,
+        "accuracy_on_flagged_pc": 85.7
+      },
+      "margin>=9": {
+        "coverage_pc": 73.2,
+        "selective_accuracy_pc": 98.3,
+        "flagged_pc": 26.8,
+        "accuracy_on_flagged_pc": 81.8
+      }
+    }
+  },
+  "benchmark_size_projection": {
+    "model": "true ability = pooled 340-q estimate per expert; independent Bernoulli questions; select argmax on a simulated validation set of size n",
+    "true_best": {
+      "expert": "deepseek-r1-zs",
+      "ability_pc": 86.8
+    },
+    "true_top5_spread_pp": 0.6,
+    "true_full_spread_pp": 6.2,
+    "by_n": {
+      "258": {
+        "expected_true_regret_pp": 0.82,
+        "p_within_1pp_of_best": 0.643
+      },
+      "500": {
+        "expected_true_regret_pp": 0.53,
+        "p_within_1pp_of_best": 0.772
+      },
+      "1000": {
+        "expected_true_regret_pp": 0.32,
+        "p_within_1pp_of_best": 0.875
+      },
+      "2500": {
+        "expected_true_regret_pp": 0.14,
+        "p_within_1pp_of_best": 0.969
+      },
+      "5000": {
+        "expected_true_regret_pp": 0.07,
+        "p_within_1pp_of_best": 0.995
+      },
+      "10000": {
+        "expected_true_regret_pp": 0.04,
+        "p_within_1pp_of_best": 1.0
+      }
+    },
+    "winners_curse_at_n82": {
+      "expected_observed_max_pc": 92.3,
+      "p_observed_max_ge_95.1": 0.102,
+      "note": "no true ability exceeds 86.8, yet the best observed score on 82 questions is expected near the observed oracle 95.1"
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "experiment": "expV_leaderboard_2024",
+  "method": "identical to expH/expH2 on the transcribed 2024 leaderboards",
+  "gates": {
+    "T1_2024_F1_reproduces_from_PR": true,
+    "T2_2024_F1_reproduces_from_PR": true,
+    "T1_run_count_26_teams_10": true,
+    "T2_run_count_18": true,
+    "T2_gold_matches_expU": true
+  },
+  "tasks": {
+    "T1_2024": {
+      "source": "overview Table 1; gold total printed in Section 2.2",
+      "n_runs_scored": 26,
+      "gold_mean": 3.905,
+      "share_runs_below_gold_mean": 0.27,
+      "spearman_F1_vs_closeness": 0.292,
+      "spearman_F1_vs_size": -0.532,
+      "nullA": {
+        "mean": 0.472,
+        "ci95": [
+          0.203,
+          0.714
+        ],
+        "observed_percentile": 8.9
+      },
+      "nullB": {
+        "mean": 0.483,
+        "ci95": [
+          0.207,
+          0.723
+        ],
+        "observed_percentile": 7.9
+      },
+      "best_run_per_team": {
+        "n_teams": 10,
+        "spearman": 0.248,
+        "p": 0.4888
+      }
+    },
+    "T2_2024": {
+      "source": "overview Table 2; gold total recovered per expU gate",
+      "n_runs_scored": 18,
+      "gold_mean": 1.47,
+      "share_runs_below_gold_mean": 0.61,
+      "spearman_F1_vs_closeness": 0.233,
+      "spearman_F1_vs_size": -0.145,
+      "nullA": {
+        "mean": -0.144,
+        "ci95": [
+          -0.494,
+          0.272
+        ],
+        "observed_percentile": 96.3
+      },
+      "nullB": {
+        "mean": 0.431,
+        "ci95": [
+          0.064,
+          0.75
+        ],
+        "observed_percentile": 14.2
+      },
+      "best_run_per_team": {
+        "n_teams": 6,
+        "spearman": 0.314,
+        "p": 0.5441
+      }
+    }
+  }
+}

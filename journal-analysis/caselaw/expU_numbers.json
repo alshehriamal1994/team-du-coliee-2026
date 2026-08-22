@@ -1,0 +1,84 @@
+{
+  "experiment": "expU_ceiling_trend",
+  "method": "pure label arithmetic over the four Task 2 test collections; 2023 and 2024 recovered from the append-only training releases by ID block, the recovery method validated by gate 1",
+  "gates": {
+    "2025_block_reproduces_official_file": true,
+    "release_sizes_chain": true,
+    "2026_single_ceiling_is_0.508": true
+  },
+  "years": {
+    "2023": {
+      "n_cases": 100,
+      "gold_total": 120,
+      "gold_mean": 1.2,
+      "share_multi_answer": 0.14,
+      "ceiling_by_k": {
+        "1": 0.9091,
+        "2": 0.7125,
+        "3": 0.5667,
+        "4": 0.4615,
+        "5": 0.3871,
+        "6": 0.3333,
+        "7": 0.2927
+      },
+      "best_constant": 1,
+      "ceiling_at_best_constant": 0.9091,
+      "ceiling_single_selection": 0.9091
+    },
+    "2024": {
+      "n_cases": 100,
+      "gold_total": 147,
+      "gold_mean": 1.47,
+      "share_multi_answer": 0.35,
+      "ceiling_by_k": {
+        "1": 0.8097,
+        "2": 0.7781,
+        "3": 0.6488,
+        "4": 0.5375,
+        "5": 0.4544,
+        "6": 0.3936,
+        "7": 0.3471
+      },
+      "best_constant": 1,
+      "ceiling_at_best_constant": 0.8097,
+      "ceiling_single_selection": 0.8097
+    },
+    "2025": {
+      "n_cases": 100,
+      "gold_total": 181,
+      "gold_mean": 1.81,
+      "share_multi_answer": 0.53,
+      "ceiling_by_k": {
+        "1": 0.7117,
+        "2": 0.8031,
+        "3": 0.6944,
+        "4": 0.5955,
+        "5": 0.5169,
+        "6": 0.4558,
+        "7": 0.4064
+      },
+      "best_constant": 2,
+      "ceiling_at_best_constant": 0.8031,
+      "ceiling_single_selection": 0.7117
+    },
+    "2026": {
+      "n_cases": 100,
+      "gold_total": 294,
+      "gold_mean": 2.94,
+      "share_multi_answer": 0.95,
+      "ceiling_by_k": {
+        "1": 0.5076,
+        "2": 0.7895,
+        "3": 0.8855,
+        "4": 0.83,
+        "5": 0.7355,
+        "6": 0.6577,
+        "7": 0.5915
+      },
+      "best_constant": 3,
+      "ceiling_at_best_constant": 0.8855,
+      "ceiling_single_selection": 0.5076
+    }
+  },
+  "reading": "The gold mean rises monotonically across the four years, the best constant drifts from one to three, and the ceiling of single selection falls from 0.909 to 0.508. Single selection was ceiling-optimal in 2023 and 2024. The trend is in the drift of the optimal constant, not in irreducibility: each year's own best constant keeps a high ceiling."
+}

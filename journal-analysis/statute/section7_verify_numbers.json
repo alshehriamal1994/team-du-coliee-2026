@@ -1,0 +1,39 @@
+{
+  "seed": 20260713,
+  "gate": {
+    "oracle_vote": 77,
+    "retrieved_vote": 71
+  },
+  "flag1_vote_vs_best_retrieved_single": {
+    "best_single_expert": "qwen3-235b-a22b_irac_v1",
+    "best_single_retrieved": "75/82 = 91.5%",
+    "tie_for_best": [
+      "qwen3-235b-a22b_irac_v1"
+    ],
+    "vote_retrieved": "71/82 = 86.6%",
+    "discordant_vote_right_single_wrong_b": 1,
+    "discordant_vote_wrong_single_right_c": 5,
+    "mcnemar_exact_two_sided_p": 0.2188,
+    "bootstrap_diff_vote_minus_single_pp": -4.9,
+    "bootstrap_95ci_pp": [
+      -11.0,
+      0.0
+    ]
+  },
+  "flag2_qwen3_235b_retrieved_scores": {
+    "per_expert_pc": {
+      "qwen3-235b-a22b_standard_v1": 86.6,
+      "qwen3-235b-a22b_irac_v1": 91.5,
+      "qwen3-235b-a22b_sc3_v1": 89.0
+    },
+    "range_pc": [
+      86.6,
+      91.5
+    ]
+  },
+  "cross_check_within_nine_val_selected": {
+    "expert": "qwen3-235b-a22b_sc3_v1",
+    "oracle_pc": 92.7,
+    "retrieved_pc": 89.0
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "experiment": "expT_t2_count_predictor",
+  "design": "LightGBM count regressor on fused-score shape features, trained on the 725-case training split plus the 100-case stress split, applied to the 100 test cases; the primary development split is unused",
+  "gates": {
+    "test_top1_is_0.350": true,
+    "test_top3_is_0.465": true,
+    "test_oracle_is_0.493": true,
+    "no_train_test_overlap": true,
+    "train_case_count": 825
+  },
+  "training": {
+    "n_cases": 825,
+    "gold_mean": 1.28
+  },
+  "test_prediction": {
+    "mean_pred": 1.26,
+    "gold_mean": 2.94,
+    "count_MAE": 1.8,
+    "count_corr": 0.14
+  },
+  "policies": {
+    "fixed_k": {
+      "1": 0.3503,
+      "2": 0.4494,
+      "3": 0.4646,
+      "4": 0.4524
+    },
+    "best_fixed": 0.4646,
+    "learned_policy_F1": 0.3659,
+    "oracle_F1": 0.4932
+  },
+  "gap_recovery": {
+    "share_of_bestfixed_to_oracle_gap": -3.451,
+    "learned_minus_bestfixed_pp": -9.87,
+    "paired_ci95_vs_fixed3_pp": [
+      -14.86,
+      -4.97
+    ]
+  },
+  "reading": "The training distribution is the shift itself: whatever the predictor learns, it learns from collections whose counts sit far below the test mean."
+}

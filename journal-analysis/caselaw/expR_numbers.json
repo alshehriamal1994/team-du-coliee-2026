@@ -1,0 +1,87 @@
+{
+  "experiment": "expR_t1_bootstrap",
+  "protocol": {
+    "B": 10000,
+    "seed": 20260821,
+    "resampling_unit": "test query",
+    "n_queries": 400
+  },
+  "gates": {
+    "raw_top5_is_0.3211": true,
+    "step8_top5_is_0.3456": true,
+    "oracle_is_0.4143": true,
+    "du3_is_0.3141": true,
+    "fixed_k_sweep_matches_expA2": true
+  },
+  "policy_ci95": {
+    "du3_submitted": {
+      "F1": 0.3141,
+      "ci95": [
+        0.2891,
+        0.3399
+      ]
+    },
+    "du9_k4": {
+      "F1": 0.3391,
+      "ci95": [
+        0.3127,
+        0.3663
+      ]
+    },
+    "du9_k5": {
+      "F1": 0.3456,
+      "ci95": [
+        0.3199,
+        0.372
+      ]
+    },
+    "du9_k6": {
+      "F1": 0.3402,
+      "ci95": [
+        0.3146,
+        0.3667
+      ]
+    },
+    "du9_oracle": {
+      "F1": 0.4143,
+      "ci95": [
+        0.3793,
+        0.45
+      ]
+    }
+  },
+  "peak_at_five": {
+    "prob_k5_best_of_1_to_10": 0.8769,
+    "argmax_distribution": {
+      "3": 0.0075,
+      "4": 0.0614,
+      "5": 0.8769,
+      "6": 0.0542
+    },
+    "delta_k5_minus_k4_ci95": [
+      -0.002,
+      0.0151
+    ],
+    "delta_k5_minus_k6_ci95": [
+      -0.0012,
+      0.012
+    ]
+  },
+  "decomposition_deltas_pp": {
+    "ranker_upgrade_at_5": {
+      "point": 3.15,
+      "ci95": [
+        1.87,
+        4.5
+      ]
+    },
+    "true_count_on_upgraded": {
+      "point": 6.87,
+      "ci95": [
+        4.83,
+        9.01
+      ]
+    },
+    "prob_stopping_exceeds_ranker_upgrade": 0.9966
+  }
+}

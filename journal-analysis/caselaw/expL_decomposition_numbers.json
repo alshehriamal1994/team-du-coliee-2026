@@ -1,0 +1,40 @@
+{
+  "protocol": {
+    "purpose": "version-matched decomposition of the micro-F1 gap, separating the choice of a constant from per-query adaptivity",
+    "version_note": "Task 2 is held at the monoT5 v2 reranker throughout. The draft's roughly fifteen point figure mixed the v1 official run with the v2 oracle and is withdrawn.",
+    "perfect_selection": "returns exactly the gold present in the evaluated list, precision 1, recall equal to the list's recall. An upper bound used to size the component, not a system."
+  },
+  "task1": {
+    "deployed_constant": 0.3456,
+    "best_constant": 0.3456,
+    "best_constant_k": "k5",
+    "oracle_count": 0.4143,
+    "perfect_selection_from_list": 0.7779,
+    "list_recall": 0.6366,
+    "components_pp": {
+      "1_better_constant": 0.0,
+      "2_per_query_adaptivity": 6.9,
+      "3_ranking_within_list": 36.4,
+      "4_gold_never_retrieved": 22.2
+    }
+  },
+  "task2_v2": {
+    "deployed_constant": 0.3503,
+    "best_constant": 0.4646,
+    "best_constant_k": "k3",
+    "oracle_count": 0.4932,
+    "perfect_selection_from_list": 0.9367,
+    "list_recall": 0.881,
+    "components_pp": {
+      "1_better_constant": 11.4,
+      "2_per_query_adaptivity": 2.9,
+      "3_ranking_within_list": 44.4,
+      "4_gold_never_retrieved": 6.3
+    }
+  },
+  "version_matched_count_value_task2": {
+    "v1": 10.4,
+    "v2": 14.3,
+    "withdrawn_mismatched_figure": 15.1
+  }
+}
