@@ -27,11 +27,12 @@ fig, ax = plt.subplots(figsize=(TEXTWIDTH, 2.6))
 qmax = max(r["best_fixed_F1"] for r in n["task1_rankers"])
 ax.axvspan(0.10, qmax, color="#f2f4f6", zorder=0)
 
-ax.plot(qual, val, color=ACC, lw=1.6, zorder=2, solid_capstyle="round")
+ax.plot(qual, val, color="#9fb6cc", lw=1.0, ls=(0, (5, 3)), zorder=2,
+        solid_capstyle="round")
 ax.scatter([r["best_fixed_F1"] for r in feats], [r["count_value_pp"] for r in feats],
-           s=26, facecolors="white", edgecolors=INK, linewidths=1.0, zorder=4)
+           s=44, facecolors="white", edgecolors=INK, linewidths=1.3, zorder=5)
 ax.scatter([r["best_fixed_F1"] for r in models], [r["count_value_pp"] for r in models],
-           s=26, color=INK, marker="s", zorder=4)
+           s=44, color=INK, marker="s", zorder=5)
 
 ax.set_xlim(0.08, 0.72)
 ax.set_ylim(0, 29)
