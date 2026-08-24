@@ -29,7 +29,7 @@ The post-competition column reports improvements made after the deadline with no
 
 ## What we found
 
-On Task 2, changing the instruction from "select at most one paragraph" to "select every paragraph that entails the fragment" raised F1 by 0.212, past the best official entry, with nothing else altered. On this task the wording of the instruction proved more consequential than the choice of model.
+On Task 2, changing the instruction from "select at most one paragraph" to one permitting every entailing paragraph raised F1 from 0.338 to 0.549 with nothing else altered, a post-competition diagnostic whose bootstrap interval contains the best official entry. On this task the wording of the instruction proved more consequential than the choice of model.
 
 On statute law, more pipeline made things worse. With retrieval recall already above 0.94, a stronger entailment model beat our more elaborate run by a wide margin, and the elaborate run itself lost 3.7 points to a simpler one.
 
