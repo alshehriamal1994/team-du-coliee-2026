@@ -60,6 +60,9 @@ under `COLIEE_ROOT`.
 - `expH3_exact_envelope.py` -> `expH3_numbers.json`. Null B recomputed with the
   exact perfect-ranker envelope, gated on reproducing expH2 first.
 - `expS_submitted_oracle.py` -> `expS_numbers.json`. Rebuilds the submitted DU3
+- `expAB_conformal.py` -> `expAB_numbers.json` — split conformal prediction on the fused reranker score, 825 pre-test calibration cases. Coverage holds on the held-out development split and collapses on the shifted test collection, as registered in the script docstring before the run.
+- `expAC_containment.py` -> `expAC_numbers.json` — does the count permission change which paragraphs are chosen, or only how many. Wherever both arms selected, the treatment set contains the control's choice.
+- `expAD_config_robustness.py` -> `expAD_numbers.json` — the count's worth re-evaluated on all six post-competition Task 1 configurations through the deployed postprocessing. The band runs 5.65 to 6.87 points.
   booster, gated on reproducing its official run exactly, and prices the answer
   count on that ranking rather than on the post-competition reference.
 - `run_prompt_robustness.py` -> `expAA_numbers.json`. The count permission across

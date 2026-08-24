@@ -54,7 +54,7 @@ for y, (name, t) in zip(ypos, rows):
                     xytext=(t["deployed_constant"] * 100 - 2, y + 0.52),
                     fontsize=7, color="#555555", ha="center",
                     arrowprops=dict(arrowstyle="-", color="#999999", lw=0.7))
-    else:
+    elif c["1_better_constant"] <= 5:
         ax.text(t["deployed_constant"] * 100 + c["1_better_constant"] / 2, y + 0.30,
                 f"{c['1_better_constant']:.1f}", ha="center", fontsize=7, color=ACC)
     # a per-query segment too narrow for an inline label is labelled above the bar

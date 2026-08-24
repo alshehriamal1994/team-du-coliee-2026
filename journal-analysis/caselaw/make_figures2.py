@@ -44,13 +44,15 @@ a.set_title('(a)  Task 1 test collection', loc='left')
 a.set_xlim(0, 26)
 b.bar(list(t2h), list(t2h.values()), color=INK, width=0.6)
 b.axvline(2.94, color=ACC, ls=(0, (4, 3)), lw=1.1)
-b.annotate('test mean\n2.94', xy=(2.94, 0.86), xycoords=('data', 'axes fraction'),
-           xytext=(14, 0), textcoords='offset points', ha='left', va='top',
-           fontsize=7.2, color=ACC)
 b.axvline(1.22, color='#999999', ls=(0, (2, 2)), lw=1.1)
-b.annotate('development\nmean 1.22', xy=(1.22, 0.86), xycoords=('data', 'axes fraction'),
-           xytext=(-8, 0), textcoords='offset points', ha='right', va='top',
+# headroom so both mean labels sit clear of the bars and of the y-tick labels
+b.set_ylim(0, 52)
+b.annotate('development mean 1.22', xy=(1.22, 0.99), xycoords=('data', 'axes fraction'),
+           xytext=(5, 0), textcoords='offset points', ha='left', va='top',
            fontsize=7.2, color=MUT)
+b.annotate('test mean 2.94', xy=(2.94, 0.87), xycoords=('data', 'axes fraction'),
+           xytext=(5, 0), textcoords='offset points', ha='left', va='top',
+           fontsize=7.2, color=ACC)
 b.set_xlabel('gold paragraphs per case')
 b.set_ylabel('cases')
 b.set_title('(b)  Task 2 test collection', loc='left')

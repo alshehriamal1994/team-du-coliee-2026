@@ -58,8 +58,6 @@ for ax, task, label, gmean, du_runs, ticks, verdict, notepos in specs:
                 ha="center", va="bottom", fontsize=7.0, color=ACC)
 
     # the coefficient and the verdict, inside the panel, in empty space
-    ax.text(notepos[0], notepos[1], f"$\\rho$ = {int(rho*100)/100:.2f}", transform=ax.transAxes,
-            fontsize=7.5, color=INK, va="top")
 
 
 axes[0].set_ylabel("official micro-F1")

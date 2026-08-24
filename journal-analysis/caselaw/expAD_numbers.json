@@ -1,0 +1,46 @@
+{
+ "experiment": "expAD_config_robustness",
+ "question": "is the count's worth a property of the selected DU9 configuration or of the whole family",
+ "protocol": "each configuration's stored top-50 ranking through the deployed postprocessing at depth 30, fixed five against the true per-query count, identical to the DU9 ladder",
+ "gates": {
+  "du9_fixed5_reproduces_ledger": true,
+  "du9_oracle_reproduces_ledger": true
+ },
+ "per_configuration": {
+  "DU4": {
+   "fixed5_F1": 0.3451,
+   "oracle_F1": 0.4063,
+   "delta_stop_pp": 6.12
+  },
+  "DU5": {
+   "fixed5_F1": 0.3264,
+   "oracle_F1": 0.3914,
+   "delta_stop_pp": 6.5
+  },
+  "DU6": {
+   "fixed5_F1": 0.336,
+   "oracle_F1": 0.4029,
+   "delta_stop_pp": 6.69
+  },
+  "DU7": {
+   "fixed5_F1": 0.3387,
+   "oracle_F1": 0.4063,
+   "delta_stop_pp": 6.76
+  },
+  "DU8": {
+   "fixed5_F1": 0.3424,
+   "oracle_F1": 0.3989,
+   "delta_stop_pp": 5.65
+  },
+  "DU9": {
+   "fixed5_F1": 0.3456,
+   "oracle_F1": 0.4143,
+   "delta_stop_pp": 6.87
+  }
+ },
+ "delta_stop_band_pp": {
+  "min": 5.65,
+  "max": 6.87,
+  "spread": 1.22
+ }
+}

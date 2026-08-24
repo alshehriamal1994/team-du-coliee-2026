@@ -1,0 +1,193 @@
+{
+ "experiment": "expAB_conformal",
+ "registered_reading": "inheritance of the shift = test coverage below nominal, or set sizes tracking the calibration collections rather than the test's",
+ "heldout_dev": {
+  "n_cases": 100,
+  "gold_mean": 1.22
+ },
+ "calibration": {
+  "n_cases": 825,
+  "gold_mean": 1.285,
+  "dropped_no_retrievable_gold": 0
+ },
+ "test": {
+  "n_cases": 100,
+  "gold_mean": 2.94,
+  "cases_fully_retrievable": 98
+ },
+ "gates": {
+  "test_top1_is_0.350": true,
+  "test_top3_is_0.465": true,
+  "test_oracle_is_0.493": true,
+  "no_train_test_overlap": true,
+  "heldout_disjoint_from_calibration": true,
+  "heldout_case_count": 100,
+  "calibration_case_count": 825,
+  "calibration_cases_without_retrievable_gold": 0,
+  "calibration_coverage_reaches_nominal": true
+ },
+ "reference": {
+  "fixed_top1": 0.3503,
+  "fixed_top3": 0.4646,
+  "oracle": 0.4932
+ },
+ "by_nominal_level": {
+  "0.50": {
+   "coverage_heldout_dev": 0.51,
+   "mean_set_size_heldout": 0.78,
+   "threshold_tau": 0.001,
+   "coverage_calibration": 0.5006,
+   "coverage_test_retrievable_gold": 0.03,
+   "coverage_test_all_gold": 0.03,
+   "mean_set_size": 0.51,
+   "median_set_size": 1.0,
+   "empty_sets": 49,
+   "micro_F1": 0.2609,
+   "count_MAE": 2.43
+  },
+  "0.55": {
+   "coverage_heldout_dev": 0.54,
+   "mean_set_size_heldout": 0.94,
+   "threshold_tau": 0.0075,
+   "coverage_calibration": 0.5515,
+   "coverage_test_retrievable_gold": 0.05,
+   "coverage_test_all_gold": 0.05,
+   "mean_set_size": 0.61,
+   "median_set_size": 1.0,
+   "empty_sets": 43,
+   "micro_F1": 0.2873,
+   "count_MAE": 2.33
+  },
+  "0.60": {
+   "coverage_heldout_dev": 0.56,
+   "mean_set_size_heldout": 1.25,
+   "threshold_tau": 0.0186,
+   "coverage_calibration": 0.6012,
+   "coverage_test_retrievable_gold": 0.05,
+   "coverage_test_all_gold": 0.05,
+   "mean_set_size": 0.67,
+   "median_set_size": 1.0,
+   "empty_sets": 40,
+   "micro_F1": 0.3102,
+   "count_MAE": 2.27
+  },
+  "0.65": {
+   "coverage_heldout_dev": 0.6,
+   "mean_set_size_heldout": 1.8,
+   "threshold_tau": 0.0436,
+   "coverage_calibration": 0.6509,
+   "coverage_test_retrievable_gold": 0.06,
+   "coverage_test_all_gold": 0.06,
+   "mean_set_size": 0.73,
+   "median_set_size": 1.0,
+   "empty_sets": 34,
+   "micro_F1": 0.3215,
+   "count_MAE": 2.21
+  },
+  "0.70": {
+   "coverage_heldout_dev": 0.64,
+   "mean_set_size_heldout": 2.63,
+   "threshold_tau": 0.1023,
+   "coverage_calibration": 0.7018,
+   "coverage_test_retrievable_gold": 0.06,
+   "coverage_test_all_gold": 0.06,
+   "mean_set_size": 0.87,
+   "median_set_size": 1.0,
+   "empty_sets": 23,
+   "micro_F1": 0.357,
+   "count_MAE": 2.07
+  },
+  "0.75": {
+   "coverage_heldout_dev": 0.73,
+   "mean_set_size_heldout": 3.77,
+   "threshold_tau": 0.1991,
+   "coverage_calibration": 0.7515,
+   "coverage_test_retrievable_gold": 0.07,
+   "coverage_test_all_gold": 0.07,
+   "mean_set_size": 1.1,
+   "median_set_size": 1.0,
+   "empty_sets": 10,
+   "micro_F1": 0.3812,
+   "count_MAE": 1.86
+  },
+  "0.80": {
+   "coverage_heldout_dev": 0.76,
+   "mean_set_size_heldout": 5.09,
+   "threshold_tau": 0.3141,
+   "coverage_calibration": 0.8012,
+   "coverage_test_retrievable_gold": 0.07,
+   "coverage_test_all_gold": 0.07,
+   "mean_set_size": 2.08,
+   "median_set_size": 1.0,
+   "empty_sets": 0,
+   "micro_F1": 0.3586,
+   "count_MAE": 2.2
+  },
+  "0.85": {
+   "coverage_heldout_dev": 0.79,
+   "mean_set_size_heldout": 7.65,
+   "threshold_tau": 0.5121,
+   "coverage_calibration": 0.8521,
+   "coverage_test_retrievable_gold": 0.11,
+   "coverage_test_all_gold": 0.1,
+   "mean_set_size": 2.83,
+   "median_set_size": 1.0,
+   "empty_sets": 0,
+   "micro_F1": 0.3709,
+   "count_MAE": 2.39
+  },
+  "0.90": {
+   "coverage_heldout_dev": 0.88,
+   "mean_set_size_heldout": 10.53,
+   "threshold_tau": 0.7294,
+   "coverage_calibration": 0.9018,
+   "coverage_test_retrievable_gold": 0.2,
+   "coverage_test_all_gold": 0.19,
+   "mean_set_size": 4.62,
+   "median_set_size": 2.0,
+   "empty_sets": 0,
+   "micro_F1": 0.3836,
+   "count_MAE": 3.4
+  },
+  "0.95": {
+   "coverage_heldout_dev": 0.95,
+   "mean_set_size_heldout": 15.7,
+   "threshold_tau": 0.9484,
+   "coverage_calibration": 0.9515,
+   "coverage_test_retrievable_gold": 0.68,
+   "coverage_test_all_gold": 0.67,
+   "mean_set_size": 15.44,
+   "median_set_size": 10.0,
+   "empty_sets": 0,
+   "micro_F1": 0.2612,
+   "count_MAE": 12.62
+  }
+ },
+ "headline_nominal_090": {
+  "coverage_heldout_dev": 0.88,
+  "mean_set_size_heldout": 10.53,
+  "threshold_tau": 0.7294,
+  "coverage_calibration": 0.9018,
+  "coverage_test_retrievable_gold": 0.2,
+  "coverage_test_all_gold": 0.19,
+  "mean_set_size": 4.62,
+  "median_set_size": 2.0,
+  "empty_sets": 0,
+  "micro_F1": 0.3836,
+  "count_MAE": 3.4
+ },
+ "best_F1_over_sweep": {
+  "nominal_level": "0.90",
+  "coverage_heldout_dev": 0.88,
+  "mean_set_size_heldout": 10.53,
+  "threshold_tau": 0.7294,
+  "coverage_calibration": 0.9018,
+  "coverage_test_retrievable_gold": 0.2,
+  "coverage_test_all_gold": 0.19,
+  "mean_set_size": 4.62,
+  "median_set_size": 2.0,
+  "empty_sets": 0,
+  "micro_F1": 0.3836,
+  "count_MAE": 3.4
+ }
+}

@@ -1,0 +1,27 @@
+{
+ "experiment": "expAC_containment",
+ "question": "does the count permission change which paragraphs are chosen, or only how many",
+ "gates": {
+  "control": {
+   "returned": 89,
+   "F1": 0.3499,
+   "matches_ledger": true
+  },
+  "treatment": {
+   "returned": 189,
+   "F1": 0.4803,
+   "matches_ledger": true
+  }
+ },
+ "abstentions": {
+  "control": 11,
+  "treatment": 13
+ },
+ "cases_both_arms_selected": 86,
+ "treatment_contains_control_choice": 86,
+ "containment_share": 1.0,
+ "control_choice_dropped": [],
+ "control_selected_treatment_abstained": 3,
+ "treatment_selected_control_abstained": 1,
+ "reading": "the permission added selections around an unchanged core judgement: wherever both arms selected, the treatment set contains the control's choice, and abstention moved by two cases"
+}

@@ -22,16 +22,17 @@ Writes expS_numbers.json.
 import json
 import subprocess
 import sys
+import os
 from pathlib import Path
 
 import lightgbm as lgb
 import numpy as np
 
 HERE = Path(__file__).parent
-T1 = Path("/home/amal/Desktop/TASK1")
-ARCHIVE = T1 / "ARCHIVE"
+ROOT = Path(os.environ.get("COLIEE_ROOT", "data"))
+ARCHIVE = ROOT / "TASK1/ARCHIVE"
 MODEL = ARCHIVE / "runs/du3_bigmodel/model.txt"
-FINAL = Path("/home/amal/Desktop/coliee_workshop/TASK1/FINAL_SUBMISSION")
+FINAL = ROOT / "TASK1/FINAL_SUBMISSION"
 STEP8 = ARCHIVE / "code_AUTHORITY_v2/step8_postprocess_filters_v2.py"
 CORPUS = ARCHIVE / "task_one_ready_to_use/data/task1_test_files_2026/task1_test_files_2026"
 CACHE = ARCHIVE / "cache_2026/test_cache_dotxt.pkl"
