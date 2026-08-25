@@ -61,6 +61,7 @@ inputs cannot produce silently different results.
 | `selective_risk_analysis.py` | distribution-free risk control for the vote-margin abstention rule |
 | `lift_diversity_analysis.py` | ensemble lift against diversity over 50,000 random ensembles |
 | `finetune_baselines_verify.py` | provenance and recomputation of the fine-tuning baselines |
+| `verify_section7.py` | recomputation of the Section 7 retrieval-noise pair: the vote-vs-best-retrieved McNemar and the Qwen3-235B retrieved range |
 | `residue_reform_analysis.py` | the hardest-question residue and the 2020 reform artefact |
 | `external_legalbench.py` | the external test on Stanford HELM's published LegalBench results |
 | `make_appendix_pool.py` | generates the complete expert-pool appendix from the prediction logs |
