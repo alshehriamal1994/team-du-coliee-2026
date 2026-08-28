@@ -1,11 +1,11 @@
-"""Experiment B — what a truncation window discards, per section (Task 1, 2026 test).
+"""Experiment B - what a truncation window discards, per section (Task 1, 2026 test).
 
 Uses the cached segmentation (doc_meta_test2026.pkl) for section/paragraph texts and the raw
 corpus files for positions. Two analyses:
   B1: where ANALYSIS / DECISION sections start (token offset); share of docs whose
       Analysis/Decision begins beyond a 512 / 4096 / 8192-token window.
   B2: for each of the 1,750 gold (query, cited-case) pairs, locate the best-matching
-      candidate paragraph (max Jaccard against any query paragraph — the retrieval evidence)
+      candidate paragraph (max Jaccard against any query paragraph - the retrieval evidence)
       and measure its token offset + host section; share of evidence beyond each window.
 Writes expB_numbers.json. 2026-07-22.
 """

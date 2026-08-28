@@ -1,4 +1,4 @@
-"""Experiment G2 — how far can features go on 'how many'? Cross-fitted ranker-score features.
+"""Experiment G2 - how far can features go on 'how many'? Cross-fitted ranker-score features.
 
 The fair version of the winner's (NOWJ) approach on our system: count predictor fed by the
 FINAL ranker's score shape. To avoid leakage, the DU9-config ranker is retrained 5x on

@@ -1,4 +1,4 @@
-"""Experiment E — cross-year robustness of the feature ranker (Task 1).
+"""Experiment E - cross-year robustness of the feature ranker (Task 1).
 
 DU9 itself saw 2025 test in training, so the honest cross-year design retrains from scratch:
   E-a: train on train2026_clean only (1,712 q) -> evaluate on test2025 (400 q, raw top-5).

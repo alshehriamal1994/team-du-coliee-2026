@@ -1,4 +1,4 @@
-"""Experiment D — confidence-elicited multi-selection (Task 2, DeepSeek-V3 few-shot).
+"""Experiment D - confidence-elicited multi-selection (Task 2, DeepSeek-V3 few-shot).
 
 Identical to run_multiselect_experiment.py's v3_multiselect_rag configuration (same demos,
 same reranker top-20, same 1200-char truncation, same rules, temperature 0) EXCEPT the
@@ -50,7 +50,7 @@ IMPORTANT RULES:
 1. Most cases have 2-3 entailing paragraphs, not just one.
 2. Select EVERY paragraph that states a legal rule, principle, or reasoning \
    that DIRECTLY and NECESSARILY supports or produces the decision.
-3. Different paragraphs may contribute different parts of the legal basis — \
+3. Different paragraphs may contribute different parts of the legal basis - \
    one may state the general rule, another may apply it, another may address \
    an exception. Select ALL such paragraphs.
 4. REJECT paragraphs that are merely topically related, provide background \

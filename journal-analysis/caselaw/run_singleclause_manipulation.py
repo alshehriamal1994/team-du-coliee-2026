@@ -58,7 +58,7 @@ Candidate paragraphs:
 {paragraphs}
 
 Critical rules:
-- Select AT MOST ONE paragraph — the single most directly entailing
+- Select AT MOST ONE paragraph - the single most directly entailing
 - A paragraph entails ONLY if it states the specific legal rule/principle that FORCES the decision
 - Topical similarity, background facts, or final dispositions are NOT entailment
 - If no paragraph truly entails the decision, return "none"

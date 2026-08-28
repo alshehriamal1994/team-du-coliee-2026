@@ -1,4 +1,4 @@
-"""Experiment A — Task 1 protocol-ceiling and per-cardinality decomposition under fixed k=5.
+"""Experiment A - Task 1 protocol-ceiling and per-cardinality decomposition under fixed k=5.
 
 Reproduces every number in the M2 claim ledger section "expA". Run from anywhere:
     python3 expA_t1_cardinality.py

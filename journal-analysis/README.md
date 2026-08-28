@@ -4,10 +4,10 @@ The two journal articles extending our COLIEE 2026 proceedings paper each rest
 on a set of post-hoc analyses of frozen prediction files. This folder holds
 those analyses, one subfolder per article.
 
-- [`statute/`](statute/) — *Model Selection and Majority Voting in
+- [`statute/`](statute/): *Model Selection and Majority Voting in
   Heterogeneous Large Language Model Ensembles for Legal Textual Entailment on
   Japanese Statute Law* (Tasks 3 and 4).
-- [`caselaw/`](caselaw/) — *Learning to Rank and Learning to Stop: What Each Is
+- [`caselaw/`](caselaw/): *Learning to Rank and Learning to Stop: What Each Is
   Worth in Legal Case Retrieval and Entailment* (Tasks 1 and 2).
 
 Every number reported in either article traces to a result file here, written

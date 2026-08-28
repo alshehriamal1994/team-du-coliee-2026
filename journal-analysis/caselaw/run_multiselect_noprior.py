@@ -65,7 +65,7 @@ Candidate paragraphs:
 IMPORTANT RULES:
 1. Select EVERY paragraph that states a legal rule, principle, or reasoning \
    that DIRECTLY and NECESSARILY supports or produces the decision.
-2. Different paragraphs may contribute different parts of the legal basis — \
+2. Different paragraphs may contribute different parts of the legal basis - \
    one may state the general rule, another may apply it, another may address \
    an exception. Select ALL such paragraphs.
 3. REJECT paragraphs that are merely topically related, provide background \
@@ -91,7 +91,7 @@ Candidate paragraphs:
 IMPORTANT RULES:
 1. Select EVERY paragraph that states a legal rule, principle, or reasoning \
    that DIRECTLY and NECESSARILY supports or produces the decision.
-2. Different paragraphs may contribute different parts of the legal basis — \
+2. Different paragraphs may contribute different parts of the legal basis - \
    one may state the general rule, another may apply it, another may address \
    an exception. Select ALL such paragraphs.
 3. REJECT paragraphs that are merely topically related, provide background \
@@ -238,7 +238,7 @@ for exp_name, model, prompt_template, use_rag in EXPERIMENTS:
     if out_path.exists():
         existing = load_existing(out_path) if False else None
         print(f"\n{'='*70}")
-        print(f"  {exp_name} — ALREADY EXISTS, loading...")
+        print(f"  {exp_name} - ALREADY EXISTS, loading...")
         preds = defaultdict(set)
         with open(out_path) as f:
             for line in f:

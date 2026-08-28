@@ -3,7 +3,7 @@
 This folder contains the analysis code behind our journal extension of the
 COLIEE 2026 proceedings paper, submitted to the Review of Socionetwork
 Strategies special issue. The competition systems themselves live in the task
-folders of this repository; everything here is post-hoc analysis of frozen
+folders of this repository. Everything here is post-hoc analysis of frozen
 prediction files. No new model inference is required to reproduce any number.
 
 ## What is included
@@ -43,12 +43,12 @@ inputs cannot produce silently different results.
 
 | Script | Analysis in the paper |
 |---|---|
-| `selection_policy_analysis.py` | validation-to-test instability; the policy-level bootstrap; the risk-size curve |
-| `gate1_audit.py` | gold provenance; frozen-submission rescoring; McNemar tests; the noise-only null |
-| `diversity_robustness_analysis.py` | correlation intervals; diversity frontier with intervals; lift against structural and measured diversity |
-| `equal_compute_analysis.py` | same-model prompt committees against multi-model committees at equal budget; selection stability across validation years |
-| `margin_and_power_analysis.py` | vote margin as a confidence signal; benchmark-size projection; the winner's curse in the hindsight-best baseline |
-| `design_rule_analysis.py` | the selection-reliability surface; the committee voting ceiling |
+| `selection_policy_analysis.py` | validation-to-test instability, the policy-level bootstrap, the risk-size curve |
+| `gate1_audit.py` | gold provenance, frozen-submission rescoring, McNemar tests, the noise-only null |
+| `diversity_robustness_analysis.py` | correlation intervals, diversity frontier with intervals, lift against structural and measured diversity |
+| `equal_compute_analysis.py` | same-model prompt committees against multi-model committees at equal budget, selection stability across validation years |
+| `margin_and_power_analysis.py` | vote margin as a confidence signal, benchmark-size projection, the winner's curse in the hindsight-best baseline |
+| `design_rule_analysis.py` | the selection-reliability surface, the committee voting ceiling |
 | `deltaq_ci_analysis.py` | oracle-versus-retrieved error-correlation interval |
 | `task3_gap_analysis.py` | Task 3 error decomposition and leaderboard placement of the post-competition committee |
 | `example_boxes.py` | the worked test-question examples |
@@ -56,7 +56,7 @@ inputs cannot produce silently different results.
 | `selection_policy_stratified.py` | the policy bootstrap under year- and label-preserving resampling schemes |
 | `pool_redundancy_analysis.py` | the selection experiment on pools reduced to one configuration per base model |
 | `cross_year_selection.py` | leave-one-examination-year-out rotation of the selection procedure |
-| `error_overlap_analysis.py` | pairwise error overlap against independence; pool coverage against the vote |
+| `error_overlap_analysis.py` | pairwise error overlap against independence, pool coverage against the vote |
 | `wilson_intervals.py` | Wilson score intervals for the official test accuracies |
 | `selective_risk_analysis.py` | distribution-free risk control for the vote-margin abstention rule |
 | `lift_diversity_analysis.py` | ensemble lift against diversity over 50,000 random ensembles |

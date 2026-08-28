@@ -58,7 +58,7 @@
       "params": "32B",
       "method": "QLoRA 4-bit NF4, r=64, alpha=128, all projections",
       "train_examples": 10525,
-      "train_examples_source": "<COLIEE_ROOT>/TASK4/ncc_qlora_package/train_data.jsonl",
+      "train_examples_source": "<COLIEE_ROOT>/TASK4/qlora_package/train_data.jsonl",
       "train_composition": {
         "task4": 965,
         "task3": 9560

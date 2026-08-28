@@ -1,8 +1,8 @@
-"""Experiment H — official-leaderboard policy decomposition (both tasks).
+"""Experiment H - official-leaderboard policy decomposition (both tasks).
 
 For every official run, average returned-set size is derivable from public P/R alone:
 tp = R * total_gold; n_pred = tp / P; size = n_pred / n_queries. We test how strongly F1
-tracks answer-set policy — measured as distance of a run's size from the gold mean —
+tracks answer-set policy - measured as distance of a run's size from the gold mean -
 across the whole field. Tables fetched from coliee.org/COLIEE2026/results/task{1,2} on
 2026-07-22 (verified against our archived per-run numbers). Zero-score runs excluded
 (pipeline failures, not policy). Writes expH_numbers.json + expH_runs.csv. 2026-07-22.
@@ -90,7 +90,7 @@ def analyse(rows, total_gold, n_q, gold_mean, name):
         'spearman_F1_vs_logdist_from_gold': round(spearman(f1, -dist), 3),
         'top5_size_mean': round(float(np.mean(top)), 2),
         'rest_size_mean': round(float(np.mean(rest)), 2),
-        'note': f'{name}: F1 vs -|log(size/gold_mean)| — positive means closer to gold size, higher F1'}
+        'note': f'{name}: F1 vs -|log(size/gold_mean)| - positive means closer to gold size, higher F1'}
 
 t1_rows, t1_stats = analyse(T1, 1750, 400, 4.375, 'T1')
 t2_rows, t2_stats = analyse(T2, 294, 100, 2.94, 'T2')

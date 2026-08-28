@@ -19,7 +19,7 @@ import numpy as np
 import selection_policy_analysis as base
 
 OUT = Path(__file__).resolve().parent / "finetune_baselines_numbers.json"
-QLORA_TRAIN = base.ROOT / "TASK4/ncc_qlora_package/train_data.jsonl"
+QLORA_TRAIN = base.ROOT / "TASK4/qlora_package/train_data.jsonl"
 
 VAL_SIZES = {"H30": 67, "R01": 110, "R02": 81}
 N_VAL = sum(VAL_SIZES.values())

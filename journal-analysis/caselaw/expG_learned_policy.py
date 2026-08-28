@@ -1,4 +1,4 @@
-"""Experiment G — learned answer-set-size predictor for Task 1 (the constructive leg).
+"""Experiment G - learned answer-set-size predictor for Task 1 (the constructive leg).
 
 Predicts per-query citation count from LEAKAGE-FREE features only: query-side document
 metadata (length, paragraphs, year, suppression markers) + stage-1 BM25/dense score-

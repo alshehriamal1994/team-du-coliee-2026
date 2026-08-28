@@ -23,7 +23,7 @@ COLIEE is the [Competition on Legal Information Extraction and Entailment](https
 | 4 | Statute entailment | 96.3% accuracy | 1st of 33 runs | n/a |
 | Pilot | Legal judgment prediction (tort) | 73.1% tort accuracy, 68.2% rationale F1 | unofficial (run-mode error) | n/a |
 
-Task 4 is our principal result. Our two strongest runs each reached 96.3% (79 of 82) on the unseen test set and took the top two places among 33 runs from 11 teams; the best competing team reached 95.1%. A third run was also submitted. The pilot entry was submitted in the wrong run mode and the organisers listed it as unofficial; although unranked, its tort accuracy exceeds every official entry and its rationale F1 equals the best official figure.
+Task 4 is our principal result. Our two strongest runs each reached 96.3% (79 of 82) on the unseen test set and took the top two places among 33 runs from 11 teams. The best competing team reached 95.1%. A third run was also submitted. The pilot entry was submitted in the wrong run mode and the organisers listed it as unofficial. Although unranked, its tort accuracy exceeds every official entry and its rationale F1 equals the best official figure.
 
 The post-competition column reports improvements made after the deadline with no change to the system architecture. They are not ranked figures, they are labelled as such throughout, and the full table with all runs is in [`docs/results.md`](docs/results.md).
 

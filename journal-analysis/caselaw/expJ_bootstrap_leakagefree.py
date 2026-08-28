@@ -11,14 +11,16 @@ Writes expJ_bootstrap_numbers.json.
 
 import json
 import sys
+import os
 from collections import defaultdict
 from pathlib import Path
 
 import numpy as np
 
 HERE = Path(__file__).resolve().parent
-PRED = Path.home() / "Desktop/TASK2_code/runs_multiselect_noprior"
-GOLD = Path.home() / "Desktop/TASK2_code/task2_test_labels_2026(1).json"
+ROOT = Path(os.environ.get("COLIEE_ROOT", "data"))
+PRED = ROOT / "TASK2_code/runs_multiselect_noprior"
+GOLD = ROOT / "TASK2_code/task2_test_labels_2026(1).json"
 LEDGER_I = HERE / "expI_numbers.json"
 OUT = HERE / "expJ_bootstrap_numbers.json"
 

@@ -1,4 +1,4 @@
-"""Experiment A2 — Task 1 cardinality ladder on full DU9 rankings (no retraining).
+"""Experiment A2 - Task 1 cardinality ladder on full DU9 rankings (no retraining).
 
 Loads the saved DU9 booster + cached 2026 test features, predicts full rankings, applies
 the ORIGINAL step8 postprocess script at depth 30, then computes: fixed-k sweep (k=1..10),

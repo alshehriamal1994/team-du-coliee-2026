@@ -64,7 +64,7 @@ TREATMENT_A = extract_prompt("PROMPT_TREATMENT")
 TREATMENT_B = (CONTROL
     .replace("Identify the SINGLE candidate paragraph (if any) whose legal rule or principle",
              "Identify ALL candidate paragraphs whose legal rule or principle")
-    .replace("- Select AT MOST ONE paragraph — the single most directly entailing",
+    .replace("- Select AT MOST ONE paragraph - the single most directly entailing",
              "- Select ALL paragraphs that entail the decision, however many there are")
     .replace('Return ONLY the paragraph ID (e.g., "033") or "none". Nothing else.',
              'Return ONLY the paragraph ID(s) separated by spaces (e.g., "033" or "012 033") or "none". Nothing else.'))
@@ -72,7 +72,7 @@ TREATMENT_B = (CONTROL
 TREATMENT_C = (CONTROL
     .replace("Identify the SINGLE candidate paragraph (if any) whose legal rule or principle",
              "Identify each candidate paragraph whose legal rule or principle")
-    .replace("- Select AT MOST ONE paragraph — the single most directly entailing",
+    .replace("- Select AT MOST ONE paragraph - the single most directly entailing",
              "- There is no limit on the number of paragraphs you may select")
     .replace('Return ONLY the paragraph ID (e.g., "033") or "none". Nothing else.',
              'Return ONLY the paragraph ID(s) separated by spaces (e.g., "033" or "012 033") or "none". Nothing else.'))

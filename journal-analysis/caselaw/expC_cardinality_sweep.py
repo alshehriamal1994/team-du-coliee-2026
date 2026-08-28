@@ -1,4 +1,4 @@
-"""Experiment C — Task 2 cardinality sweep on cached MonoT5-v2+Qwen3 reranker scores (no LLM).
+"""Experiment C - Task 2 cardinality sweep on cached MonoT5-v2+Qwen3 reranker scores (no LLM).
 
 Reproduces every number in the M2 claim ledger section "expC". Run from anywhere:
     python3 expC_cardinality_sweep.py
