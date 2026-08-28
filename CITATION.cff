@@ -25,6 +25,9 @@ preferred-citation:
     - given-names: "Amir"
       family-names: "Atapour-Abarghouei"
   year: 2026
-  # Forthcoming. The paper is accepted at COLIEE 2026. The publisher, volume,
-  # page range, and DOI will be added here once the proceedings are published.
-  notes: "Published in the Proceedings of the Workshop on the Thirteenth International Competition on Legal Information Extraction and Entailment (COLIEE 2026), co-located with ICAIL 2026, Singapore, pages 1-10: https://coliee.org/documents/Proceedings/2026-Proceedings.pdf"
+  conference:
+    name: "Workshop on the Thirteenth International Competition on Legal Information Extraction and Entailment (COLIEE 2026), co-located with ICAIL 2026, Singapore"
+  start: 1
+  end: 10
+  url: "https://coliee.org/documents/Proceedings/2026-Proceedings.pdf"
+  notes: "Published in the COLIEE 2026 workshop proceedings, pages 1 to 10."
